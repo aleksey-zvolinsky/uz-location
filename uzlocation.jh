@@ -1,0 +1,89 @@
+
+application {
+  config {
+    baseName UZLocation,
+    applicationType monolith,
+    packageName location.uz,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular
+  }
+  entities *
+}
+
+
+entity Tank {
+	TankNumber String required,
+    OwnerName String required,
+    ClientName String required
+}
+
+entity LocationRequest {
+	RequestDatetime Date,
+	TankNumbers String
+}
+
+entity LocationResponse {
+    ResponseDatetime Date,
+    TankNumber String,
+	TankType String,
+    CargoId String,
+    CargoName String,
+    Weight String,
+    ReceiverId String, 
+    TankIndex String, 
+    LocationStationId String,
+    LocationStationName String, 
+    LocationDatetime String,
+    LocationOperation String
+    StateFromStationId String,
+    StateFromStationName String, 
+    StateToStationId String,
+    StateToStationName String, 
+    StateSendDatetime String,
+    StateSenderId String,
+    PlanedServiceDatetime String,
+    MileageCurrent String,
+    MileageDatetime String, 
+    MileageRemain String, 
+    MileageUpdateDatetime String,
+    TankOwner String,
+    TankModel String,
+    DefectRegion String
+    DefectStation String,
+    DefectDatetime String,
+    DefectDetails String,
+    RepairRegion String, 
+    RepairStation String,
+    RepairDatatime String
+}
+
+entity MileageRequest {
+	RequestDatetime Date,
+	TankNumbers String
+}
+
+entity MileageResponse {
+    ResponseDatetime Date,
+    TankNumber String,
+    MileageCurrent String,
+    MileageDatetime String, 
+    MileageRemain String, 
+    MileageUpdateDatetime String
+}
+
+relationship OneToMany {
+	Tank{TankNumber} to LocationRequest
+}
+
+relationship OneToOne {
+	LocationRequest{TankNumber} to LocationResponse
+}
+
+relationship OneToMany {
+	Tank{TankNumber} to MileageRequest
+}
+
+relationship OneToOne {
+	MileageRequest{TankNumber} to MileageResponse
+}
