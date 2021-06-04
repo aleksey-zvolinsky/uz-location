@@ -2,10 +2,10 @@ const tsconfig = require('./tsconfig.json');
 
 module.exports = {
   setupFiles: ['jest-date-mock'],
-  cacheDirectory: '<rootDir>/build/jest-cache',
-  coverageDirectory: '<rootDir>/build/test-results/',
+  cacheDirectory: '<rootDir>/target/jest-cache',
+  coverageDirectory: '<rootDir>/target/test-results/',
   moduleNameMapper: mapTypescriptAliasToJestAlias(),
-  reporters: ['default', ['jest-junit', { outputDirectory: './build/test-results/', outputName: 'TESTS-results-jest.xml' }]],
+  reporters: ['default', ['jest-junit', { outputDirectory: './target/test-results/', outputName: 'TESTS-results-jest.xml' }]],
   testResultsProcessor: 'jest-sonar-reporter',
   testMatch: ['<rootDir>/src/main/webapp/app/**/@(*.)@(spec.ts)'],
   testURL: 'http://localhost/',

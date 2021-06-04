@@ -1,0 +1,90 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-tank-heading" data-cy="TankCreateUpdateHeading" jhiTranslate="uzLocationApp.tank.home.createOrEditLabel">
+        Create or edit a Tank
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.tank.tankNumber" for="field_tankNumber">Tank Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="tankNumber"
+            id="field_tankNumber"
+            data-cy="tankNumber"
+            formControlName="tankNumber"
+          />
+          <div *ngIf="editForm.get('tankNumber')!.invalid && (editForm.get('tankNumber')!.dirty || editForm.get('tankNumber')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('tankNumber')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.tank.ownerName" for="field_ownerName">Owner Name</label>
+          <input type="text" class="form-control" name="ownerName" id="field_ownerName" data-cy="ownerName" formControlName="ownerName" />
+          <div *ngIf="editForm.get('ownerName')!.invalid && (editForm.get('ownerName')!.dirty || editForm.get('ownerName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('ownerName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.tank.clientName" for="field_clientName">Client Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="clientName"
+            id="field_clientName"
+            data-cy="clientName"
+            formControlName="clientName"
+          />
+          <div *ngIf="editForm.get('clientName')!.invalid && (editForm.get('clientName')!.dirty || editForm.get('clientName')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('clientName')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-mileage-request-heading"
+        data-cy="MileageRequestCreateUpdateHeading"
+        jhiTranslate="uzLocationApp.mileageRequest.home.createOrEditLabel"
+      >
+        Create or edit a Mileage Request
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageRequest.requestDatetime" for="field_requestDatetime"
+            >Request Datetime</label
+          >
+          <div class="input-group">
+            <input
+              id="field_requestDatetime"
+              data-cy="requestDatetime"
+              type="text"
+              class="form-control"
+              name="requestDatetime"
+              ngbDatepicker
+              #requestDatetimeDp="ngbDatepicker"
+              formControlName="requestDatetime"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="requestDatetimeDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageRequest.tankNumbers" for="field_tankNumbers"
+            >Tank Numbers</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="tankNumbers"
+            id="field_tankNumbers"
+            data-cy="tankNumbers"
+            formControlName="tankNumbers"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageRequest.tankNumber" for="field_tankNumber"
+            >Tank Number</label
+          >
+          <select class="form-control" id="field_tankNumber" data-cy="tankNumber" name="tankNumber" formControlName="tankNumber">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                mileageResponseOption.id === editForm.get('tankNumber')!.value?.id
+                  ? editForm.get('tankNumber')!.value
+                  : mileageResponseOption
+              "
+              *ngFor="let mileageResponseOption of tankNumbersCollection; trackBy: trackMileageResponseById"
+            >
+              {{ mileageResponseOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageRequest.tank" for="field_tank">Tank</label>
+          <select class="form-control" id="field_tank" data-cy="tank" name="tank" formControlName="tank">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="tankOption.id === editForm.get('tank')!.value?.id ? editForm.get('tank')!.value : tankOption"
+              *ngFor="let tankOption of tanksSharedCollection; trackBy: trackTankById"
+            >
+              {{ tankOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

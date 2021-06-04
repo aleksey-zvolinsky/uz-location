@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="mileageResponse">
+      <h2 data-cy="mileageResponseDetailsHeading">
+        <span jhiTranslate="uzLocationApp.mileageResponse.detail.title">Mileage Response</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ mileageResponse.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.mileageResponse.responseDatetime">Response Datetime</span></dt>
+        <dd>
+          <span>{{ mileageResponse.responseDatetime | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.mileageResponse.tankNumber">Tank Number</span></dt>
+        <dd>
+          <span>{{ mileageResponse.tankNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.mileageResponse.mileageCurrent">Mileage Current</span></dt>
+        <dd>
+          <span>{{ mileageResponse.mileageCurrent }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.mileageResponse.mileageDatetime">Mileage Datetime</span></dt>
+        <dd>
+          <span>{{ mileageResponse.mileageDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.mileageResponse.mileageRemain">Mileage Remain</span></dt>
+        <dd>
+          <span>{{ mileageResponse.mileageRemain }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.mileageResponse.mileageUpdateDatetime">Mileage Update Datetime</span></dt>
+        <dd>
+          <span>{{ mileageResponse.mileageUpdateDatetime }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/mileage-response', mileageResponse.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

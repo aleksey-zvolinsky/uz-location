@@ -1,0 +1,44 @@
+{
+  "name": "Tank",
+  "fields": [
+    {
+      "fieldName": "tankNumber",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "ownerName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "clientName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "locationRequest",
+      "otherEntityRelationshipName": "tank",
+      "relationshipName": "tankNumber"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "mileageRequest",
+      "otherEntityRelationshipName": "tank",
+      "relationshipName": "tankNumber"
+    }
+  ],
+  "entityTableName": "tank",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["UZLocation"],
+  "changelogDate": "20210604202859"
+}

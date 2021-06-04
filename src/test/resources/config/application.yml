@@ -94,9 +94,12 @@ jhipster:
     from: test@localhost
     base-url: http://127.0.0.1:8080
   security:
-    remember-me:
-      # security key (this key should be unique for your application, and kept secret)
-      key: db6e7a0b041affad614956c1dc977631bf12eea1b301e4b356060c0bdf5acf25f4d61375d58924a061b2eff869cb3d6f75ad
+    authentication:
+      jwt:
+        # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
+        base64-secret: NGM2YzdhYmVmYTIwYWI1ZDJhNjM0YzBiZDQ0NDIyM2FiOTYyZWMyZjUyYjM1ODg1NWFkYTJiMzRkMjllZDdjNzQyNzIzNjEwYzhjNTZhOGE1MWQxYWU0YWQxNGQxMmNjMmJhZWNkZWQxYTE2ZGIxM2NlODdiMGU3NjRhYTY0ZDg=
+        # Token is valid 24 hours
+        token-validity-in-seconds: 86400
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

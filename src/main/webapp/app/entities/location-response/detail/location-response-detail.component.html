@@ -1,0 +1,158 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="locationResponse">
+      <h2 data-cy="locationResponseDetailsHeading">
+        <span jhiTranslate="uzLocationApp.locationResponse.detail.title">Location Response</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ locationResponse.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.responseDatetime">Response Datetime</span></dt>
+        <dd>
+          <span>{{ locationResponse.responseDatetime | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.tankNumber">Tank Number</span></dt>
+        <dd>
+          <span>{{ locationResponse.tankNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.tankType">Tank Type</span></dt>
+        <dd>
+          <span>{{ locationResponse.tankType }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.cargoId">Cargo Id</span></dt>
+        <dd>
+          <span>{{ locationResponse.cargoId }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.cargoName">Cargo Name</span></dt>
+        <dd>
+          <span>{{ locationResponse.cargoName }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.weight">Weight</span></dt>
+        <dd>
+          <span>{{ locationResponse.weight }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.receiverId">Receiver Id</span></dt>
+        <dd>
+          <span>{{ locationResponse.receiverId }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.tankIndex">Tank Index</span></dt>
+        <dd>
+          <span>{{ locationResponse.tankIndex }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.locationStationId">Location Station Id</span></dt>
+        <dd>
+          <span>{{ locationResponse.locationStationId }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.locationStationName">Location Station Name</span></dt>
+        <dd>
+          <span>{{ locationResponse.locationStationName }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.locationDatetime">Location Datetime</span></dt>
+        <dd>
+          <span>{{ locationResponse.locationDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.locationOperation">Location Operation</span></dt>
+        <dd>
+          <span>{{ locationResponse.locationOperation }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.stateFromStationId">State From Station Id</span></dt>
+        <dd>
+          <span>{{ locationResponse.stateFromStationId }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.stateFromStationName">State From Station Name</span></dt>
+        <dd>
+          <span>{{ locationResponse.stateFromStationName }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.stateToStationId">State To Station Id</span></dt>
+        <dd>
+          <span>{{ locationResponse.stateToStationId }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.stateToStationName">State To Station Name</span></dt>
+        <dd>
+          <span>{{ locationResponse.stateToStationName }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.stateSendDatetime">State Send Datetime</span></dt>
+        <dd>
+          <span>{{ locationResponse.stateSendDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.stateSenderId">State Sender Id</span></dt>
+        <dd>
+          <span>{{ locationResponse.stateSenderId }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.planedServiceDatetime">Planed Service Datetime</span></dt>
+        <dd>
+          <span>{{ locationResponse.planedServiceDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.mileageCurrent">Mileage Current</span></dt>
+        <dd>
+          <span>{{ locationResponse.mileageCurrent }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.mileageDatetime">Mileage Datetime</span></dt>
+        <dd>
+          <span>{{ locationResponse.mileageDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.mileageRemain">Mileage Remain</span></dt>
+        <dd>
+          <span>{{ locationResponse.mileageRemain }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.mileageUpdateDatetime">Mileage Update Datetime</span></dt>
+        <dd>
+          <span>{{ locationResponse.mileageUpdateDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.tankOwner">Tank Owner</span></dt>
+        <dd>
+          <span>{{ locationResponse.tankOwner }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.tankModel">Tank Model</span></dt>
+        <dd>
+          <span>{{ locationResponse.tankModel }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.defectRegion">Defect Region</span></dt>
+        <dd>
+          <span>{{ locationResponse.defectRegion }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.defectStation">Defect Station</span></dt>
+        <dd>
+          <span>{{ locationResponse.defectStation }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.defectDatetime">Defect Datetime</span></dt>
+        <dd>
+          <span>{{ locationResponse.defectDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.defectDetails">Defect Details</span></dt>
+        <dd>
+          <span>{{ locationResponse.defectDetails }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.repairRegion">Repair Region</span></dt>
+        <dd>
+          <span>{{ locationResponse.repairRegion }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.repairStation">Repair Station</span></dt>
+        <dd>
+          <span>{{ locationResponse.repairStation }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationResponse.repairDatatime">Repair Datatime</span></dt>
+        <dd>
+          <span>{{ locationResponse.repairDatatime }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/location-response', locationResponse.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

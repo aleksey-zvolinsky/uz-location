@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="locationRequest">
+      <h2 data-cy="locationRequestDetailsHeading">
+        <span jhiTranslate="uzLocationApp.locationRequest.detail.title">Location Request</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ locationRequest.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationRequest.requestDatetime">Request Datetime</span></dt>
+        <dd>
+          <span>{{ locationRequest.requestDatetime | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationRequest.tankNumbers">Tank Numbers</span></dt>
+        <dd>
+          <span>{{ locationRequest.tankNumbers }}</span>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationRequest.tankNumber">Tank Number</span></dt>
+        <dd>
+          <div *ngIf="locationRequest.tankNumber">
+            <a [routerLink]="['/location-response', locationRequest.tankNumber?.id, 'view']">{{ locationRequest.tankNumber?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="uzLocationApp.locationRequest.tank">Tank</span></dt>
+        <dd>
+          <div *ngIf="locationRequest.tank">
+            <a [routerLink]="['/tank', locationRequest.tank?.id, 'view']">{{ locationRequest.tank?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/location-request', locationRequest.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

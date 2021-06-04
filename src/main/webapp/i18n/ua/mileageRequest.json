@@ -1,0 +1,27 @@
+{
+  "uzLocationApp": {
+    "mileageRequest": {
+      "home": {
+        "title": "Mileage Requests",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Створити новий Mileage Request",
+        "createOrEditLabel": "Створити чи редагувати Mileage Request",
+        "notFound": "No Mileage Requests found"
+      },
+      "created": "Новий Mileage Request створений з ідентифікатором {{ param }}",
+      "updated": "Mileage Request оновлений з ідентифікатором {{ param }}",
+      "deleted": "Mileage Request видалений з ідентифікатором {{ param }}",
+      "delete": {
+        "question": "Ви впевнені, що хочете видалити Mileage Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Mileage Request"
+      },
+      "id": "ID",
+      "requestDatetime": "Request Datetime",
+      "tankNumbers": "Tank Numbers",
+      "tankNumber": "Tank Number",
+      "tank": "Tank"
+    }
+  }
+}
