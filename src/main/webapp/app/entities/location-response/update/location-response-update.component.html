@@ -1,0 +1,444 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-location-response-heading"
+        data-cy="LocationResponseCreateUpdateHeading"
+        jhiTranslate="uzLocationApp.locationResponse.home.createOrEditLabel"
+      >
+        Create or edit a Location Response
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.responseDatetime" for="field_responseDatetime"
+            >Response Datetime</label
+          >
+          <div class="input-group">
+            <input
+              id="field_responseDatetime"
+              data-cy="responseDatetime"
+              type="text"
+              class="form-control"
+              name="responseDatetime"
+              ngbDatepicker
+              #responseDatetimeDp="ngbDatepicker"
+              formControlName="responseDatetime"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="responseDatetimeDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.tankNumber" for="field_tankNumber"
+            >Tank Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="tankNumber"
+            id="field_tankNumber"
+            data-cy="tankNumber"
+            formControlName="tankNumber"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.tankType" for="field_tankType">Tank Type</label>
+          <input type="text" class="form-control" name="tankType" id="field_tankType" data-cy="tankType" formControlName="tankType" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.cargoId" for="field_cargoId">Cargo Id</label>
+          <input type="text" class="form-control" name="cargoId" id="field_cargoId" data-cy="cargoId" formControlName="cargoId" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.cargoName" for="field_cargoName">Cargo Name</label>
+          <input type="text" class="form-control" name="cargoName" id="field_cargoName" data-cy="cargoName" formControlName="cargoName" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.weight" for="field_weight">Weight</label>
+          <input type="text" class="form-control" name="weight" id="field_weight" data-cy="weight" formControlName="weight" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.receiverId" for="field_receiverId"
+            >Receiver Id</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="receiverId"
+            id="field_receiverId"
+            data-cy="receiverId"
+            formControlName="receiverId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.tankIndex" for="field_tankIndex">Tank Index</label>
+          <input type="text" class="form-control" name="tankIndex" id="field_tankIndex" data-cy="tankIndex" formControlName="tankIndex" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.locationStationId" for="field_locationStationId"
+            >Location Station Id</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="locationStationId"
+            id="field_locationStationId"
+            data-cy="locationStationId"
+            formControlName="locationStationId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="uzLocationApp.locationResponse.locationStationName"
+            for="field_locationStationName"
+            >Location Station Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="locationStationName"
+            id="field_locationStationName"
+            data-cy="locationStationName"
+            formControlName="locationStationName"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.locationDatetime" for="field_locationDatetime"
+            >Location Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="locationDatetime"
+            id="field_locationDatetime"
+            data-cy="locationDatetime"
+            formControlName="locationDatetime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.locationOperation" for="field_locationOperation"
+            >Location Operation</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="locationOperation"
+            id="field_locationOperation"
+            data-cy="locationOperation"
+            formControlName="locationOperation"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.stateFromStationId" for="field_stateFromStationId"
+            >State From Station Id</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="stateFromStationId"
+            id="field_stateFromStationId"
+            data-cy="stateFromStationId"
+            formControlName="stateFromStationId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="uzLocationApp.locationResponse.stateFromStationName"
+            for="field_stateFromStationName"
+            >State From Station Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="stateFromStationName"
+            id="field_stateFromStationName"
+            data-cy="stateFromStationName"
+            formControlName="stateFromStationName"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.stateToStationId" for="field_stateToStationId"
+            >State To Station Id</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="stateToStationId"
+            id="field_stateToStationId"
+            data-cy="stateToStationId"
+            formControlName="stateToStationId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.stateToStationName" for="field_stateToStationName"
+            >State To Station Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="stateToStationName"
+            id="field_stateToStationName"
+            data-cy="stateToStationName"
+            formControlName="stateToStationName"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.stateSendDatetime" for="field_stateSendDatetime"
+            >State Send Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="stateSendDatetime"
+            id="field_stateSendDatetime"
+            data-cy="stateSendDatetime"
+            formControlName="stateSendDatetime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.stateSenderId" for="field_stateSenderId"
+            >State Sender Id</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="stateSenderId"
+            id="field_stateSenderId"
+            data-cy="stateSenderId"
+            formControlName="stateSenderId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="uzLocationApp.locationResponse.planedServiceDatetime"
+            for="field_planedServiceDatetime"
+            >Planed Service Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="planedServiceDatetime"
+            id="field_planedServiceDatetime"
+            data-cy="planedServiceDatetime"
+            formControlName="planedServiceDatetime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.mileageCurrent" for="field_mileageCurrent"
+            >Mileage Current</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageCurrent"
+            id="field_mileageCurrent"
+            data-cy="mileageCurrent"
+            formControlName="mileageCurrent"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.mileageDatetime" for="field_mileageDatetime"
+            >Mileage Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageDatetime"
+            id="field_mileageDatetime"
+            data-cy="mileageDatetime"
+            formControlName="mileageDatetime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.mileageRemain" for="field_mileageRemain"
+            >Mileage Remain</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageRemain"
+            id="field_mileageRemain"
+            data-cy="mileageRemain"
+            formControlName="mileageRemain"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="uzLocationApp.locationResponse.mileageUpdateDatetime"
+            for="field_mileageUpdateDatetime"
+            >Mileage Update Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageUpdateDatetime"
+            id="field_mileageUpdateDatetime"
+            data-cy="mileageUpdateDatetime"
+            formControlName="mileageUpdateDatetime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.tankOwner" for="field_tankOwner">Tank Owner</label>
+          <input type="text" class="form-control" name="tankOwner" id="field_tankOwner" data-cy="tankOwner" formControlName="tankOwner" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.tankModel" for="field_tankModel">Tank Model</label>
+          <input type="text" class="form-control" name="tankModel" id="field_tankModel" data-cy="tankModel" formControlName="tankModel" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.defectRegion" for="field_defectRegion"
+            >Defect Region</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="defectRegion"
+            id="field_defectRegion"
+            data-cy="defectRegion"
+            formControlName="defectRegion"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.defectStation" for="field_defectStation"
+            >Defect Station</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="defectStation"
+            id="field_defectStation"
+            data-cy="defectStation"
+            formControlName="defectStation"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.defectDatetime" for="field_defectDatetime"
+            >Defect Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="defectDatetime"
+            id="field_defectDatetime"
+            data-cy="defectDatetime"
+            formControlName="defectDatetime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.defectDetails" for="field_defectDetails"
+            >Defect Details</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="defectDetails"
+            id="field_defectDetails"
+            data-cy="defectDetails"
+            formControlName="defectDetails"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.repairRegion" for="field_repairRegion"
+            >Repair Region</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="repairRegion"
+            id="field_repairRegion"
+            data-cy="repairRegion"
+            formControlName="repairRegion"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.repairStation" for="field_repairStation"
+            >Repair Station</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="repairStation"
+            id="field_repairStation"
+            data-cy="repairStation"
+            formControlName="repairStation"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.repairDatatime" for="field_repairDatatime"
+            >Repair Datatime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="repairDatatime"
+            id="field_repairDatatime"
+            data-cy="repairDatatime"
+            formControlName="repairDatatime"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

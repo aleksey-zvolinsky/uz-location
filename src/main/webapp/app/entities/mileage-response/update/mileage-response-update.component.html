@@ -1,0 +1,134 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-mileage-response-heading"
+        data-cy="MileageResponseCreateUpdateHeading"
+        jhiTranslate="uzLocationApp.mileageResponse.home.createOrEditLabel"
+      >
+        Create or edit a Mileage Response
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageResponse.responseDatetime" for="field_responseDatetime"
+            >Response Datetime</label
+          >
+          <div class="input-group">
+            <input
+              id="field_responseDatetime"
+              data-cy="responseDatetime"
+              type="text"
+              class="form-control"
+              name="responseDatetime"
+              ngbDatepicker
+              #responseDatetimeDp="ngbDatepicker"
+              formControlName="responseDatetime"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="responseDatetimeDp.toggle()">
+                <fa-icon icon="calendar-alt"></fa-icon>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageResponse.tankNumber" for="field_tankNumber"
+            >Tank Number</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="tankNumber"
+            id="field_tankNumber"
+            data-cy="tankNumber"
+            formControlName="tankNumber"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageResponse.mileageCurrent" for="field_mileageCurrent"
+            >Mileage Current</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageCurrent"
+            id="field_mileageCurrent"
+            data-cy="mileageCurrent"
+            formControlName="mileageCurrent"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageResponse.mileageDatetime" for="field_mileageDatetime"
+            >Mileage Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageDatetime"
+            id="field_mileageDatetime"
+            data-cy="mileageDatetime"
+            formControlName="mileageDatetime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="uzLocationApp.mileageResponse.mileageRemain" for="field_mileageRemain"
+            >Mileage Remain</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageRemain"
+            id="field_mileageRemain"
+            data-cy="mileageRemain"
+            formControlName="mileageRemain"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="uzLocationApp.mileageResponse.mileageUpdateDatetime"
+            for="field_mileageUpdateDatetime"
+            >Mileage Update Datetime</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            name="mileageUpdateDatetime"
+            id="field_mileageUpdateDatetime"
+            data-cy="mileageUpdateDatetime"
+            formControlName="mileageUpdateDatetime"
+          />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

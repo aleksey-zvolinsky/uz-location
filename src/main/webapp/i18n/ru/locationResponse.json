@@ -1,0 +1,55 @@
+{
+  "uzLocationApp": {
+    "locationResponse": {
+      "home": {
+        "title": "Location Responses",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Location Response",
+        "createOrEditLabel": "Создать или отредактировать Location Response",
+        "notFound": "Location Responses не найдено"
+      },
+      "created": "Новый Location Response создан с идентификатором {{ param }}",
+      "updated": "Location Response обновлен с идентификатором {{ param }}",
+      "deleted": "Location Response удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Location Response {{ id }}?"
+      },
+      "detail": {
+        "title": "Location Response"
+      },
+      "id": "ID",
+      "responseDatetime": "Response Datetime",
+      "tankNumber": "Tank Number",
+      "tankType": "Tank Type",
+      "cargoId": "Cargo Id",
+      "cargoName": "Cargo Name",
+      "weight": "Weight",
+      "receiverId": "Receiver Id",
+      "tankIndex": "Tank Index",
+      "locationStationId": "Location Station Id",
+      "locationStationName": "Location Station Name",
+      "locationDatetime": "Location Datetime",
+      "locationOperation": "Location Operation",
+      "stateFromStationId": "State From Station Id",
+      "stateFromStationName": "State From Station Name",
+      "stateToStationId": "State To Station Id",
+      "stateToStationName": "State To Station Name",
+      "stateSendDatetime": "State Send Datetime",
+      "stateSenderId": "State Sender Id",
+      "planedServiceDatetime": "Planed Service Datetime",
+      "mileageCurrent": "Mileage Current",
+      "mileageDatetime": "Mileage Datetime",
+      "mileageRemain": "Mileage Remain",
+      "mileageUpdateDatetime": "Mileage Update Datetime",
+      "tankOwner": "Tank Owner",
+      "tankModel": "Tank Model",
+      "defectRegion": "Defect Region",
+      "defectStation": "Defect Station",
+      "defectDatetime": "Defect Datetime",
+      "defectDetails": "Defect Details",
+      "repairRegion": "Repair Region",
+      "repairStation": "Repair Station",
+      "repairDatatime": "Repair Datatime"
+    }
+  }
+}

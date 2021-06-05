@@ -1,0 +1,144 @@
+{
+  "name": "LocationResponse",
+  "fields": [
+    {
+      "fieldName": "responseDatetime",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "tankNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tankType",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cargoId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "cargoName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "weight",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "receiverId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tankIndex",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "locationStationId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "locationStationName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "locationDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "locationOperation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateFromStationId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateFromStationName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateToStationId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateToStationName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateSendDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "stateSenderId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "planedServiceDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageCurrent",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageRemain",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageUpdateDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tankOwner",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "tankModel",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defectRegion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defectStation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defectDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "defectDetails",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "repairRegion",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "repairStation",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "repairDatatime",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "location_response",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["UZLocation"],
+  "changelogDate": "20210605052547"
+}

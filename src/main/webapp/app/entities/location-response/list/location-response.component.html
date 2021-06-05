@@ -1,0 +1,140 @@
+<div>
+  <h2 id="page-heading" data-cy="LocationResponseHeading">
+    <span jhiTranslate="uzLocationApp.locationResponse.home.title">Location Responses</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="uzLocationApp.locationResponse.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-location-response"
+        [routerLink]="['/location-response/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="uzLocationApp.locationResponse.home.createLabel"> Create a new Location Response </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="locationResponses?.length === 0">
+    <span jhiTranslate="uzLocationApp.locationResponse.home.notFound">No locationResponses found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="locationResponses && locationResponses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.responseDatetime">Response Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankNumber">Tank Number</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankType">Tank Type</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.cargoId">Cargo Id</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.cargoName">Cargo Name</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.weight">Weight</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.receiverId">Receiver Id</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankIndex">Tank Index</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationStationId">Location Station Id</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationStationName">Location Station Name</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationDatetime">Location Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationOperation">Location Operation</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateFromStationId">State From Station Id</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateFromStationName">State From Station Name</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateToStationId">State To Station Id</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateToStationName">State To Station Name</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateSendDatetime">State Send Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateSenderId">State Sender Id</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.planedServiceDatetime">Planed Service Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageCurrent">Mileage Current</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageDatetime">Mileage Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageRemain">Mileage Remain</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageUpdateDatetime">Mileage Update Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankOwner">Tank Owner</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankModel">Tank Model</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectRegion">Defect Region</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectStation">Defect Station</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectDatetime">Defect Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectDetails">Defect Details</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairRegion">Repair Region</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairStation">Repair Station</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairDatatime">Repair Datatime</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let locationResponse of locationResponses; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/location-response', locationResponse.id, 'view']">{{ locationResponse.id }}</a>
+          </td>
+          <td>{{ locationResponse.responseDatetime | formatMediumDate }}</td>
+          <td>{{ locationResponse.tankNumber }}</td>
+          <td>{{ locationResponse.tankType }}</td>
+          <td>{{ locationResponse.cargoId }}</td>
+          <td>{{ locationResponse.cargoName }}</td>
+          <td>{{ locationResponse.weight }}</td>
+          <td>{{ locationResponse.receiverId }}</td>
+          <td>{{ locationResponse.tankIndex }}</td>
+          <td>{{ locationResponse.locationStationId }}</td>
+          <td>{{ locationResponse.locationStationName }}</td>
+          <td>{{ locationResponse.locationDatetime }}</td>
+          <td>{{ locationResponse.locationOperation }}</td>
+          <td>{{ locationResponse.stateFromStationId }}</td>
+          <td>{{ locationResponse.stateFromStationName }}</td>
+          <td>{{ locationResponse.stateToStationId }}</td>
+          <td>{{ locationResponse.stateToStationName }}</td>
+          <td>{{ locationResponse.stateSendDatetime }}</td>
+          <td>{{ locationResponse.stateSenderId }}</td>
+          <td>{{ locationResponse.planedServiceDatetime }}</td>
+          <td>{{ locationResponse.mileageCurrent }}</td>
+          <td>{{ locationResponse.mileageDatetime }}</td>
+          <td>{{ locationResponse.mileageRemain }}</td>
+          <td>{{ locationResponse.mileageUpdateDatetime }}</td>
+          <td>{{ locationResponse.tankOwner }}</td>
+          <td>{{ locationResponse.tankModel }}</td>
+          <td>{{ locationResponse.defectRegion }}</td>
+          <td>{{ locationResponse.defectStation }}</td>
+          <td>{{ locationResponse.defectDatetime }}</td>
+          <td>{{ locationResponse.defectDetails }}</td>
+          <td>{{ locationResponse.repairRegion }}</td>
+          <td>{{ locationResponse.repairStation }}</td>
+          <td>{{ locationResponse.repairDatatime }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/location-response', locationResponse.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/location-response', locationResponse.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(locationResponse)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+{
+  "name": "LocationRequest",
+  "fields": [
+    {
+      "fieldName": "requestDatetime",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "tankNumbers",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "locationResponse",
+      "otherEntityRelationshipName": "locationRequest",
+      "relationshipName": "tankNumber",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "tank",
+      "otherEntityRelationshipName": "tankNumber",
+      "relationshipName": "tank"
+    }
+  ],
+  "entityTableName": "location_request",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["UZLocation"],
+  "changelogDate": "20210605052546"
+}
