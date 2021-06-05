@@ -1,0 +1,28 @@
+{
+  "uzLocationApp": {
+    "tank": {
+      "home": {
+        "title": "Tanks",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Створити новий Tank",
+        "createOrEditLabel": "Створити чи редагувати Tank",
+        "notFound": "No Tanks found"
+      },
+      "created": "Новий Tank створений з ідентифікатором {{ param }}",
+      "updated": "Tank оновлений з ідентифікатором {{ param }}",
+      "deleted": "Tank видалений з ідентифікатором {{ param }}",
+      "delete": {
+        "question": "Ви впевнені, що хочете видалити Tank {{ id }}?"
+      },
+      "detail": {
+        "title": "Tank"
+      },
+      "id": "ID",
+      "tankNumber": "Tank Number",
+      "ownerName": "Owner Name",
+      "clientName": "Client Name",
+      "tankNumber": "Tank Number",
+      "tankNumber": "Tank Number"
+    }
+  }
+}

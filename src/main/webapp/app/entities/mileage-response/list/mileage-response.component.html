@@ -1,0 +1,88 @@
+<div>
+  <h2 id="page-heading" data-cy="MileageResponseHeading">
+    <span jhiTranslate="uzLocationApp.mileageResponse.home.title">Mileage Responses</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="uzLocationApp.mileageResponse.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-mileage-response"
+        [routerLink]="['/mileage-response/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="uzLocationApp.mileageResponse.home.createLabel"> Create a new Mileage Response </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="mileageResponses?.length === 0">
+    <span jhiTranslate="uzLocationApp.mileageResponse.home.notFound">No mileageResponses found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="mileageResponses && mileageResponses.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.responseDatetime">Response Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.tankNumber">Tank Number</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageCurrent">Mileage Current</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageDatetime">Mileage Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageRemain">Mileage Remain</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageUpdateDatetime">Mileage Update Datetime</span></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mileageResponse of mileageResponses; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/mileage-response', mileageResponse.id, 'view']">{{ mileageResponse.id }}</a>
+          </td>
+          <td>{{ mileageResponse.responseDatetime | formatMediumDate }}</td>
+          <td>{{ mileageResponse.tankNumber }}</td>
+          <td>{{ mileageResponse.mileageCurrent }}</td>
+          <td>{{ mileageResponse.mileageDatetime }}</td>
+          <td>{{ mileageResponse.mileageRemain }}</td>
+          <td>{{ mileageResponse.mileageUpdateDatetime }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/mileage-response', mileageResponse.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/mileage-response', mileageResponse.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(mileageResponse)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

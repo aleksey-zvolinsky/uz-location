@@ -1,0 +1,29 @@
+{
+  "uzLocationApp": {
+    "mileageResponse": {
+      "home": {
+        "title": "Mileage Responses",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Mileage Response",
+        "createOrEditLabel": "Создать или отредактировать Mileage Response",
+        "notFound": "Mileage Responses не найдено"
+      },
+      "created": "Новый Mileage Response создан с идентификатором {{ param }}",
+      "updated": "Mileage Response обновлен с идентификатором {{ param }}",
+      "deleted": "Mileage Response удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Mileage Response {{ id }}?"
+      },
+      "detail": {
+        "title": "Mileage Response"
+      },
+      "id": "ID",
+      "responseDatetime": "Response Datetime",
+      "tankNumber": "Tank Number",
+      "mileageCurrent": "Mileage Current",
+      "mileageDatetime": "Mileage Datetime",
+      "mileageRemain": "Mileage Remain",
+      "mileageUpdateDatetime": "Mileage Update Datetime"
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "MileageResponse",
+  "fields": [
+    {
+      "fieldName": "responseDatetime",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "tankNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageCurrent",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageRemain",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "mileageUpdateDatetime",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "mileage_response",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["UZLocation"],
+  "changelogDate": "20210605052549"
+}

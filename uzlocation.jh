@@ -1,0 +1,94 @@
+
+application {
+  config {
+    baseName UZLocation,
+    applicationType monolith,
+    packageName com.kerriline.location,
+    authenticationType jwt,
+    prodDatabaseType mysql,
+    clientFramework angular,
+    serverPort 8081,
+    buildTool gradle,
+    languages [ua, ru],
+    databaseType sql,
+    devDatabaseType	h2Disk
+  }
+  entities *
+}
+
+
+entity Tank {
+	TankNumber String required,
+    OwnerName String required,
+    ClientName String required
+}
+
+entity LocationRequest {
+	RequestDatetime LocalDate,
+	TankNumbers String
+}
+
+entity LocationResponse {
+    ResponseDatetime LocalDate,
+    TankNumber String,
+	TankType String,
+    CargoId String,
+    CargoName String,
+    Weight String,
+    ReceiverId String, 
+    TankIndex String, 
+    LocationStationId String,
+    LocationStationName String, 
+    LocationDatetime String,
+    LocationOperation String
+    StateFromStationId String,
+    StateFromStationName String, 
+    StateToStationId String,
+    StateToStationName String, 
+    StateSendDatetime String,
+    StateSenderId String,
+    PlanedServiceDatetime String,
+    MileageCurrent String,
+    MileageDatetime String, 
+    MileageRemain String, 
+    MileageUpdateDatetime String,
+    TankOwner String,
+    TankModel String,
+    DefectRegion String
+    DefectStation String,
+    DefectDatetime String,
+    DefectDetails String,
+    RepairRegion String, 
+    RepairStation String,
+    RepairDatatime String
+}
+
+entity MileageRequest {
+	RequestDatetime LocalDate,
+	TankNumbers String
+}
+
+entity MileageResponse {
+    ResponseDatetime LocalDate,
+    TankNumber String,
+    MileageCurrent String,
+    MileageDatetime String, 
+    MileageRemain String, 
+    MileageUpdateDatetime String
+}
+
+relationship OneToMany {
+	Tank{TankNumber} to LocationRequest
+}
+
+relationship OneToOne {
+	LocationRequest{TankNumber} to LocationResponse
+}
+
+relationship OneToMany {
+	Tank{TankNumber} to MileageRequest
+}
+
+relationship OneToOne {
+	MileageRequest{TankNumber} to MileageResponse
+}

@@ -1,0 +1,27 @@
+{
+  "uzLocationApp": {
+    "locationRequest": {
+      "home": {
+        "title": "Location Requests",
+        "refreshListLabel": "Обновить список",
+        "createLabel": "Создать новый Location Request",
+        "createOrEditLabel": "Создать или отредактировать Location Request",
+        "notFound": "Location Requests не найдено"
+      },
+      "created": "Новый Location Request создан с идентификатором {{ param }}",
+      "updated": "Location Request обновлен с идентификатором {{ param }}",
+      "deleted": "Location Request удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Location Request {{ id }}?"
+      },
+      "detail": {
+        "title": "Location Request"
+      },
+      "id": "ID",
+      "requestDatetime": "Request Datetime",
+      "tankNumbers": "Tank Numbers",
+      "tankNumber": "Tank Number",
+      "tank": "Tank"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity LocationRequest.
+    -->
+    <changeSet id="20210605052546-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="tank_number_id"
+                                 baseTableName="location_request"
+                                 constraintName="fk_location_request__tank_number_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location_response"/>
+
+        <addForeignKeyConstraint baseColumnNames="tank_id"
+                                 baseTableName="location_request"
+                                 constraintName="fk_location_request__tank_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tank"/>
+    </changeSet>
+</databaseChangeLog>
