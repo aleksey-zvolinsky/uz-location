@@ -6,7 +6,7 @@ export interface ILocationRequest {
   id?: number;
   requestDatetime?: dayjs.Dayjs | null;
   tankNumbers?: string | null;
-  tankNumber?: ILocationResponse | null;
+  locationResponse?: ILocationResponse | null;
   tank?: ITank | null;
 }
 
@@ -15,7 +15,7 @@ export class LocationRequest implements ILocationRequest {
     public id?: number,
     public requestDatetime?: dayjs.Dayjs | null,
     public tankNumbers?: string | null,
-    public tankNumber?: ILocationResponse | null,
+    public locationResponse?: ILocationResponse | null,
     public tank?: ITank | null
   ) {}
 }

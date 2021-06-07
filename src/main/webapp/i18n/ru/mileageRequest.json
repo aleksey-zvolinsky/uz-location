@@ -20,7 +20,7 @@
       "id": "ID",
       "requestDatetime": "Request Datetime",
       "tankNumbers": "Tank Numbers",
-      "tankNumber": "Tank Number",
+      "mileageResponse": "Mileage Response",
       "tank": "Tank"
     }
   }

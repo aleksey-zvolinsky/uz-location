@@ -20,8 +20,8 @@
             <column name="tank_numbers" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="tank_number_id" type="bigint">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_location_request__tank_number_id" />
+            <column name="location_response_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_location_request__location_response_id" />
             </column>
             <column name="tank_id" type="bigint">
                 <constraints nullable="true" />

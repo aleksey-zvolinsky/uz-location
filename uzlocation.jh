@@ -78,17 +78,17 @@ entity MileageResponse {
 }
 
 relationship OneToMany {
-	Tank{TankNumber} to LocationRequest
+	Tank to LocationRequest
 }
 
 relationship OneToOne {
-	LocationRequest{TankNumber} to LocationResponse
+	LocationRequest to LocationResponse
 }
 
 relationship OneToMany {
-	Tank{TankNumber} to MileageRequest
+	Tank to MileageRequest
 }
 
 relationship OneToOne {
-	MileageRequest{TankNumber} to MileageResponse
+	MileageRequest to MileageResponse
 }

@@ -1,5 +1,6 @@
 package com.kerriline.location.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -37,6 +38,10 @@ public class MileageResponse implements Serializable {
 
     @Column(name = "mileage_update_datetime")
     private String mileageUpdateDatetime;
+
+    @JsonIgnoreProperties(value = { "mileageResponse", "tank" }, allowSetters = true)
+    @OneToOne(mappedBy = "mileageResponse")
+    private MileageRequest mileageRequest;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -128,6 +133,25 @@ public class MileageResponse implements Serializable {
 
     public void setMileageUpdateDatetime(String mileageUpdateDatetime) {
         this.mileageUpdateDatetime = mileageUpdateDatetime;
+    }
+
+    public MileageRequest getMileageRequest() {
+        return this.mileageRequest;
+    }
+
+    public MileageResponse mileageRequest(MileageRequest mileageRequest) {
+        this.setMileageRequest(mileageRequest);
+        return this;
+    }
+
+    public void setMileageRequest(MileageRequest mileageRequest) {
+        if (this.mileageRequest != null) {
+            this.mileageRequest.setMileageResponse(null);
+        }
+        if (mileageRequest != null) {
+            mileageRequest.setMileageResponse(this);
+        }
+        this.mileageRequest = mileageRequest;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

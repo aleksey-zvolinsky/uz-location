@@ -8,6 +8,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -157,10 +159,18 @@ public class MileageResponseResource {
     /**
      * {@code GET  /mileage-responses} : get all the mileageResponses.
      *
+     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mileageResponses in body.
      */
     @GetMapping("/mileage-responses")
-    public List<MileageResponse> getAllMileageResponses() {
+    public List<MileageResponse> getAllMileageResponses(@RequestParam(required = false) String filter) {
+        if ("mileagerequest-is-null".equals(filter)) {
+            log.debug("REST request to get all MileageResponses where mileageRequest is null");
+            return StreamSupport
+                .stream(mileageResponseRepository.findAll().spliterator(), false)
+                .filter(mileageResponse -> mileageResponse.getMileageRequest() == null)
+                .collect(Collectors.toList());
+        }
         log.debug("REST request to get all MileageResponses");
         return mileageResponseRepository.findAll();
     }

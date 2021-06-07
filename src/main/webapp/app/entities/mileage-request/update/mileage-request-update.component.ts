@@ -19,14 +19,14 @@ import { TankService } from 'app/entities/tank/service/tank.service';
 export class MileageRequestUpdateComponent implements OnInit {
   isSaving = false;
 
-  tankNumbersCollection: IMileageResponse[] = [];
+  mileageResponsesCollection: IMileageResponse[] = [];
   tanksSharedCollection: ITank[] = [];
 
   editForm = this.fb.group({
     id: [],
     requestDatetime: [],
     tankNumbers: [],
-    tankNumber: [],
+    mileageResponse: [],
     tank: [],
   });
 
@@ -92,13 +92,13 @@ export class MileageRequestUpdateComponent implements OnInit {
       id: mileageRequest.id,
       requestDatetime: mileageRequest.requestDatetime,
       tankNumbers: mileageRequest.tankNumbers,
-      tankNumber: mileageRequest.tankNumber,
+      mileageResponse: mileageRequest.mileageResponse,
       tank: mileageRequest.tank,
     });
 
-    this.tankNumbersCollection = this.mileageResponseService.addMileageResponseToCollectionIfMissing(
-      this.tankNumbersCollection,
-      mileageRequest.tankNumber
+    this.mileageResponsesCollection = this.mileageResponseService.addMileageResponseToCollectionIfMissing(
+      this.mileageResponsesCollection,
+      mileageRequest.mileageResponse
     );
     this.tanksSharedCollection = this.tankService.addTankToCollectionIfMissing(this.tanksSharedCollection, mileageRequest.tank);
   }
@@ -109,10 +109,10 @@ export class MileageRequestUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IMileageResponse[]>) => res.body ?? []))
       .pipe(
         map((mileageResponses: IMileageResponse[]) =>
-          this.mileageResponseService.addMileageResponseToCollectionIfMissing(mileageResponses, this.editForm.get('tankNumber')!.value)
+          this.mileageResponseService.addMileageResponseToCollectionIfMissing(mileageResponses, this.editForm.get('mileageResponse')!.value)
         )
       )
-      .subscribe((mileageResponses: IMileageResponse[]) => (this.tankNumbersCollection = mileageResponses));
+      .subscribe((mileageResponses: IMileageResponse[]) => (this.mileageResponsesCollection = mileageResponses));
 
     this.tankService
       .query()
@@ -127,7 +127,7 @@ export class MileageRequestUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       requestDatetime: this.editForm.get(['requestDatetime'])!.value,
       tankNumbers: this.editForm.get(['tankNumbers'])!.value,
-      tankNumber: this.editForm.get(['tankNumber'])!.value,
+      mileageResponse: this.editForm.get(['mileageResponse'])!.value,
       tank: this.editForm.get(['tank'])!.value,
     };
   }

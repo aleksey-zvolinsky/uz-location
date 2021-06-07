@@ -44,22 +44,25 @@ describe('Component Tests', () => {
     });
 
     describe('ngOnInit', () => {
-      it('Should call tankNumber query and add missing value', () => {
+      it('Should call mileageResponse query and add missing value', () => {
         const mileageRequest: IMileageRequest = { id: 456 };
-        const tankNumber: IMileageResponse = { id: 18305 };
-        mileageRequest.tankNumber = tankNumber;
+        const mileageResponse: IMileageResponse = { id: 18305 };
+        mileageRequest.mileageResponse = mileageResponse;
 
-        const tankNumberCollection: IMileageResponse[] = [{ id: 12883 }];
-        spyOn(mileageResponseService, 'query').and.returnValue(of(new HttpResponse({ body: tankNumberCollection })));
-        const expectedCollection: IMileageResponse[] = [tankNumber, ...tankNumberCollection];
+        const mileageResponseCollection: IMileageResponse[] = [{ id: 12883 }];
+        spyOn(mileageResponseService, 'query').and.returnValue(of(new HttpResponse({ body: mileageResponseCollection })));
+        const expectedCollection: IMileageResponse[] = [mileageResponse, ...mileageResponseCollection];
         spyOn(mileageResponseService, 'addMileageResponseToCollectionIfMissing').and.returnValue(expectedCollection);
 
         activatedRoute.data = of({ mileageRequest });
         comp.ngOnInit();
 
         expect(mileageResponseService.query).toHaveBeenCalled();
-        expect(mileageResponseService.addMileageResponseToCollectionIfMissing).toHaveBeenCalledWith(tankNumberCollection, tankNumber);
-        expect(comp.tankNumbersCollection).toEqual(expectedCollection);
+        expect(mileageResponseService.addMileageResponseToCollectionIfMissing).toHaveBeenCalledWith(
+          mileageResponseCollection,
+          mileageResponse
+        );
+        expect(comp.mileageResponsesCollection).toEqual(expectedCollection);
       });
 
       it('Should call Tank query and add missing value', () => {
@@ -83,8 +86,8 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const mileageRequest: IMileageRequest = { id: 456 };
-        const tankNumber: IMileageResponse = { id: 62753 };
-        mileageRequest.tankNumber = tankNumber;
+        const mileageResponse: IMileageResponse = { id: 62753 };
+        mileageRequest.mileageResponse = mileageResponse;
         const tank: ITank = { id: 34939 };
         mileageRequest.tank = tank;
 
@@ -92,7 +95,7 @@ describe('Component Tests', () => {
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(mileageRequest));
-        expect(comp.tankNumbersCollection).toContain(tankNumber);
+        expect(comp.mileageResponsesCollection).toContain(mileageResponse);
         expect(comp.tanksSharedCollection).toContain(tank);
       });
     });

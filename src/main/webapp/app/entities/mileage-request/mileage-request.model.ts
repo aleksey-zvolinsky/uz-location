@@ -6,7 +6,7 @@ export interface IMileageRequest {
   id?: number;
   requestDatetime?: dayjs.Dayjs | null;
   tankNumbers?: string | null;
-  tankNumber?: IMileageResponse | null;
+  mileageResponse?: IMileageResponse | null;
   tank?: ITank | null;
 }
 
@@ -15,7 +15,7 @@ export class MileageRequest implements IMileageRequest {
     public id?: number,
     public requestDatetime?: dayjs.Dayjs | null,
     public tankNumbers?: string | null,
-    public tankNumber?: IMileageResponse | null,
+    public mileageResponse?: IMileageResponse | null,
     public tank?: ITank | null
   ) {}
 }

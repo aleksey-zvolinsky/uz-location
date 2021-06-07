@@ -44,22 +44,25 @@ describe('Component Tests', () => {
     });
 
     describe('ngOnInit', () => {
-      it('Should call tankNumber query and add missing value', () => {
+      it('Should call locationResponse query and add missing value', () => {
         const locationRequest: ILocationRequest = { id: 456 };
-        const tankNumber: ILocationResponse = { id: 81494 };
-        locationRequest.tankNumber = tankNumber;
+        const locationResponse: ILocationResponse = { id: 81494 };
+        locationRequest.locationResponse = locationResponse;
 
-        const tankNumberCollection: ILocationResponse[] = [{ id: 41804 }];
-        spyOn(locationResponseService, 'query').and.returnValue(of(new HttpResponse({ body: tankNumberCollection })));
-        const expectedCollection: ILocationResponse[] = [tankNumber, ...tankNumberCollection];
+        const locationResponseCollection: ILocationResponse[] = [{ id: 41804 }];
+        spyOn(locationResponseService, 'query').and.returnValue(of(new HttpResponse({ body: locationResponseCollection })));
+        const expectedCollection: ILocationResponse[] = [locationResponse, ...locationResponseCollection];
         spyOn(locationResponseService, 'addLocationResponseToCollectionIfMissing').and.returnValue(expectedCollection);
 
         activatedRoute.data = of({ locationRequest });
         comp.ngOnInit();
 
         expect(locationResponseService.query).toHaveBeenCalled();
-        expect(locationResponseService.addLocationResponseToCollectionIfMissing).toHaveBeenCalledWith(tankNumberCollection, tankNumber);
-        expect(comp.tankNumbersCollection).toEqual(expectedCollection);
+        expect(locationResponseService.addLocationResponseToCollectionIfMissing).toHaveBeenCalledWith(
+          locationResponseCollection,
+          locationResponse
+        );
+        expect(comp.locationResponsesCollection).toEqual(expectedCollection);
       });
 
       it('Should call Tank query and add missing value', () => {
@@ -83,8 +86,8 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const locationRequest: ILocationRequest = { id: 456 };
-        const tankNumber: ILocationResponse = { id: 53732 };
-        locationRequest.tankNumber = tankNumber;
+        const locationResponse: ILocationResponse = { id: 53732 };
+        locationRequest.locationResponse = locationResponse;
         const tank: ITank = { id: 43010 };
         locationRequest.tank = tank;
 
@@ -92,7 +95,7 @@ describe('Component Tests', () => {
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(locationRequest));
-        expect(comp.tankNumbersCollection).toContain(tankNumber);
+        expect(comp.locationResponsesCollection).toContain(locationResponse);
         expect(comp.tanksSharedCollection).toContain(tank);
       });
     });

@@ -1,4 +1,5 @@
 import * as dayjs from 'dayjs';
+import { ILocationRequest } from 'app/entities/location-request/location-request.model';
 
 export interface ILocationResponse {
   id?: number;
@@ -34,6 +35,7 @@ export interface ILocationResponse {
   repairRegion?: string | null;
   repairStation?: string | null;
   repairDatatime?: string | null;
+  locationRequest?: ILocationRequest | null;
 }
 
 export class LocationResponse implements ILocationResponse {
@@ -70,7 +72,8 @@ export class LocationResponse implements ILocationResponse {
     public defectDetails?: string | null,
     public repairRegion?: string | null,
     public repairStation?: string | null,
-    public repairDatatime?: string | null
+    public repairDatatime?: string | null,
+    public locationRequest?: ILocationRequest | null
   ) {}
 }
 

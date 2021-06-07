@@ -21,8 +21,8 @@
       "tankNumber": "Tank Number",
       "ownerName": "Owner Name",
       "clientName": "Client Name",
-      "tankNumber": "Tank Number",
-      "tankNumber": "Tank Number"
+      "locationRequest": "Location Request",
+      "mileageRequest": "Mileage Request"
     }
   }
 }

@@ -37,13 +37,13 @@ public class Tank implements Serializable {
 
     @OneToMany(mappedBy = "tank")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "tankNumber", "tank" }, allowSetters = true)
-    private Set<LocationRequest> tankNumbers = new HashSet<>();
+    @JsonIgnoreProperties(value = { "locationResponse", "tank" }, allowSetters = true)
+    private Set<LocationRequest> locationRequests = new HashSet<>();
 
     @OneToMany(mappedBy = "tank")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "tankNumber", "tank" }, allowSetters = true)
-    private Set<MileageRequest> tankNumbers = new HashSet<>();
+    @JsonIgnoreProperties(value = { "mileageResponse", "tank" }, allowSetters = true)
+    private Set<MileageRequest> mileageRequests = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -98,66 +98,66 @@ public class Tank implements Serializable {
         this.clientName = clientName;
     }
 
-    public Set<LocationRequest> getTankNumbers() {
-        return this.tankNumbers;
+    public Set<LocationRequest> getLocationRequests() {
+        return this.locationRequests;
     }
 
-    public Tank tankNumbers(Set<LocationRequest> locationRequests) {
-        this.setTankNumbers(locationRequests);
+    public Tank locationRequests(Set<LocationRequest> locationRequests) {
+        this.setLocationRequests(locationRequests);
         return this;
     }
 
-    public Tank addTankNumber(LocationRequest locationRequest) {
-        this.tankNumbers.add(locationRequest);
+    public Tank addLocationRequest(LocationRequest locationRequest) {
+        this.locationRequests.add(locationRequest);
         locationRequest.setTank(this);
         return this;
     }
 
-    public Tank removeTankNumber(LocationRequest locationRequest) {
-        this.tankNumbers.remove(locationRequest);
+    public Tank removeLocationRequest(LocationRequest locationRequest) {
+        this.locationRequests.remove(locationRequest);
         locationRequest.setTank(null);
         return this;
     }
 
-    public void setTankNumbers(Set<LocationRequest> locationRequests) {
-        if (this.tankNumbers != null) {
-            this.tankNumbers.forEach(i -> i.setTank(null));
+    public void setLocationRequests(Set<LocationRequest> locationRequests) {
+        if (this.locationRequests != null) {
+            this.locationRequests.forEach(i -> i.setTank(null));
         }
         if (locationRequests != null) {
             locationRequests.forEach(i -> i.setTank(this));
         }
-        this.tankNumbers = locationRequests;
+        this.locationRequests = locationRequests;
     }
 
-    public Set<MileageRequest> getTankNumbers() {
-        return this.tankNumbers;
+    public Set<MileageRequest> getMileageRequests() {
+        return this.mileageRequests;
     }
 
-    public Tank tankNumbers(Set<MileageRequest> mileageRequests) {
-        this.setTankNumbers(mileageRequests);
+    public Tank mileageRequests(Set<MileageRequest> mileageRequests) {
+        this.setMileageRequests(mileageRequests);
         return this;
     }
 
-    public Tank addTankNumber(MileageRequest mileageRequest) {
-        this.tankNumbers.add(mileageRequest);
+    public Tank addMileageRequest(MileageRequest mileageRequest) {
+        this.mileageRequests.add(mileageRequest);
         mileageRequest.setTank(this);
         return this;
     }
 
-    public Tank removeTankNumber(MileageRequest mileageRequest) {
-        this.tankNumbers.remove(mileageRequest);
+    public Tank removeMileageRequest(MileageRequest mileageRequest) {
+        this.mileageRequests.remove(mileageRequest);
         mileageRequest.setTank(null);
         return this;
     }
 
-    public void setTankNumbers(Set<MileageRequest> mileageRequests) {
-        if (this.tankNumbers != null) {
-            this.tankNumbers.forEach(i -> i.setTank(null));
+    public void setMileageRequests(Set<MileageRequest> mileageRequests) {
+        if (this.mileageRequests != null) {
+            this.mileageRequests.forEach(i -> i.setTank(null));
         }
         if (mileageRequests != null) {
             mileageRequests.forEach(i -> i.setTank(this));
         }
-        this.tankNumbers = mileageRequests;
+        this.mileageRequests = mileageRequests;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

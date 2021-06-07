@@ -130,7 +130,15 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "locationRequest",
+      "otherEntityRelationshipName": "locationResponse",
+      "relationshipName": "locationRequest",
+      "ownerSide": false
+    }
+  ],
   "entityTableName": "location_response",
   "dto": "no",
   "pagination": "no",

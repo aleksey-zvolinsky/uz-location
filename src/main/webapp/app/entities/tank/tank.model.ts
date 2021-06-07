@@ -6,8 +6,8 @@ export interface ITank {
   tankNumber?: string;
   ownerName?: string;
   clientName?: string;
-  tankNumbers?: ILocationRequest[] | null;
-  tankNumbers?: IMileageRequest[] | null;
+  locationRequests?: ILocationRequest[] | null;
+  mileageRequests?: IMileageRequest[] | null;
 }
 
 export class Tank implements ITank {
@@ -16,8 +16,8 @@ export class Tank implements ITank {
     public tankNumber?: string,
     public ownerName?: string,
     public clientName?: string,
-    public tankNumbers?: ILocationRequest[] | null,
-    public tankNumbers?: IMileageRequest[] | null
+    public locationRequests?: ILocationRequest[] | null,
+    public mileageRequests?: IMileageRequest[] | null
   ) {}
 }
 
