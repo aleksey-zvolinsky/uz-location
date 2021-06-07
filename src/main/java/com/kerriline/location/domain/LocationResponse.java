@@ -1,5 +1,6 @@
 package com.kerriline.location.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -115,6 +116,10 @@ public class LocationResponse implements Serializable {
 
     @Column(name = "repair_datatime")
     private String repairDatatime;
+
+    @JsonIgnoreProperties(value = { "locationResponse", "tank" }, allowSetters = true)
+    @OneToOne(mappedBy = "locationResponse")
+    private LocationRequest locationRequest;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -544,6 +549,25 @@ public class LocationResponse implements Serializable {
 
     public void setRepairDatatime(String repairDatatime) {
         this.repairDatatime = repairDatatime;
+    }
+
+    public LocationRequest getLocationRequest() {
+        return this.locationRequest;
+    }
+
+    public LocationResponse locationRequest(LocationRequest locationRequest) {
+        this.setLocationRequest(locationRequest);
+        return this;
+    }
+
+    public void setLocationRequest(LocationRequest locationRequest) {
+        if (this.locationRequest != null) {
+            this.locationRequest.setLocationResponse(null);
+        }
+        if (locationRequest != null) {
+            locationRequest.setLocationResponse(this);
+        }
+        this.locationRequest = locationRequest;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

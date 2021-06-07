@@ -35,7 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.mileageRequest.requestDatetime">Request Datetime</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.mileageRequest.tankNumbers">Tank Numbers</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.mileageRequest.tankNumber">Tank Number</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.mileageRequest.mileageResponse">Mileage Response</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.mileageRequest.tank">Tank</span></th>
           <th scope="col"></th>
         </tr>
@@ -48,8 +48,10 @@
           <td>{{ mileageRequest.requestDatetime | formatMediumDate }}</td>
           <td>{{ mileageRequest.tankNumbers }}</td>
           <td>
-            <div *ngIf="mileageRequest.tankNumber">
-              <a [routerLink]="['/mileage-response', mileageRequest.tankNumber?.id, 'view']">{{ mileageRequest.tankNumber?.id }}</a>
+            <div *ngIf="mileageRequest.mileageResponse">
+              <a [routerLink]="['/mileage-response', mileageRequest.mileageResponse?.id, 'view']">{{
+                mileageRequest.mileageResponse?.id
+              }}</a>
             </div>
           </td>
           <td>

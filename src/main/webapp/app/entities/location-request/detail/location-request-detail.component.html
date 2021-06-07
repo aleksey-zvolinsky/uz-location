@@ -24,10 +24,12 @@
         <dd>
           <span>{{ locationRequest.tankNumbers }}</span>
         </dd>
-        <dt><span jhiTranslate="uzLocationApp.locationRequest.tankNumber">Tank Number</span></dt>
+        <dt><span jhiTranslate="uzLocationApp.locationRequest.locationResponse">Location Response</span></dt>
         <dd>
-          <div *ngIf="locationRequest.tankNumber">
-            <a [routerLink]="['/location-response', locationRequest.tankNumber?.id, 'view']">{{ locationRequest.tankNumber?.id }}</a>
+          <div *ngIf="locationRequest.locationResponse">
+            <a [routerLink]="['/location-response', locationRequest.locationResponse?.id, 'view']">{{
+              locationRequest.locationResponse?.id
+            }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="uzLocationApp.locationRequest.tank">Tank</span></dt>

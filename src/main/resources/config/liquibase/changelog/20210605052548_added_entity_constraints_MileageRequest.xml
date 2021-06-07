@@ -8,9 +8,9 @@
     -->
     <changeSet id="20210605052548-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="tank_number_id"
+        <addForeignKeyConstraint baseColumnNames="mileage_response_id"
                                  baseTableName="mileage_request"
-                                 constraintName="fk_mileage_request__tank_number_id"
+                                 constraintName="fk_mileage_request__mileage_response_id"
                                  referencedColumnNames="id"
                                  referencedTableName="mileage_response"/>
 

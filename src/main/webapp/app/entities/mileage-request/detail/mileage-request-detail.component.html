@@ -22,10 +22,10 @@
         <dd>
           <span>{{ mileageRequest.tankNumbers }}</span>
         </dd>
-        <dt><span jhiTranslate="uzLocationApp.mileageRequest.tankNumber">Tank Number</span></dt>
+        <dt><span jhiTranslate="uzLocationApp.mileageRequest.mileageResponse">Mileage Response</span></dt>
         <dd>
-          <div *ngIf="mileageRequest.tankNumber">
-            <a [routerLink]="['/mileage-response', mileageRequest.tankNumber?.id, 'view']">{{ mileageRequest.tankNumber?.id }}</a>
+          <div *ngIf="mileageRequest.mileageResponse">
+            <a [routerLink]="['/mileage-response', mileageRequest.mileageResponse?.id, 'view']">{{ mileageRequest.mileageResponse?.id }}</a>
           </div>
         </dd>
         <dt><span jhiTranslate="uzLocationApp.mileageRequest.tank">Tank</span></dt>

@@ -27,12 +27,13 @@ public class LocationRequest implements Serializable {
     @Column(name = "tank_numbers")
     private String tankNumbers;
 
+    @JsonIgnoreProperties(value = { "locationRequest" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
-    private LocationResponse tankNumber;
+    private LocationResponse locationResponse;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "tankNumbers", "tankNumbers" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "locationRequests", "mileageRequests" }, allowSetters = true)
     private Tank tank;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -75,17 +76,17 @@ public class LocationRequest implements Serializable {
         this.tankNumbers = tankNumbers;
     }
 
-    public LocationResponse getTankNumber() {
-        return this.tankNumber;
+    public LocationResponse getLocationResponse() {
+        return this.locationResponse;
     }
 
-    public LocationRequest tankNumber(LocationResponse locationResponse) {
-        this.setTankNumber(locationResponse);
+    public LocationRequest locationResponse(LocationResponse locationResponse) {
+        this.setLocationResponse(locationResponse);
         return this;
     }
 
-    public void setTankNumber(LocationResponse locationResponse) {
-        this.tankNumber = locationResponse;
+    public void setLocationResponse(LocationResponse locationResponse) {
+        this.locationResponse = locationResponse;
     }
 
     public Tank getTank() {

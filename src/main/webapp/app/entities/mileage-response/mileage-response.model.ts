@@ -1,4 +1,5 @@
 import * as dayjs from 'dayjs';
+import { IMileageRequest } from 'app/entities/mileage-request/mileage-request.model';
 
 export interface IMileageResponse {
   id?: number;
@@ -8,6 +9,7 @@ export interface IMileageResponse {
   mileageDatetime?: string | null;
   mileageRemain?: string | null;
   mileageUpdateDatetime?: string | null;
+  mileageRequest?: IMileageRequest | null;
 }
 
 export class MileageResponse implements IMileageResponse {
@@ -18,7 +20,8 @@ export class MileageResponse implements IMileageResponse {
     public mileageCurrent?: string | null,
     public mileageDatetime?: string | null,
     public mileageRemain?: string | null,
-    public mileageUpdateDatetime?: string | null
+    public mileageUpdateDatetime?: string | null,
+    public mileageRequest?: IMileageRequest | null
   ) {}
 }
 

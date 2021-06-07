@@ -23,7 +23,8 @@
       "mileageCurrent": "Mileage Current",
       "mileageDatetime": "Mileage Datetime",
       "mileageRemain": "Mileage Remain",
-      "mileageUpdateDatetime": "Mileage Update Datetime"
+      "mileageUpdateDatetime": "Mileage Update Datetime",
+      "mileageRequest": "Mileage Request"
     }
   }
 }

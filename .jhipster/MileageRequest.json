@@ -15,13 +15,13 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "mileageResponse",
       "otherEntityRelationshipName": "mileageRequest",
-      "relationshipName": "tankNumber",
+      "relationshipName": "mileageResponse",
       "ownerSide": true
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "tank",
-      "otherEntityRelationshipName": "tankNumber",
+      "otherEntityRelationshipName": "mileageRequest",
       "relationshipName": "tank"
     }
   ],

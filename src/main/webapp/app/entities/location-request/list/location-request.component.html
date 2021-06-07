@@ -35,7 +35,7 @@
           <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.requestDatetime">Request Datetime</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.tankNumbers">Tank Numbers</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.tankNumber">Tank Number</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.locationResponse">Location Response</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.tank">Tank</span></th>
           <th scope="col"></th>
         </tr>
@@ -48,8 +48,10 @@
           <td>{{ locationRequest.requestDatetime | formatMediumDate }}</td>
           <td>{{ locationRequest.tankNumbers }}</td>
           <td>
-            <div *ngIf="locationRequest.tankNumber">
-              <a [routerLink]="['/location-response', locationRequest.tankNumber?.id, 'view']">{{ locationRequest.tankNumber?.id }}</a>
+            <div *ngIf="locationRequest.locationResponse">
+              <a [routerLink]="['/location-response', locationRequest.locationResponse?.id, 'view']">{{
+                locationRequest.locationResponse?.id
+              }}</a>
             </div>
           </td>
           <td>

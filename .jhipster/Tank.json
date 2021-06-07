@@ -22,13 +22,13 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "locationRequest",
       "otherEntityRelationshipName": "tank",
-      "relationshipName": "tankNumber"
+      "relationshipName": "locationRequest"
     },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "mileageRequest",
       "otherEntityRelationshipName": "tank",
-      "relationshipName": "tankNumber"
+      "relationshipName": "mileageRequest"
     }
   ],
   "entityTableName": "tank",

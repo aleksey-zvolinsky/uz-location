@@ -15,13 +15,13 @@
       "relationshipType": "one-to-one",
       "otherEntityName": "locationResponse",
       "otherEntityRelationshipName": "locationRequest",
-      "relationshipName": "tankNumber",
+      "relationshipName": "locationResponse",
       "ownerSide": true
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "tank",
-      "otherEntityRelationshipName": "tankNumber",
+      "otherEntityRelationshipName": "locationRequest",
       "relationshipName": "tank"
     }
   ],

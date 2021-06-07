@@ -49,7 +49,8 @@
       "defectDetails": "Defect Details",
       "repairRegion": "Repair Region",
       "repairStation": "Repair Station",
-      "repairDatatime": "Repair Datatime"
+      "repairDatatime": "Repair Datatime",
+      "locationRequest": "Location Request"
     }
   }
 }

@@ -19,14 +19,14 @@ import { TankService } from 'app/entities/tank/service/tank.service';
 export class LocationRequestUpdateComponent implements OnInit {
   isSaving = false;
 
-  tankNumbersCollection: ILocationResponse[] = [];
+  locationResponsesCollection: ILocationResponse[] = [];
   tanksSharedCollection: ITank[] = [];
 
   editForm = this.fb.group({
     id: [],
     requestDatetime: [],
     tankNumbers: [],
-    tankNumber: [],
+    locationResponse: [],
     tank: [],
   });
 
@@ -92,13 +92,13 @@ export class LocationRequestUpdateComponent implements OnInit {
       id: locationRequest.id,
       requestDatetime: locationRequest.requestDatetime,
       tankNumbers: locationRequest.tankNumbers,
-      tankNumber: locationRequest.tankNumber,
+      locationResponse: locationRequest.locationResponse,
       tank: locationRequest.tank,
     });
 
-    this.tankNumbersCollection = this.locationResponseService.addLocationResponseToCollectionIfMissing(
-      this.tankNumbersCollection,
-      locationRequest.tankNumber
+    this.locationResponsesCollection = this.locationResponseService.addLocationResponseToCollectionIfMissing(
+      this.locationResponsesCollection,
+      locationRequest.locationResponse
     );
     this.tanksSharedCollection = this.tankService.addTankToCollectionIfMissing(this.tanksSharedCollection, locationRequest.tank);
   }
@@ -109,10 +109,13 @@ export class LocationRequestUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<ILocationResponse[]>) => res.body ?? []))
       .pipe(
         map((locationResponses: ILocationResponse[]) =>
-          this.locationResponseService.addLocationResponseToCollectionIfMissing(locationResponses, this.editForm.get('tankNumber')!.value)
+          this.locationResponseService.addLocationResponseToCollectionIfMissing(
+            locationResponses,
+            this.editForm.get('locationResponse')!.value
+          )
         )
       )
-      .subscribe((locationResponses: ILocationResponse[]) => (this.tankNumbersCollection = locationResponses));
+      .subscribe((locationResponses: ILocationResponse[]) => (this.locationResponsesCollection = locationResponses));
 
     this.tankService
       .query()
@@ -127,7 +130,7 @@ export class LocationRequestUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       requestDatetime: this.editForm.get(['requestDatetime'])!.value,
       tankNumbers: this.editForm.get(['tankNumbers'])!.value,
-      tankNumber: this.editForm.get(['tankNumber'])!.value,
+      locationResponse: this.editForm.get(['locationResponse'])!.value,
       tank: this.editForm.get(['tank'])!.value,
     };
   }

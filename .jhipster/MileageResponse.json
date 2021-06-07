@@ -26,7 +26,15 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "mileageRequest",
+      "otherEntityRelationshipName": "mileageResponse",
+      "relationshipName": "mileageRequest",
+      "ownerSide": false
+    }
+  ],
   "entityTableName": "mileage_response",
   "dto": "no",
   "pagination": "no",

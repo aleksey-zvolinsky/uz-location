@@ -55,18 +55,24 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" jhiTranslate="uzLocationApp.locationRequest.tankNumber" for="field_tankNumber"
-            >Tank Number</label
+          <label class="form-control-label" jhiTranslate="uzLocationApp.locationRequest.locationResponse" for="field_locationResponse"
+            >Location Response</label
           >
-          <select class="form-control" id="field_tankNumber" data-cy="tankNumber" name="tankNumber" formControlName="tankNumber">
+          <select
+            class="form-control"
+            id="field_locationResponse"
+            data-cy="locationResponse"
+            name="locationResponse"
+            formControlName="locationResponse"
+          >
             <option [ngValue]="null"></option>
             <option
               [ngValue]="
-                locationResponseOption.id === editForm.get('tankNumber')!.value?.id
-                  ? editForm.get('tankNumber')!.value
+                locationResponseOption.id === editForm.get('locationResponse')!.value?.id
+                  ? editForm.get('locationResponse')!.value
                   : locationResponseOption
               "
-              *ngFor="let locationResponseOption of tankNumbersCollection; trackBy: trackLocationResponseById"
+              *ngFor="let locationResponseOption of locationResponsesCollection; trackBy: trackLocationResponseById"
             >
               {{ locationResponseOption.id }}
             </option>
