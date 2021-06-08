@@ -37,10 +37,6 @@
       "stateSendDatetime": "State Send Datetime",
       "stateSenderId": "State Sender Id",
       "planedServiceDatetime": "Planed Service Datetime",
-      "mileageCurrent": "Mileage Current",
-      "mileageDatetime": "Mileage Datetime",
-      "mileageRemain": "Mileage Remain",
-      "mileageUpdateDatetime": "Mileage Update Datetime",
       "tankOwner": "Tank Owner",
       "tankModel": "Tank Model",
       "defectRegion": "Defect Region",
@@ -49,7 +45,8 @@
       "defectDetails": "Defect Details",
       "repairRegion": "Repair Region",
       "repairStation": "Repair Station",
-      "repairDatatime": "Repair Datatime",
+      "repairDatetime": "Repair Datetime",
+      "updateDatetime": "Update Datetime",
       "locationRequest": "Location Request"
     }
   }

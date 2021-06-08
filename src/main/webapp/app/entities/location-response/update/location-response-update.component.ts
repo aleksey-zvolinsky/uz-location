@@ -36,10 +36,6 @@ export class LocationResponseUpdateComponent implements OnInit {
     stateSendDatetime: [],
     stateSenderId: [],
     planedServiceDatetime: [],
-    mileageCurrent: [],
-    mileageDatetime: [],
-    mileageRemain: [],
-    mileageUpdateDatetime: [],
     tankOwner: [],
     tankModel: [],
     defectRegion: [],
@@ -48,7 +44,8 @@ export class LocationResponseUpdateComponent implements OnInit {
     defectDetails: [],
     repairRegion: [],
     repairStation: [],
-    repairDatatime: [],
+    repairDatetime: [],
+    updateDatetime: [],
   });
 
   constructor(
@@ -118,10 +115,6 @@ export class LocationResponseUpdateComponent implements OnInit {
       stateSendDatetime: locationResponse.stateSendDatetime,
       stateSenderId: locationResponse.stateSenderId,
       planedServiceDatetime: locationResponse.planedServiceDatetime,
-      mileageCurrent: locationResponse.mileageCurrent,
-      mileageDatetime: locationResponse.mileageDatetime,
-      mileageRemain: locationResponse.mileageRemain,
-      mileageUpdateDatetime: locationResponse.mileageUpdateDatetime,
       tankOwner: locationResponse.tankOwner,
       tankModel: locationResponse.tankModel,
       defectRegion: locationResponse.defectRegion,
@@ -130,7 +123,8 @@ export class LocationResponseUpdateComponent implements OnInit {
       defectDetails: locationResponse.defectDetails,
       repairRegion: locationResponse.repairRegion,
       repairStation: locationResponse.repairStation,
-      repairDatatime: locationResponse.repairDatatime,
+      repairDatetime: locationResponse.repairDatetime,
+      updateDatetime: locationResponse.updateDatetime,
     });
   }
 
@@ -157,10 +151,6 @@ export class LocationResponseUpdateComponent implements OnInit {
       stateSendDatetime: this.editForm.get(['stateSendDatetime'])!.value,
       stateSenderId: this.editForm.get(['stateSenderId'])!.value,
       planedServiceDatetime: this.editForm.get(['planedServiceDatetime'])!.value,
-      mileageCurrent: this.editForm.get(['mileageCurrent'])!.value,
-      mileageDatetime: this.editForm.get(['mileageDatetime'])!.value,
-      mileageRemain: this.editForm.get(['mileageRemain'])!.value,
-      mileageUpdateDatetime: this.editForm.get(['mileageUpdateDatetime'])!.value,
       tankOwner: this.editForm.get(['tankOwner'])!.value,
       tankModel: this.editForm.get(['tankModel'])!.value,
       defectRegion: this.editForm.get(['defectRegion'])!.value,
@@ -169,7 +159,8 @@ export class LocationResponseUpdateComponent implements OnInit {
       defectDetails: this.editForm.get(['defectDetails'])!.value,
       repairRegion: this.editForm.get(['repairRegion'])!.value,
       repairStation: this.editForm.get(['repairStation'])!.value,
-      repairDatatime: this.editForm.get(['repairDatatime'])!.value,
+      repairDatetime: this.editForm.get(['repairDatetime'])!.value,
+      updateDatetime: this.editForm.get(['updateDatetime'])!.value,
     };
   }
 }

@@ -78,22 +78,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "mileageCurrent",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "mileageDatetime",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "mileageRemain",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "mileageUpdateDatetime",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "tankOwner",
       "fieldType": "String"
     },
@@ -126,7 +110,11 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "repairDatatime",
+      "fieldName": "repairDatetime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updateDatetime",
       "fieldType": "String"
     }
   ],

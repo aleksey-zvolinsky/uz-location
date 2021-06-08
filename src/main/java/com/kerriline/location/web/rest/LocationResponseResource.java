@@ -184,18 +184,6 @@ public class LocationResponseResource {
                     if (locationResponse.getPlanedServiceDatetime() != null) {
                         existingLocationResponse.setPlanedServiceDatetime(locationResponse.getPlanedServiceDatetime());
                     }
-                    if (locationResponse.getMileageCurrent() != null) {
-                        existingLocationResponse.setMileageCurrent(locationResponse.getMileageCurrent());
-                    }
-                    if (locationResponse.getMileageDatetime() != null) {
-                        existingLocationResponse.setMileageDatetime(locationResponse.getMileageDatetime());
-                    }
-                    if (locationResponse.getMileageRemain() != null) {
-                        existingLocationResponse.setMileageRemain(locationResponse.getMileageRemain());
-                    }
-                    if (locationResponse.getMileageUpdateDatetime() != null) {
-                        existingLocationResponse.setMileageUpdateDatetime(locationResponse.getMileageUpdateDatetime());
-                    }
                     if (locationResponse.getTankOwner() != null) {
                         existingLocationResponse.setTankOwner(locationResponse.getTankOwner());
                     }
@@ -220,8 +208,11 @@ public class LocationResponseResource {
                     if (locationResponse.getRepairStation() != null) {
                         existingLocationResponse.setRepairStation(locationResponse.getRepairStation());
                     }
-                    if (locationResponse.getRepairDatatime() != null) {
-                        existingLocationResponse.setRepairDatatime(locationResponse.getRepairDatatime());
+                    if (locationResponse.getRepairDatetime() != null) {
+                        existingLocationResponse.setRepairDatetime(locationResponse.getRepairDatetime());
+                    }
+                    if (locationResponse.getUpdateDatetime() != null) {
+                        existingLocationResponse.setUpdateDatetime(locationResponse.getUpdateDatetime());
                     }
 
                     return existingLocationResponse;

@@ -71,18 +71,6 @@
             <column name="planed_service_datetime" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="mileage_current" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="mileage_datetime" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="mileage_remain" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
-            <column name="mileage_update_datetime" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="tank_owner" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -107,7 +95,10 @@
             <column name="repair_station" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="repair_datatime" type="varchar(255)">
+            <column name="repair_datetime" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="update_datetime" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -149,10 +140,6 @@
             <column name="state_send_datetime" type="string"/>
             <column name="state_sender_id" type="string"/>
             <column name="planed_service_datetime" type="string"/>
-            <column name="mileage_current" type="string"/>
-            <column name="mileage_datetime" type="string"/>
-            <column name="mileage_remain" type="string"/>
-            <column name="mileage_update_datetime" type="string"/>
             <column name="tank_owner" type="string"/>
             <column name="tank_model" type="string"/>
             <column name="defect_region" type="string"/>
@@ -161,7 +148,8 @@
             <column name="defect_details" type="string"/>
             <column name="repair_region" type="string"/>
             <column name="repair_station" type="string"/>
-            <column name="repair_datatime" type="string"/>
+            <column name="repair_datetime" type="string"/>
+            <column name="update_datetime" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
