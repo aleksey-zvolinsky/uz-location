@@ -48,10 +48,6 @@ entity LocationResponse {
     StateSendDatetime String,
     StateSenderId String,
     PlanedServiceDatetime String,
-    MileageCurrent String,
-    MileageDatetime String, 
-    MileageRemain String, 
-    MileageUpdateDatetime String,
     TankOwner String,
     TankModel String,
     DefectRegion String
@@ -60,7 +56,8 @@ entity LocationResponse {
     DefectDetails String,
     RepairRegion String, 
     RepairStation String,
-    RepairDatatime String
+    RepairDatetime String,
+    UpdateDatetime String
 }
 
 entity MileageRequest {
