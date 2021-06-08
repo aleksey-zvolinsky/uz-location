@@ -78,18 +78,6 @@ public class LocationResponse implements Serializable {
     @Column(name = "planed_service_datetime")
     private String planedServiceDatetime;
 
-    @Column(name = "mileage_current")
-    private String mileageCurrent;
-
-    @Column(name = "mileage_datetime")
-    private String mileageDatetime;
-
-    @Column(name = "mileage_remain")
-    private String mileageRemain;
-
-    @Column(name = "mileage_update_datetime")
-    private String mileageUpdateDatetime;
-
     @Column(name = "tank_owner")
     private String tankOwner;
 
@@ -114,8 +102,11 @@ public class LocationResponse implements Serializable {
     @Column(name = "repair_station")
     private String repairStation;
 
-    @Column(name = "repair_datatime")
-    private String repairDatatime;
+    @Column(name = "repair_datetime")
+    private String repairDatetime;
+
+    @Column(name = "update_datetime")
+    private String updateDatetime;
 
     @JsonIgnoreProperties(value = { "locationResponse", "tank" }, allowSetters = true)
     @OneToOne(mappedBy = "locationResponse")
@@ -382,58 +373,6 @@ public class LocationResponse implements Serializable {
         this.planedServiceDatetime = planedServiceDatetime;
     }
 
-    public String getMileageCurrent() {
-        return this.mileageCurrent;
-    }
-
-    public LocationResponse mileageCurrent(String mileageCurrent) {
-        this.mileageCurrent = mileageCurrent;
-        return this;
-    }
-
-    public void setMileageCurrent(String mileageCurrent) {
-        this.mileageCurrent = mileageCurrent;
-    }
-
-    public String getMileageDatetime() {
-        return this.mileageDatetime;
-    }
-
-    public LocationResponse mileageDatetime(String mileageDatetime) {
-        this.mileageDatetime = mileageDatetime;
-        return this;
-    }
-
-    public void setMileageDatetime(String mileageDatetime) {
-        this.mileageDatetime = mileageDatetime;
-    }
-
-    public String getMileageRemain() {
-        return this.mileageRemain;
-    }
-
-    public LocationResponse mileageRemain(String mileageRemain) {
-        this.mileageRemain = mileageRemain;
-        return this;
-    }
-
-    public void setMileageRemain(String mileageRemain) {
-        this.mileageRemain = mileageRemain;
-    }
-
-    public String getMileageUpdateDatetime() {
-        return this.mileageUpdateDatetime;
-    }
-
-    public LocationResponse mileageUpdateDatetime(String mileageUpdateDatetime) {
-        this.mileageUpdateDatetime = mileageUpdateDatetime;
-        return this;
-    }
-
-    public void setMileageUpdateDatetime(String mileageUpdateDatetime) {
-        this.mileageUpdateDatetime = mileageUpdateDatetime;
-    }
-
     public String getTankOwner() {
         return this.tankOwner;
     }
@@ -538,17 +477,30 @@ public class LocationResponse implements Serializable {
         this.repairStation = repairStation;
     }
 
-    public String getRepairDatatime() {
-        return this.repairDatatime;
+    public String getRepairDatetime() {
+        return this.repairDatetime;
     }
 
-    public LocationResponse repairDatatime(String repairDatatime) {
-        this.repairDatatime = repairDatatime;
+    public LocationResponse repairDatetime(String repairDatetime) {
+        this.repairDatetime = repairDatetime;
         return this;
     }
 
-    public void setRepairDatatime(String repairDatatime) {
-        this.repairDatatime = repairDatatime;
+    public void setRepairDatetime(String repairDatetime) {
+        this.repairDatetime = repairDatetime;
+    }
+
+    public String getUpdateDatetime() {
+        return this.updateDatetime;
+    }
+
+    public LocationResponse updateDatetime(String updateDatetime) {
+        this.updateDatetime = updateDatetime;
+        return this;
+    }
+
+    public void setUpdateDatetime(String updateDatetime) {
+        this.updateDatetime = updateDatetime;
     }
 
     public LocationRequest getLocationRequest() {
@@ -613,10 +565,6 @@ public class LocationResponse implements Serializable {
             ", stateSendDatetime='" + getStateSendDatetime() + "'" +
             ", stateSenderId='" + getStateSenderId() + "'" +
             ", planedServiceDatetime='" + getPlanedServiceDatetime() + "'" +
-            ", mileageCurrent='" + getMileageCurrent() + "'" +
-            ", mileageDatetime='" + getMileageDatetime() + "'" +
-            ", mileageRemain='" + getMileageRemain() + "'" +
-            ", mileageUpdateDatetime='" + getMileageUpdateDatetime() + "'" +
             ", tankOwner='" + getTankOwner() + "'" +
             ", tankModel='" + getTankModel() + "'" +
             ", defectRegion='" + getDefectRegion() + "'" +
@@ -625,7 +573,8 @@ public class LocationResponse implements Serializable {
             ", defectDetails='" + getDefectDetails() + "'" +
             ", repairRegion='" + getRepairRegion() + "'" +
             ", repairStation='" + getRepairStation() + "'" +
-            ", repairDatatime='" + getRepairDatatime() + "'" +
+            ", repairDatetime='" + getRepairDatetime() + "'" +
+            ", updateDatetime='" + getUpdateDatetime() + "'" +
             "}";
     }
 }

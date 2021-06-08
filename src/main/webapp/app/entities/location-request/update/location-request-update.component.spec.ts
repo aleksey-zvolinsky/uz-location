@@ -46,10 +46,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call locationResponse query and add missing value', () => {
         const locationRequest: ILocationRequest = { id: 456 };
-        const locationResponse: ILocationResponse = { id: 81494 };
+        const locationResponse: ILocationResponse = { id: 66648 };
         locationRequest.locationResponse = locationResponse;
 
-        const locationResponseCollection: ILocationResponse[] = [{ id: 41804 }];
+        const locationResponseCollection: ILocationResponse[] = [{ id: 43440 }];
         spyOn(locationResponseService, 'query').and.returnValue(of(new HttpResponse({ body: locationResponseCollection })));
         const expectedCollection: ILocationResponse[] = [locationResponse, ...locationResponseCollection];
         spyOn(locationResponseService, 'addLocationResponseToCollectionIfMissing').and.returnValue(expectedCollection);
@@ -86,7 +86,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const locationRequest: ILocationRequest = { id: 456 };
-        const locationResponse: ILocationResponse = { id: 53732 };
+        const locationResponse: ILocationResponse = { id: 53386 };
         locationRequest.locationResponse = locationResponse;
         const tank: ITank = { id: 43010 };
         locationRequest.tank = tank;

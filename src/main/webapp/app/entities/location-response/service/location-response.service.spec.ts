@@ -45,10 +45,6 @@ describe('Service Tests', () => {
         stateSendDatetime: 'AAAAAAA',
         stateSenderId: 'AAAAAAA',
         planedServiceDatetime: 'AAAAAAA',
-        mileageCurrent: 'AAAAAAA',
-        mileageDatetime: 'AAAAAAA',
-        mileageRemain: 'AAAAAAA',
-        mileageUpdateDatetime: 'AAAAAAA',
         tankOwner: 'AAAAAAA',
         tankModel: 'AAAAAAA',
         defectRegion: 'AAAAAAA',
@@ -57,7 +53,8 @@ describe('Service Tests', () => {
         defectDetails: 'AAAAAAA',
         repairRegion: 'AAAAAAA',
         repairStation: 'AAAAAAA',
-        repairDatatime: 'AAAAAAA',
+        repairDatetime: 'AAAAAAA',
+        updateDatetime: 'AAAAAAA',
       };
     });
 
@@ -123,10 +120,6 @@ describe('Service Tests', () => {
             stateSendDatetime: 'BBBBBB',
             stateSenderId: 'BBBBBB',
             planedServiceDatetime: 'BBBBBB',
-            mileageCurrent: 'BBBBBB',
-            mileageDatetime: 'BBBBBB',
-            mileageRemain: 'BBBBBB',
-            mileageUpdateDatetime: 'BBBBBB',
             tankOwner: 'BBBBBB',
             tankModel: 'BBBBBB',
             defectRegion: 'BBBBBB',
@@ -135,7 +128,8 @@ describe('Service Tests', () => {
             defectDetails: 'BBBBBB',
             repairRegion: 'BBBBBB',
             repairStation: 'BBBBBB',
-            repairDatatime: 'BBBBBB',
+            repairDatetime: 'BBBBBB',
+            updateDatetime: 'BBBBBB',
           },
           elemDefault
         );
@@ -165,12 +159,11 @@ describe('Service Tests', () => {
             stateToStationId: 'BBBBBB',
             stateSenderId: 'BBBBBB',
             planedServiceDatetime: 'BBBBBB',
-            mileageCurrent: 'BBBBBB',
-            mileageDatetime: 'BBBBBB',
+            tankOwner: 'BBBBBB',
             tankModel: 'BBBBBB',
-            defectStation: 'BBBBBB',
-            defectDatetime: 'BBBBBB',
-            repairDatatime: 'BBBBBB',
+            defectDetails: 'BBBBBB',
+            repairStation: 'BBBBBB',
+            repairDatetime: 'BBBBBB',
           },
           new LocationResponse()
         );
@@ -214,10 +207,6 @@ describe('Service Tests', () => {
             stateSendDatetime: 'BBBBBB',
             stateSenderId: 'BBBBBB',
             planedServiceDatetime: 'BBBBBB',
-            mileageCurrent: 'BBBBBB',
-            mileageDatetime: 'BBBBBB',
-            mileageRemain: 'BBBBBB',
-            mileageUpdateDatetime: 'BBBBBB',
             tankOwner: 'BBBBBB',
             tankModel: 'BBBBBB',
             defectRegion: 'BBBBBB',
@@ -226,7 +215,8 @@ describe('Service Tests', () => {
             defectDetails: 'BBBBBB',
             repairRegion: 'BBBBBB',
             repairStation: 'BBBBBB',
-            repairDatatime: 'BBBBBB',
+            repairDatetime: 'BBBBBB',
+            updateDatetime: 'BBBBBB',
           },
           elemDefault
         );
@@ -283,7 +273,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique LocationResponse to an array', () => {
-          const locationResponseArray: ILocationResponse[] = [{ id: 123 }, { id: 456 }, { id: 13255 }];
+          const locationResponseArray: ILocationResponse[] = [{ id: 123 }, { id: 456 }, { id: 14778 }];
           const locationResponseCollection: ILocationResponse[] = [{ id: 123 }];
           expectedResult = service.addLocationResponseToCollectionIfMissing(locationResponseCollection, ...locationResponseArray);
           expect(expectedResult).toHaveLength(3);

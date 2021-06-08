@@ -52,10 +52,6 @@
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateSendDatetime">State Send Datetime</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateSenderId">State Sender Id</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.planedServiceDatetime">Planed Service Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageCurrent">Mileage Current</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageDatetime">Mileage Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageRemain">Mileage Remain</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.mileageUpdateDatetime">Mileage Update Datetime</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankOwner">Tank Owner</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankModel">Tank Model</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectRegion">Defect Region</span></th>
@@ -64,7 +60,8 @@
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectDetails">Defect Details</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairRegion">Repair Region</span></th>
           <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairStation">Repair Station</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairDatatime">Repair Datatime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairDatetime">Repair Datetime</span></th>
+          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.updateDatetime">Update Datetime</span></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -92,10 +89,6 @@
           <td>{{ locationResponse.stateSendDatetime }}</td>
           <td>{{ locationResponse.stateSenderId }}</td>
           <td>{{ locationResponse.planedServiceDatetime }}</td>
-          <td>{{ locationResponse.mileageCurrent }}</td>
-          <td>{{ locationResponse.mileageDatetime }}</td>
-          <td>{{ locationResponse.mileageRemain }}</td>
-          <td>{{ locationResponse.mileageUpdateDatetime }}</td>
           <td>{{ locationResponse.tankOwner }}</td>
           <td>{{ locationResponse.tankModel }}</td>
           <td>{{ locationResponse.defectRegion }}</td>
@@ -104,7 +97,8 @@
           <td>{{ locationResponse.defectDetails }}</td>
           <td>{{ locationResponse.repairRegion }}</td>
           <td>{{ locationResponse.repairStation }}</td>
-          <td>{{ locationResponse.repairDatatime }}</td>
+          <td>{{ locationResponse.repairDatetime }}</td>
+          <td>{{ locationResponse.updateDatetime }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button

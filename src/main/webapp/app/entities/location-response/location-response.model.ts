@@ -22,10 +22,6 @@ export interface ILocationResponse {
   stateSendDatetime?: string | null;
   stateSenderId?: string | null;
   planedServiceDatetime?: string | null;
-  mileageCurrent?: string | null;
-  mileageDatetime?: string | null;
-  mileageRemain?: string | null;
-  mileageUpdateDatetime?: string | null;
   tankOwner?: string | null;
   tankModel?: string | null;
   defectRegion?: string | null;
@@ -34,7 +30,8 @@ export interface ILocationResponse {
   defectDetails?: string | null;
   repairRegion?: string | null;
   repairStation?: string | null;
-  repairDatatime?: string | null;
+  repairDatetime?: string | null;
+  updateDatetime?: string | null;
   locationRequest?: ILocationRequest | null;
 }
 
@@ -60,10 +57,6 @@ export class LocationResponse implements ILocationResponse {
     public stateSendDatetime?: string | null,
     public stateSenderId?: string | null,
     public planedServiceDatetime?: string | null,
-    public mileageCurrent?: string | null,
-    public mileageDatetime?: string | null,
-    public mileageRemain?: string | null,
-    public mileageUpdateDatetime?: string | null,
     public tankOwner?: string | null,
     public tankModel?: string | null,
     public defectRegion?: string | null,
@@ -72,7 +65,8 @@ export class LocationResponse implements ILocationResponse {
     public defectDetails?: string | null,
     public repairRegion?: string | null,
     public repairStation?: string | null,
-    public repairDatatime?: string | null,
+    public repairDatetime?: string | null,
+    public updateDatetime?: string | null,
     public locationRequest?: ILocationRequest | null
   ) {}
 }

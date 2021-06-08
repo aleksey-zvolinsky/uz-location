@@ -88,18 +88,6 @@ class LocationResponseResourceIT {
     private static final String DEFAULT_PLANED_SERVICE_DATETIME = "AAAAAAAAAA";
     private static final String UPDATED_PLANED_SERVICE_DATETIME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_MILEAGE_CURRENT = "AAAAAAAAAA";
-    private static final String UPDATED_MILEAGE_CURRENT = "BBBBBBBBBB";
-
-    private static final String DEFAULT_MILEAGE_DATETIME = "AAAAAAAAAA";
-    private static final String UPDATED_MILEAGE_DATETIME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_MILEAGE_REMAIN = "AAAAAAAAAA";
-    private static final String UPDATED_MILEAGE_REMAIN = "BBBBBBBBBB";
-
-    private static final String DEFAULT_MILEAGE_UPDATE_DATETIME = "AAAAAAAAAA";
-    private static final String UPDATED_MILEAGE_UPDATE_DATETIME = "BBBBBBBBBB";
-
     private static final String DEFAULT_TANK_OWNER = "AAAAAAAAAA";
     private static final String UPDATED_TANK_OWNER = "BBBBBBBBBB";
 
@@ -124,8 +112,11 @@ class LocationResponseResourceIT {
     private static final String DEFAULT_REPAIR_STATION = "AAAAAAAAAA";
     private static final String UPDATED_REPAIR_STATION = "BBBBBBBBBB";
 
-    private static final String DEFAULT_REPAIR_DATATIME = "AAAAAAAAAA";
-    private static final String UPDATED_REPAIR_DATATIME = "BBBBBBBBBB";
+    private static final String DEFAULT_REPAIR_DATETIME = "AAAAAAAAAA";
+    private static final String UPDATED_REPAIR_DATETIME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_UPDATE_DATETIME = "AAAAAAAAAA";
+    private static final String UPDATED_UPDATE_DATETIME = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/location-responses";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -171,10 +162,6 @@ class LocationResponseResourceIT {
             .stateSendDatetime(DEFAULT_STATE_SEND_DATETIME)
             .stateSenderId(DEFAULT_STATE_SENDER_ID)
             .planedServiceDatetime(DEFAULT_PLANED_SERVICE_DATETIME)
-            .mileageCurrent(DEFAULT_MILEAGE_CURRENT)
-            .mileageDatetime(DEFAULT_MILEAGE_DATETIME)
-            .mileageRemain(DEFAULT_MILEAGE_REMAIN)
-            .mileageUpdateDatetime(DEFAULT_MILEAGE_UPDATE_DATETIME)
             .tankOwner(DEFAULT_TANK_OWNER)
             .tankModel(DEFAULT_TANK_MODEL)
             .defectRegion(DEFAULT_DEFECT_REGION)
@@ -183,7 +170,8 @@ class LocationResponseResourceIT {
             .defectDetails(DEFAULT_DEFECT_DETAILS)
             .repairRegion(DEFAULT_REPAIR_REGION)
             .repairStation(DEFAULT_REPAIR_STATION)
-            .repairDatatime(DEFAULT_REPAIR_DATATIME);
+            .repairDatetime(DEFAULT_REPAIR_DATETIME)
+            .updateDatetime(DEFAULT_UPDATE_DATETIME);
         return locationResponse;
     }
 
@@ -214,10 +202,6 @@ class LocationResponseResourceIT {
             .stateSendDatetime(UPDATED_STATE_SEND_DATETIME)
             .stateSenderId(UPDATED_STATE_SENDER_ID)
             .planedServiceDatetime(UPDATED_PLANED_SERVICE_DATETIME)
-            .mileageCurrent(UPDATED_MILEAGE_CURRENT)
-            .mileageDatetime(UPDATED_MILEAGE_DATETIME)
-            .mileageRemain(UPDATED_MILEAGE_REMAIN)
-            .mileageUpdateDatetime(UPDATED_MILEAGE_UPDATE_DATETIME)
             .tankOwner(UPDATED_TANK_OWNER)
             .tankModel(UPDATED_TANK_MODEL)
             .defectRegion(UPDATED_DEFECT_REGION)
@@ -226,7 +210,8 @@ class LocationResponseResourceIT {
             .defectDetails(UPDATED_DEFECT_DETAILS)
             .repairRegion(UPDATED_REPAIR_REGION)
             .repairStation(UPDATED_REPAIR_STATION)
-            .repairDatatime(UPDATED_REPAIR_DATATIME);
+            .repairDatetime(UPDATED_REPAIR_DATETIME)
+            .updateDatetime(UPDATED_UPDATE_DATETIME);
         return locationResponse;
     }
 
@@ -269,10 +254,6 @@ class LocationResponseResourceIT {
         assertThat(testLocationResponse.getStateSendDatetime()).isEqualTo(DEFAULT_STATE_SEND_DATETIME);
         assertThat(testLocationResponse.getStateSenderId()).isEqualTo(DEFAULT_STATE_SENDER_ID);
         assertThat(testLocationResponse.getPlanedServiceDatetime()).isEqualTo(DEFAULT_PLANED_SERVICE_DATETIME);
-        assertThat(testLocationResponse.getMileageCurrent()).isEqualTo(DEFAULT_MILEAGE_CURRENT);
-        assertThat(testLocationResponse.getMileageDatetime()).isEqualTo(DEFAULT_MILEAGE_DATETIME);
-        assertThat(testLocationResponse.getMileageRemain()).isEqualTo(DEFAULT_MILEAGE_REMAIN);
-        assertThat(testLocationResponse.getMileageUpdateDatetime()).isEqualTo(DEFAULT_MILEAGE_UPDATE_DATETIME);
         assertThat(testLocationResponse.getTankOwner()).isEqualTo(DEFAULT_TANK_OWNER);
         assertThat(testLocationResponse.getTankModel()).isEqualTo(DEFAULT_TANK_MODEL);
         assertThat(testLocationResponse.getDefectRegion()).isEqualTo(DEFAULT_DEFECT_REGION);
@@ -281,7 +262,8 @@ class LocationResponseResourceIT {
         assertThat(testLocationResponse.getDefectDetails()).isEqualTo(DEFAULT_DEFECT_DETAILS);
         assertThat(testLocationResponse.getRepairRegion()).isEqualTo(DEFAULT_REPAIR_REGION);
         assertThat(testLocationResponse.getRepairStation()).isEqualTo(DEFAULT_REPAIR_STATION);
-        assertThat(testLocationResponse.getRepairDatatime()).isEqualTo(DEFAULT_REPAIR_DATATIME);
+        assertThat(testLocationResponse.getRepairDatetime()).isEqualTo(DEFAULT_REPAIR_DATETIME);
+        assertThat(testLocationResponse.getUpdateDatetime()).isEqualTo(DEFAULT_UPDATE_DATETIME);
     }
 
     @Test
@@ -335,10 +317,6 @@ class LocationResponseResourceIT {
             .andExpect(jsonPath("$.[*].stateSendDatetime").value(hasItem(DEFAULT_STATE_SEND_DATETIME)))
             .andExpect(jsonPath("$.[*].stateSenderId").value(hasItem(DEFAULT_STATE_SENDER_ID)))
             .andExpect(jsonPath("$.[*].planedServiceDatetime").value(hasItem(DEFAULT_PLANED_SERVICE_DATETIME)))
-            .andExpect(jsonPath("$.[*].mileageCurrent").value(hasItem(DEFAULT_MILEAGE_CURRENT)))
-            .andExpect(jsonPath("$.[*].mileageDatetime").value(hasItem(DEFAULT_MILEAGE_DATETIME)))
-            .andExpect(jsonPath("$.[*].mileageRemain").value(hasItem(DEFAULT_MILEAGE_REMAIN)))
-            .andExpect(jsonPath("$.[*].mileageUpdateDatetime").value(hasItem(DEFAULT_MILEAGE_UPDATE_DATETIME)))
             .andExpect(jsonPath("$.[*].tankOwner").value(hasItem(DEFAULT_TANK_OWNER)))
             .andExpect(jsonPath("$.[*].tankModel").value(hasItem(DEFAULT_TANK_MODEL)))
             .andExpect(jsonPath("$.[*].defectRegion").value(hasItem(DEFAULT_DEFECT_REGION)))
@@ -347,7 +325,8 @@ class LocationResponseResourceIT {
             .andExpect(jsonPath("$.[*].defectDetails").value(hasItem(DEFAULT_DEFECT_DETAILS)))
             .andExpect(jsonPath("$.[*].repairRegion").value(hasItem(DEFAULT_REPAIR_REGION)))
             .andExpect(jsonPath("$.[*].repairStation").value(hasItem(DEFAULT_REPAIR_STATION)))
-            .andExpect(jsonPath("$.[*].repairDatatime").value(hasItem(DEFAULT_REPAIR_DATATIME)));
+            .andExpect(jsonPath("$.[*].repairDatetime").value(hasItem(DEFAULT_REPAIR_DATETIME)))
+            .andExpect(jsonPath("$.[*].updateDatetime").value(hasItem(DEFAULT_UPDATE_DATETIME)));
     }
 
     @Test
@@ -381,10 +360,6 @@ class LocationResponseResourceIT {
             .andExpect(jsonPath("$.stateSendDatetime").value(DEFAULT_STATE_SEND_DATETIME))
             .andExpect(jsonPath("$.stateSenderId").value(DEFAULT_STATE_SENDER_ID))
             .andExpect(jsonPath("$.planedServiceDatetime").value(DEFAULT_PLANED_SERVICE_DATETIME))
-            .andExpect(jsonPath("$.mileageCurrent").value(DEFAULT_MILEAGE_CURRENT))
-            .andExpect(jsonPath("$.mileageDatetime").value(DEFAULT_MILEAGE_DATETIME))
-            .andExpect(jsonPath("$.mileageRemain").value(DEFAULT_MILEAGE_REMAIN))
-            .andExpect(jsonPath("$.mileageUpdateDatetime").value(DEFAULT_MILEAGE_UPDATE_DATETIME))
             .andExpect(jsonPath("$.tankOwner").value(DEFAULT_TANK_OWNER))
             .andExpect(jsonPath("$.tankModel").value(DEFAULT_TANK_MODEL))
             .andExpect(jsonPath("$.defectRegion").value(DEFAULT_DEFECT_REGION))
@@ -393,7 +368,8 @@ class LocationResponseResourceIT {
             .andExpect(jsonPath("$.defectDetails").value(DEFAULT_DEFECT_DETAILS))
             .andExpect(jsonPath("$.repairRegion").value(DEFAULT_REPAIR_REGION))
             .andExpect(jsonPath("$.repairStation").value(DEFAULT_REPAIR_STATION))
-            .andExpect(jsonPath("$.repairDatatime").value(DEFAULT_REPAIR_DATATIME));
+            .andExpect(jsonPath("$.repairDatetime").value(DEFAULT_REPAIR_DATETIME))
+            .andExpect(jsonPath("$.updateDatetime").value(DEFAULT_UPDATE_DATETIME));
     }
 
     @Test
@@ -435,10 +411,6 @@ class LocationResponseResourceIT {
             .stateSendDatetime(UPDATED_STATE_SEND_DATETIME)
             .stateSenderId(UPDATED_STATE_SENDER_ID)
             .planedServiceDatetime(UPDATED_PLANED_SERVICE_DATETIME)
-            .mileageCurrent(UPDATED_MILEAGE_CURRENT)
-            .mileageDatetime(UPDATED_MILEAGE_DATETIME)
-            .mileageRemain(UPDATED_MILEAGE_REMAIN)
-            .mileageUpdateDatetime(UPDATED_MILEAGE_UPDATE_DATETIME)
             .tankOwner(UPDATED_TANK_OWNER)
             .tankModel(UPDATED_TANK_MODEL)
             .defectRegion(UPDATED_DEFECT_REGION)
@@ -447,7 +419,8 @@ class LocationResponseResourceIT {
             .defectDetails(UPDATED_DEFECT_DETAILS)
             .repairRegion(UPDATED_REPAIR_REGION)
             .repairStation(UPDATED_REPAIR_STATION)
-            .repairDatatime(UPDATED_REPAIR_DATATIME);
+            .repairDatetime(UPDATED_REPAIR_DATETIME)
+            .updateDatetime(UPDATED_UPDATE_DATETIME);
 
         restLocationResponseMockMvc
             .perform(
@@ -480,10 +453,6 @@ class LocationResponseResourceIT {
         assertThat(testLocationResponse.getStateSendDatetime()).isEqualTo(UPDATED_STATE_SEND_DATETIME);
         assertThat(testLocationResponse.getStateSenderId()).isEqualTo(UPDATED_STATE_SENDER_ID);
         assertThat(testLocationResponse.getPlanedServiceDatetime()).isEqualTo(UPDATED_PLANED_SERVICE_DATETIME);
-        assertThat(testLocationResponse.getMileageCurrent()).isEqualTo(UPDATED_MILEAGE_CURRENT);
-        assertThat(testLocationResponse.getMileageDatetime()).isEqualTo(UPDATED_MILEAGE_DATETIME);
-        assertThat(testLocationResponse.getMileageRemain()).isEqualTo(UPDATED_MILEAGE_REMAIN);
-        assertThat(testLocationResponse.getMileageUpdateDatetime()).isEqualTo(UPDATED_MILEAGE_UPDATE_DATETIME);
         assertThat(testLocationResponse.getTankOwner()).isEqualTo(UPDATED_TANK_OWNER);
         assertThat(testLocationResponse.getTankModel()).isEqualTo(UPDATED_TANK_MODEL);
         assertThat(testLocationResponse.getDefectRegion()).isEqualTo(UPDATED_DEFECT_REGION);
@@ -492,7 +461,8 @@ class LocationResponseResourceIT {
         assertThat(testLocationResponse.getDefectDetails()).isEqualTo(UPDATED_DEFECT_DETAILS);
         assertThat(testLocationResponse.getRepairRegion()).isEqualTo(UPDATED_REPAIR_REGION);
         assertThat(testLocationResponse.getRepairStation()).isEqualTo(UPDATED_REPAIR_STATION);
-        assertThat(testLocationResponse.getRepairDatatime()).isEqualTo(UPDATED_REPAIR_DATATIME);
+        assertThat(testLocationResponse.getRepairDatetime()).isEqualTo(UPDATED_REPAIR_DATETIME);
+        assertThat(testLocationResponse.getUpdateDatetime()).isEqualTo(UPDATED_UPDATE_DATETIME);
     }
 
     @Test
@@ -574,12 +544,11 @@ class LocationResponseResourceIT {
             .stateToStationId(UPDATED_STATE_TO_STATION_ID)
             .stateSenderId(UPDATED_STATE_SENDER_ID)
             .planedServiceDatetime(UPDATED_PLANED_SERVICE_DATETIME)
-            .mileageCurrent(UPDATED_MILEAGE_CURRENT)
-            .mileageDatetime(UPDATED_MILEAGE_DATETIME)
+            .tankOwner(UPDATED_TANK_OWNER)
             .tankModel(UPDATED_TANK_MODEL)
-            .defectStation(UPDATED_DEFECT_STATION)
-            .defectDatetime(UPDATED_DEFECT_DATETIME)
-            .repairDatatime(UPDATED_REPAIR_DATATIME);
+            .defectDetails(UPDATED_DEFECT_DETAILS)
+            .repairStation(UPDATED_REPAIR_STATION)
+            .repairDatetime(UPDATED_REPAIR_DATETIME);
 
         restLocationResponseMockMvc
             .perform(
@@ -612,19 +581,16 @@ class LocationResponseResourceIT {
         assertThat(testLocationResponse.getStateSendDatetime()).isEqualTo(DEFAULT_STATE_SEND_DATETIME);
         assertThat(testLocationResponse.getStateSenderId()).isEqualTo(UPDATED_STATE_SENDER_ID);
         assertThat(testLocationResponse.getPlanedServiceDatetime()).isEqualTo(UPDATED_PLANED_SERVICE_DATETIME);
-        assertThat(testLocationResponse.getMileageCurrent()).isEqualTo(UPDATED_MILEAGE_CURRENT);
-        assertThat(testLocationResponse.getMileageDatetime()).isEqualTo(UPDATED_MILEAGE_DATETIME);
-        assertThat(testLocationResponse.getMileageRemain()).isEqualTo(DEFAULT_MILEAGE_REMAIN);
-        assertThat(testLocationResponse.getMileageUpdateDatetime()).isEqualTo(DEFAULT_MILEAGE_UPDATE_DATETIME);
-        assertThat(testLocationResponse.getTankOwner()).isEqualTo(DEFAULT_TANK_OWNER);
+        assertThat(testLocationResponse.getTankOwner()).isEqualTo(UPDATED_TANK_OWNER);
         assertThat(testLocationResponse.getTankModel()).isEqualTo(UPDATED_TANK_MODEL);
         assertThat(testLocationResponse.getDefectRegion()).isEqualTo(DEFAULT_DEFECT_REGION);
-        assertThat(testLocationResponse.getDefectStation()).isEqualTo(UPDATED_DEFECT_STATION);
-        assertThat(testLocationResponse.getDefectDatetime()).isEqualTo(UPDATED_DEFECT_DATETIME);
-        assertThat(testLocationResponse.getDefectDetails()).isEqualTo(DEFAULT_DEFECT_DETAILS);
+        assertThat(testLocationResponse.getDefectStation()).isEqualTo(DEFAULT_DEFECT_STATION);
+        assertThat(testLocationResponse.getDefectDatetime()).isEqualTo(DEFAULT_DEFECT_DATETIME);
+        assertThat(testLocationResponse.getDefectDetails()).isEqualTo(UPDATED_DEFECT_DETAILS);
         assertThat(testLocationResponse.getRepairRegion()).isEqualTo(DEFAULT_REPAIR_REGION);
-        assertThat(testLocationResponse.getRepairStation()).isEqualTo(DEFAULT_REPAIR_STATION);
-        assertThat(testLocationResponse.getRepairDatatime()).isEqualTo(UPDATED_REPAIR_DATATIME);
+        assertThat(testLocationResponse.getRepairStation()).isEqualTo(UPDATED_REPAIR_STATION);
+        assertThat(testLocationResponse.getRepairDatetime()).isEqualTo(UPDATED_REPAIR_DATETIME);
+        assertThat(testLocationResponse.getUpdateDatetime()).isEqualTo(DEFAULT_UPDATE_DATETIME);
     }
 
     @Test
@@ -659,10 +625,6 @@ class LocationResponseResourceIT {
             .stateSendDatetime(UPDATED_STATE_SEND_DATETIME)
             .stateSenderId(UPDATED_STATE_SENDER_ID)
             .planedServiceDatetime(UPDATED_PLANED_SERVICE_DATETIME)
-            .mileageCurrent(UPDATED_MILEAGE_CURRENT)
-            .mileageDatetime(UPDATED_MILEAGE_DATETIME)
-            .mileageRemain(UPDATED_MILEAGE_REMAIN)
-            .mileageUpdateDatetime(UPDATED_MILEAGE_UPDATE_DATETIME)
             .tankOwner(UPDATED_TANK_OWNER)
             .tankModel(UPDATED_TANK_MODEL)
             .defectRegion(UPDATED_DEFECT_REGION)
@@ -671,7 +633,8 @@ class LocationResponseResourceIT {
             .defectDetails(UPDATED_DEFECT_DETAILS)
             .repairRegion(UPDATED_REPAIR_REGION)
             .repairStation(UPDATED_REPAIR_STATION)
-            .repairDatatime(UPDATED_REPAIR_DATATIME);
+            .repairDatetime(UPDATED_REPAIR_DATETIME)
+            .updateDatetime(UPDATED_UPDATE_DATETIME);
 
         restLocationResponseMockMvc
             .perform(
@@ -704,10 +667,6 @@ class LocationResponseResourceIT {
         assertThat(testLocationResponse.getStateSendDatetime()).isEqualTo(UPDATED_STATE_SEND_DATETIME);
         assertThat(testLocationResponse.getStateSenderId()).isEqualTo(UPDATED_STATE_SENDER_ID);
         assertThat(testLocationResponse.getPlanedServiceDatetime()).isEqualTo(UPDATED_PLANED_SERVICE_DATETIME);
-        assertThat(testLocationResponse.getMileageCurrent()).isEqualTo(UPDATED_MILEAGE_CURRENT);
-        assertThat(testLocationResponse.getMileageDatetime()).isEqualTo(UPDATED_MILEAGE_DATETIME);
-        assertThat(testLocationResponse.getMileageRemain()).isEqualTo(UPDATED_MILEAGE_REMAIN);
-        assertThat(testLocationResponse.getMileageUpdateDatetime()).isEqualTo(UPDATED_MILEAGE_UPDATE_DATETIME);
         assertThat(testLocationResponse.getTankOwner()).isEqualTo(UPDATED_TANK_OWNER);
         assertThat(testLocationResponse.getTankModel()).isEqualTo(UPDATED_TANK_MODEL);
         assertThat(testLocationResponse.getDefectRegion()).isEqualTo(UPDATED_DEFECT_REGION);
@@ -716,7 +675,8 @@ class LocationResponseResourceIT {
         assertThat(testLocationResponse.getDefectDetails()).isEqualTo(UPDATED_DEFECT_DETAILS);
         assertThat(testLocationResponse.getRepairRegion()).isEqualTo(UPDATED_REPAIR_REGION);
         assertThat(testLocationResponse.getRepairStation()).isEqualTo(UPDATED_REPAIR_STATION);
-        assertThat(testLocationResponse.getRepairDatatime()).isEqualTo(UPDATED_REPAIR_DATATIME);
+        assertThat(testLocationResponse.getRepairDatetime()).isEqualTo(UPDATED_REPAIR_DATETIME);
+        assertThat(testLocationResponse.getUpdateDatetime()).isEqualTo(UPDATED_UPDATE_DATETIME);
     }
 
     @Test
