@@ -266,7 +266,16 @@ dependencies {
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunitJunit5Version}"
     testImplementation "com.h2database:h2"
     liquibaseRuntime "com.h2database:h2"
+
+    testImplementation 'io.cucumber:cucumber-java:6.10.4'
+    testImplementation 'io.cucumber:cucumber-junit:6.10.4'
+    testImplementation 'io.cucumber:cucumber-spring:6.10.4'
+
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
+
+    implementation 'org.quartz-scheduler:quartz:2.2.2'
+    implementation 'org.quartz-scheduler:quartz-jobs:2.2.2'
+    implementation 'com.google.guava:guava:18.0'
 }
 
 if (project.hasProperty("gae")) {

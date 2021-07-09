@@ -47,7 +47,7 @@ import tech.jhipster.security.RandomUtil;
  * The main algorithm comes from Spring Security's {@code PersistentTokenBasedRememberMeServices}, but this class
  * couldn't be cleanly extended.
  */
-@Service
+//@Service
 public class PersistentTokenRememberMeServices extends AbstractRememberMeServices {
 
     private final Logger log = LoggerFactory.getLogger(PersistentTokenRememberMeServices.class);

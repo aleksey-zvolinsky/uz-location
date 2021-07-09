@@ -7,14 +7,20 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
+
+import com.kerriline.location.mail.MailManager;
+import com.kerriline.location.mail.MailParser;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
@@ -99,5 +105,101 @@ public class UzLocationApp {
             contextPath,
             env.getActiveProfiles()
         );
+    }
+
+    @Autowired
+    SchedulerManager scheduler;
+    @Autowired
+    MailManager mail;
+    @Autowired
+    MailParser source;
+    @Autowired
+    LocationManager location;
+    @Autowired
+    MileageManager mileage;
+
+    @RequestMapping("/mail")
+    @ResponseBody
+    String mail() {
+        try {
+            mail.search1392Messages();
+            return "done";
+        } catch (Exception e) {
+            log.error("Failed to get mails", e);
+            return "failed";
+        }
+
+    }
+
+
+    @RequestMapping("/send")
+    @ResponseBody
+    String send() {
+        try {
+            location.send();
+            return "done";
+        } catch (Exception e) {
+            log.error("Failed to get mails", e);
+            return "failed";
+        }
+
+    }
+
+
+    @RequestMapping("/table")
+    @ResponseBody
+    String table() {
+        return source.text2table(mail.getLast1392()).toString();
+    }
+
+    @RequestMapping("/sheet")
+    @ResponseBody
+    String sheet() {
+        try {
+            location.mail2sheet();
+            return "done";
+        } catch (Exception e) {
+            log.error("Failed to make sheet", e);
+            return "failed";
+        }
+    }
+
+    @RequestMapping("/export")
+    @ResponseBody
+    String exportAndSend() {
+        try {
+            location.exportAndSend();
+            return "done";
+        } catch (Exception e) {
+            log.error("Failed to make sheet", e);
+            return "failed";
+        }
+    }
+
+
+    @RequestMapping("/full")
+    @ResponseBody
+    String full() {
+        try {
+            location.fullTrip();
+            return "done";
+        } catch (Exception e) {
+            log.error("Failed to make sheet", e);
+            return "failed";
+        }
+    }
+
+    @RequestMapping("/mileage")
+    @ResponseBody
+    String mileage() {
+        try {
+            log.info("Requested mileage update");
+            mileage.fullTrip();
+            log.info("Mileage was successfully updated");
+        } catch (Exception e) {
+            log.error("Failed to get mileage", e);
+            return "Failed to get mileage";
+        }
+        return "done";
     }
 }

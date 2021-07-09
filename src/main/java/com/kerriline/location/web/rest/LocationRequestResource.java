@@ -1,5 +1,6 @@
 package com.kerriline.location.web.rest;
 
+import com.kerriline.location.LocationManager;
 import com.kerriline.location.domain.LocationRequest;
 import com.kerriline.location.repository.LocationRequestRepository;
 import com.kerriline.location.web.rest.errors.BadRequestAlertException;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -180,5 +182,25 @@ public class LocationRequestResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @Autowired
+    LocationManager location;
+
+    @RequestMapping("/location-requests/submit")
+    public ResponseEntity<Void> submitRequestByEmail() {
+        try {
+            location.send();
+            return ResponseEntity
+                .noContent()
+                .build();
+        } catch (Exception e) {
+            log.error("Failed to get mails", e);
+            return  ResponseEntity
+                .status(500)
+                .build();
+        }
+
+
     }
 }
