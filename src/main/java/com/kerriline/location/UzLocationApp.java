@@ -156,7 +156,7 @@ public class UzLocationApp {
     @ResponseBody
     String sheet() {
         try {
-            location.mail2sheet();
+            location.mail2database();
             return "done";
         } catch (Exception e) {
             log.error("Failed to make sheet", e);

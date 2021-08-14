@@ -21,6 +21,7 @@ plugins {
     id "org.sonarqube"
     id "io.spring.nohttp"
     //jhipster-needle-gradle-plugins - JHipster will add additional gradle plugins here
+    id "io.freefair.lombok" version "6.1.0"
 }
 
 group = "com.kerriline.location"
@@ -276,6 +277,9 @@ dependencies {
     implementation 'org.quartz-scheduler:quartz:2.2.2'
     implementation 'org.quartz-scheduler:quartz-jobs:2.2.2'
     implementation 'com.google.guava:guava:18.0'
+    
+    implementation 'org.apache.poi:poi-ooxml:5.0.0'
+    
 }
 
 if (project.hasProperty("gae")) {

@@ -3,7 +3,6 @@ package com.kerriline.location.mail;
 import com.google.common.base.Splitter;
 import com.google.common.base.Splitter.MapSplitter;
 import com.kerriline.location.domain.LocationResponse;
-import com.kerriline.location.domain.Tank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

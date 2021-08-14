@@ -7,21 +7,17 @@ import com.kerriline.location.mail.MailParser;
 import com.kerriline.location.mail.MessageBean;
 import com.kerriline.location.repository.LocationResponseRepository;
 import com.kerriline.location.repository.TankRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import com.kerriline.location.mail.MailManager;
-import com.kerriline.location.mail.MailParser;
-import com.kerriline.location.mail.MessageBean;
-
 import javax.mail.MessagingException;
-import java.io.File;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -81,7 +77,7 @@ public class LocationManager {
 	@Autowired
     LocationResponseRepository locationResponseRepository;
 
-	public void mail2sheet() {
+	public void mail2database() {
 		LOG.info("Reading mails");
 		List<MessageBean> messages = mail.search1392Messages();
 		Collections.reverse(messages);
@@ -102,14 +98,14 @@ public class LocationManager {
 			LOG.info("Sleep for 10 minutes before checking mails");
 			Thread.sleep(10 * 60 * 1000);
 		}
-		mail2sheet();
+		mail2database();
 		exportAndSend();
 	}
 
+	
 	public void exportAndSend() throws GeneralSecurityException, IOException, MessagingException {
 		//File file = drive.export();
 		//mail.springSendFile(file, mailTo);
 		//mail.springSendFile(file, "frendos.a@gmail.com");
 	}
-
 }

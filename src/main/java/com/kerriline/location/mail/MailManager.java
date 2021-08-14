@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.search.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -93,7 +94,15 @@ public class MailManager {
 
 		List<MessageBean> result = new ArrayList<MessageBean>();
 		try {
-			props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("mail.properties"));
+			
+			InputStream mailPropertiesStream = Thread.currentThread().getContextClassLoader()
+					.getResourceAsStream("mail.properties");
+			
+			if (null == mailPropertiesStream) {
+				throw new RuntimeException("Cannot file mail.properties file");
+			}
+					
+			props.load(mailPropertiesStream);
 			Session session = Session.getInstance(props, null);
 
 			Store store = session.getStore("imaps");
@@ -105,7 +114,7 @@ public class MailManager {
 			inbox.open(Folder.READ_WRITE);
 			int messageCount = inbox.getMessageCount();
 
-			LOG.info("Total Messages:- " + messageCount);
+			LOG.info("Total Messages:- {}", messageCount);
 
 			ReceivedDateTerm receivedDateTerm = new ReceivedDateTerm(ComparisonTerm.GE, skipBeforeDate);
 			SubjectTerm subjectTerm = new SubjectTerm(readWithSubject);

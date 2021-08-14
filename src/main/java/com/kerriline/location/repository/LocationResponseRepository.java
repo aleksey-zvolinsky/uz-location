@@ -1,6 +1,9 @@
 package com.kerriline.location.repository;
 
 import com.kerriline.location.domain.LocationResponse;
+
+import java.util.Collection;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +12,9 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface LocationResponseRepository extends JpaRepository<LocationResponse, Long> {}
+public interface LocationResponseRepository extends JpaRepository<LocationResponse, Long> {
+	
+	@Query(value = "SELECT * FROM LocationResponse u",
+			nativeQuery = true)
+	Collection<LocationResponse> findAllActiveTanksNative();
+}
