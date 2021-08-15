@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -200,6 +201,9 @@ public class MailParser {
 
 	public LocationResponse convertTableToLocationResponse(Map<String, String> tankFields) {
         LocationResponse response = new LocationResponse();
+        
+        response.setResponseDatetime(LocalDate.now());
+        
         response.setTankNumber(tankFields.get("ДАННЫЕ О ВАГОНЕ"));
         response.setTankType(tankFields.get("РОД ВАГОНА"));
         response.setCargoId(tankFields.get("КОД ГРУЗА-ID"));

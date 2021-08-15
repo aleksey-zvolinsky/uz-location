@@ -1,5 +1,18 @@
 package com.kerriline.location;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
+import java.util.List;
+
+import javax.mail.MessagingException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import com.kerriline.location.domain.LocationResponse;
 import com.kerriline.location.domain.Tank;
 import com.kerriline.location.mail.MailManager;
@@ -7,17 +20,6 @@ import com.kerriline.location.mail.MailParser;
 import com.kerriline.location.mail.MessageBean;
 import com.kerriline.location.repository.LocationResponseRepository;
 import com.kerriline.location.repository.TankRepository;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import javax.mail.MessagingException;
-
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Collections;
-import java.util.List;
 
 /**
  *
@@ -49,7 +51,7 @@ public class LocationManager {
 	 * @throws GeneralSecurityException
 	 * @throws InterruptedException
 	 */
-	public int send() throws GeneralSecurityException, IOException, InterruptedException {
+	public int sendLocationRequest() throws GeneralSecurityException, IOException, InterruptedException {
 		int mailCount = 0;
 		LOG.info("Reading tanks");
 
@@ -61,7 +63,7 @@ public class LocationManager {
 			text.append(tank.getTankNumber()).append("\n");
 			if(i >= 150) {
 				LOG.info("Sending mail");
-				mail.sendMail(REQUEST_NUMBER, text.toString());
+				mail.submitRequest(REQUEST_NUMBER, text.toString());
 				mailCount++;
 				Thread.sleep(5000);
 				text.setLength(0);
@@ -69,7 +71,7 @@ public class LocationManager {
 			}
 		}
 		LOG.info("Sending mail");
-		mail.sendMail(REQUEST_NUMBER, text.toString());
+		mail.submitRequest(REQUEST_NUMBER, text.toString());
 		mailCount++;
 		return mailCount;
 	}
@@ -77,7 +79,7 @@ public class LocationManager {
 	@Autowired
     LocationResponseRepository locationResponseRepository;
 
-	public void mail2database() {
+	public void saveLocationResponses() {
 		LOG.info("Reading mails");
 		List<MessageBean> messages = mail.search1392Messages();
 		Collections.reverse(messages);
@@ -88,24 +90,26 @@ public class LocationManager {
 		}
 		LOG.info("Sheet updated");
 	}
+	
+	@Autowired
+	ReportManager reportManager;
 
 	public void fullTrip() throws GeneralSecurityException, IOException, InterruptedException, MessagingException {
-		int requestedMails = send();
+		int requestedMails = sendLocationRequest();
 		LOG.info("Sleep for 10 minutes before checking mails");
 		Thread.sleep(10 * 60 * 1000);
 		if(requestedMails > mail.getAll1392MessageCount()) {
-			requestedMails = send();
+			requestedMails = sendLocationRequest();
 			LOG.info("Sleep for 10 minutes before checking mails");
 			Thread.sleep(10 * 60 * 1000);
 		}
-		mail2database();
-		exportAndSend();
+		saveLocationResponses();
+		sendReport(reportManager.generateReport());
 	}
 
 	
-	public void exportAndSend() throws GeneralSecurityException, IOException, MessagingException {
-		//File file = drive.export();
+	public void sendReport(File file) throws GeneralSecurityException, IOException, MessagingException {
 		//mail.springSendFile(file, mailTo);
-		//mail.springSendFile(file, "frendos.a@gmail.com");
+		mail.sendFileByMail("Дислокація", "Звіт додано до листа", file, "frendos.a@gmail.com");
 	}
 }

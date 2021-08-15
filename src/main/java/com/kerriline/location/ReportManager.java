@@ -1,11 +1,21 @@
 package com.kerriline.location;
 
-import com.kerriline.location.domain.LocationResponse;
-import com.kerriline.location.domain.Tank;
-import com.kerriline.location.mail.MailManager;
-import com.kerriline.location.mail.MailParser;
-import com.kerriline.location.repository.LocationResponseRepository;
-import com.kerriline.location.repository.TankRepository;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.GeneralSecurityException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -15,24 +25,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import javax.mail.MessagingException;
-
-import static org.springframework.data.domain.Sort.Direction.ASC;
-import static org.springframework.data.domain.Sort.Direction.DESC;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.GeneralSecurityException;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.kerriline.location.domain.LocationResponse;
+import com.kerriline.location.domain.Tank;
+import com.kerriline.location.mail.MailManager;
+import com.kerriline.location.mail.MailParser;
+import com.kerriline.location.repository.LocationResponseRepository;
+import com.kerriline.location.repository.TankRepository;
 
 /**
  *
@@ -78,8 +78,6 @@ public class ReportManager {
 		}
 		
 		
-		
-		
 		try(Workbook wb = WorkbookFactory.create(new File(reportFile))) {
 			
 			
@@ -98,12 +96,12 @@ public class ReportManager {
 				row.createCell(cellnum++).setCellValue(tank.getTankNumber());
 			}
 			
-			Map<String, String> tankNumbers = tanks.stream()
-				.collect(Collectors.toMap(Tank::getTankNumber, Tank::getClientName));
+			Map<String, Tank> tanksMap = tanks.stream()
+				.filter(distinctByKey(t -> t.getTankNumber()))
+				.collect(Collectors.toMap(Tank::getTankNumber, tank -> tank));
 			
-			fillResults(wb, tankNumbers);
-			
-	        
+			fillResults(wb, tanksMap);
+
 			String finalReportFile = Files.createTempFile("uz-location", ".xlsx").toString();
 			
 	        LOG.info("Storing file to {}", finalReportFile);
@@ -116,31 +114,38 @@ public class ReportManager {
 		}
 		
 	}
+	
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> map = new ConcurrentHashMap<>();
+        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+    }
 
 
-	private void fillResults(Workbook wb, Map<String, String> tankNumbers) {
-		//List<LocationResponse> responses = locationResponseRepository.findAll();
+	private void fillResults(Workbook wb, Map<String, Tank> tanks) {
 		
-		
-		List<LocationResponse> responses = locationResponseRepository
-			.findAll(Sort.by(DESC, "tankNumber").and(Sort.by(ASC, "responseDatetime")));
+		LocalDate cutDate = LocalDate.now().minusDays(3);
+		List<LocationResponse> responses = locationResponseRepository.findAllWithResposeDateTimeAfter(cutDate );
 		
 		Sheet sh = wb.getSheet("Результат");
 		
 		int rownum = 3;
 		for (LocationResponse response : responses) {
-				if(!tankNumbers.containsKey(response.getTankNumber())) {
+				if(!tanks.containsKey(response.getTankNumber())) {
 					continue;
 				}	
+				
+				Tank tank = tanks.get(response.getTankNumber());
+				
+				LOG.debug("{}", response.getResponseDatetime());
 				
 				Row row = sh.createRow(rownum++);
 				int cellnum = 0;
 				row.createCell(cellnum++)
 					.setCellValue(rownum-3);
 				row.createCell(cellnum++)
-					.setCellValue(tankNumbers.get(response.getTankNumber()));
+					.setCellValue(tank.getClientName());
 				row.createCell(cellnum++)
-					.setCellValue(response.getTankOwner());
+					.setCellValue(tank.getOwnerName());
 				row.createCell(cellnum++)
 					.setCellValue(response.getTankNumber());
 				row.createCell(cellnum++)
@@ -177,6 +182,7 @@ public class ReportManager {
 		            .setCellValue(response.getStateSenderId());
 		        row.createCell(cellnum++)
 		            .setCellValue(response.getPlanedServiceDatetime());
+		        //skipping mileage fields
 		        cellnum = cellnum+4;
 		        row.createCell(cellnum++)
 		            .setCellValue(response.getTankOwner());
@@ -199,8 +205,23 @@ public class ReportManager {
 		        row.createCell(cellnum++)
 		            .setCellValue(response.getUpdateDatetime());
 		        // taking just first occurrence
-		        tankNumbers.remove(response.getTankNumber());
+		        tanks.remove(response.getTankNumber());
 		}
+		
+		for (Tank tank: tanks.values()) {
+			Row row = sh.createRow(rownum++);
+			int cellnum = 0;
+			row.createCell(cellnum++)
+				.setCellValue(rownum-3);
+			row.createCell(cellnum++)
+				.setCellValue(tank.getClientName());
+			row.createCell(cellnum++)
+				.setCellValue(tank.getOwnerName());
+			row.createCell(cellnum++)
+				.setCellValue(tank.getTankNumber());
+		}
+		
+		
 	}
 
 	

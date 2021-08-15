@@ -190,7 +190,7 @@ public class LocationRequestResource {
     @RequestMapping("/location-requests/submit")
     public ResponseEntity<Void> submitRequestByEmail() {
         try {
-            location.send();
+            location.sendLocationRequest();
             return ResponseEntity
                 .noContent()
                 .build();

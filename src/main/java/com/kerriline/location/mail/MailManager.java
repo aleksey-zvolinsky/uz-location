@@ -1,22 +1,40 @@
 package com.kerriline.location.mail;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.mail.search.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
+import javax.mail.BodyPart;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.search.AndTerm;
+import javax.mail.search.ComparisonTerm;
+import javax.mail.search.FlagTerm;
+import javax.mail.search.ReceivedDateTerm;
+import javax.mail.search.SearchTerm;
+import javax.mail.search.SubjectTerm;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * http://www.technicalkeeda.com/java/how-to-access-gmail-inbox-using-java-imap
@@ -226,8 +244,12 @@ public class MailManager {
 
         return null;
     }
-
-    public void sendMail(String subject, String text) throws IOException {
+    
+    public void submitRequest(String subject, String text) {
+    	sendMail(subject, text, autoreportAddress);
+    }
+    
+    public void sendMail(String subject, String text, String mailTo) {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
@@ -250,7 +272,7 @@ public class MailManager {
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(email));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(autoreportAddress));
+					InternetAddress.parse(mailTo));
 			message.setSubject(subject);
 			message.setText(text);
 
@@ -262,30 +284,54 @@ public class MailManager {
 			throw new RuntimeException(e);
 		}
 	}
+    
+    
+    public void sendFileByMail(String subject, String text, File fileToSend, String mailTo) throws IOException {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
 
-	@Autowired
-    private JavaMailSender javaMailSender;
+		final String username = email;
+		final String password = pass;
 
 
-	public void springSendFile(File fileToSend, String mailTo) throws IOException, MessagingException {
+		Session session = Session.getInstance(props,
+			new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(username, password);
+				}
+			});
 
-		MimeMessage mail = javaMailSender.createMimeMessage();
+		try {
 
-		MimeMessageHelper helper = new MimeMessageHelper(mail, true);
-		helper.setTo(mailTo);
-		helper.setReplyTo(mailTo);
-		helper.setFrom(email);
-		helper.setSubject(resultSubject);
-		helper.setText(resultText);
-		String fileName = attachmentFileName;
-		if(StringUtils.isBlank(attachmentFileName)) {
-			fileName = fileToSend.getName();
+			Message message = new MimeMessage(session);
+			message.setFrom(new InternetAddress(email));
+			message.setRecipients(Message.RecipientType.TO,
+					InternetAddress.parse(mailTo));
+			message.setSubject(subject);
+			
+			BodyPart messageBodyPart = new MimeBodyPart(); 
+			messageBodyPart.setText(text);
+			
+			
+			MimeBodyPart attachmentPart = new MimeBodyPart();
+			attachmentPart.attachFile(fileToSend);
+			
+			
+			Multipart multipart = new MimeMultipart();
+			multipart.addBodyPart(messageBodyPart);
+			multipart.addBodyPart(attachmentPart);
+						
+			message.setContent(multipart);
+			
+			Transport.send(message);
+
+			LOG.info("Mail with attachment sent successfully");
+
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
 		}
-		helper.addAttachment(fileName, fileToSend);
-
-		javaMailSender.send(mail);
-
-		LOG.info("Mail with {} file send successfully", fileToSend.getName());
 	}
-
 }

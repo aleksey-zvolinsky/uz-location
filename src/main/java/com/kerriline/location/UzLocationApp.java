@@ -116,6 +116,8 @@ public class UzLocationApp {
     @Autowired
     LocationManager location;
     @Autowired
+    ReportManager report;
+    @Autowired
     MileageManager mileage;
 
     @RequestMapping("/mail")
@@ -136,7 +138,7 @@ public class UzLocationApp {
     @ResponseBody
     String send() {
         try {
-            location.send();
+            location.sendLocationRequest();
             return "done";
         } catch (Exception e) {
             log.error("Failed to get mails", e);
@@ -156,7 +158,7 @@ public class UzLocationApp {
     @ResponseBody
     String sheet() {
         try {
-            location.mail2database();
+            location.saveLocationResponses();
             return "done";
         } catch (Exception e) {
             log.error("Failed to make sheet", e);
@@ -168,7 +170,7 @@ public class UzLocationApp {
     @ResponseBody
     String exportAndSend() {
         try {
-            location.exportAndSend();
+            location.sendReport(report.generateReport());
             return "done";
         } catch (Exception e) {
             log.error("Failed to make sheet", e);

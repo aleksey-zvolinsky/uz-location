@@ -140,7 +140,7 @@ public class MileageManager {
 		StringBuilder sb = new StringBuilder();
 		tanks.stream()
 			.forEach(t -> sb.append(t.getTankNumber()).append("\n"));
-		mail.sendMail(REQUEST_NUMBER, sb.toString());
+		mail.submitRequest(REQUEST_NUMBER, sb.toString());
 		return new Date();
 	}
 
