@@ -179,7 +179,7 @@ public class MailManager {
 			inbox.open(Folder.READ_ONLY);
 			int messageCount = inbox.getMessageCount();
 
-			LOG.info("Total Messages:- " + messageCount);
+			LOG.info("Total Messages:- {}", messageCount);
 
 			messages = inbox.getMessages();
 
@@ -189,9 +189,9 @@ public class MailManager {
 			cal.add(Calendar.HOUR, -1);
 
 			for (int i = 0; i < messageCount; i++) {
-				LOG.debug("Mail Subject:- " + messages[i].getSubject() + ", received " + messages[i].getReceivedDate());
+				LOG.debug("Mail Subject:- {}, received {}", messages[i].getSubject(), messages[i].getReceivedDate());
 				if(messages[i].getSubject().contains("1392") && cal.getTime().before(messages[i].getReceivedDate())){
-					LOG.info("Found required mail: "+ messages[i].getSubject() + ", received " + messages[i].getReceivedDate());
+					LOG.info("Found required mail: {}, received {}", messages[i].getSubject(), messages[i].getReceivedDate());
 					count++;
 				}
 			}

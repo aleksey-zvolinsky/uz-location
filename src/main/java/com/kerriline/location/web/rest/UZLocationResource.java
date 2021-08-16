@@ -116,4 +116,24 @@ public class UZLocationResource {
                 .build();
         }
     }
+    
+    
+    @GetMapping("/full-flow")
+    public ResponseEntity<String> full() {
+        try {
+        	
+        	location.fullTrip();
+            
+            return ResponseEntity.ok()
+                    .body("Everything done successfully");
+        } catch (Exception e) {
+            log.error("Failed to get mails", e);
+            return  ResponseEntity
+                .status(500)
+                .build();
+        }
+    }
+    
+    
+    
 }

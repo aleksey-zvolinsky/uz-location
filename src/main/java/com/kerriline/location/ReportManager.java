@@ -106,6 +106,8 @@ public class ReportManager {
 			
 	        LOG.info("Storing file to {}", finalReportFile);
 	        
+	        wb.setForceFormulaRecalculation(true);
+	        
 	        try(FileOutputStream out = new FileOutputStream(finalReportFile)) {
 	        	wb.write(out);
 	        }
