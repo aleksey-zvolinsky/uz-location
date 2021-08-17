@@ -3,9 +3,10 @@ package com.kerriline.location;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.List;
@@ -62,21 +63,12 @@ public class ReportManager {
 	public File generateReport() throws GeneralSecurityException, IOException, MessagingException {
 
 		
-	    var template = Thread.currentThread().getContextClassLoader().getResource("template.xlsx");
+	    InputStream templateStream = Thread.currentThread().getContextClassLoader()
+	    		.getResourceAsStream("template.xlsx");
 		
 		String reportFile = Files.createTempFile("uz-location", ".xlsx").toString();
 		
-		// Do we need to copy file?
-		try (FileOutputStream fileOutputStream = new FileOutputStream(reportFile)) {
-
-		    try {
-				Files.copy(Path.of(template.toURI()), fileOutputStream);
-			} catch (IOException | URISyntaxException e) {
-				throw new RuntimeException("Failed to copy template file");
-			}
-
-		}
-		
+		Files.copy(templateStream, Paths.get(reportFile), StandardCopyOption.REPLACE_EXISTING);
 		
 		try(Workbook wb = WorkbookFactory.create(new File(reportFile))) {
 			
@@ -138,8 +130,6 @@ public class ReportManager {
 				
 				Tank tank = tanks.get(response.getTankNumber());
 				
-				LOG.debug("{}", response.getResponseDatetime());
-				
 				Row row = sh.createRow(rownum++);
 				int cellnum = 0;
 				row.createCell(cellnum++)
@@ -184,8 +174,6 @@ public class ReportManager {
 		            .setCellValue(response.getStateSenderId());
 		        row.createCell(cellnum++)
 		            .setCellValue(response.getPlanedServiceDatetime());
-		        //skipping mileage fields
-		        cellnum = cellnum+4;
 		        row.createCell(cellnum++)
 		            .setCellValue(response.getTankOwner());
 		        row.createCell(cellnum++)
