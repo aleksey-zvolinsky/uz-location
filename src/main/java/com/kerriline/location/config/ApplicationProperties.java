@@ -19,8 +19,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
 
-public class ApplicationProperties {
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
@@ -156,5 +154,4 @@ public class ApplicationProperties {
             this.to = to;
         }
     }
-}
 }
