@@ -31,7 +31,7 @@ describe('Component Tests', () => {
         comp.ngOnInit();
 
         // THEN
-        expect(comp.mileageResponse).toEqual(jasmine.objectContaining({ id: 123 }));
+        expect(comp.mileageResponse).toEqual(expect.objectContaining({ id: 123 }));
       });
     });
   });

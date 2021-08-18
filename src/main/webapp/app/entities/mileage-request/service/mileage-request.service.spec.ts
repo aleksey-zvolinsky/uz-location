@@ -98,6 +98,7 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             requestDatetime: currentDate.format(DATE_FORMAT),
+            tankNumbers: 'BBBBBB',
           },
           new MileageRequest()
         );
@@ -180,7 +181,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique MileageRequest to an array', () => {
-          const mileageRequestArray: IMileageRequest[] = [{ id: 123 }, { id: 456 }, { id: 23581 }];
+          const mileageRequestArray: IMileageRequest[] = [{ id: 123 }, { id: 456 }, { id: 40338 }];
           const mileageRequestCollection: IMileageRequest[] = [{ id: 123 }];
           expectedResult = service.addMileageRequestToCollectionIfMissing(mileageRequestCollection, ...mileageRequestArray);
           expect(expectedResult).toHaveLength(3);
@@ -200,6 +201,12 @@ describe('Service Tests', () => {
           expectedResult = service.addMileageRequestToCollectionIfMissing([], null, mileageRequest, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(mileageRequest);
+        });
+
+        it('should return initial array if no MileageRequest is added', () => {
+          const mileageRequestCollection: IMileageRequest[] = [{ id: 123 }];
+          expectedResult = service.addMileageRequestToCollectionIfMissing(mileageRequestCollection, undefined, null);
+          expect(expectedResult).toEqual(mileageRequestCollection);
         });
       });
     });

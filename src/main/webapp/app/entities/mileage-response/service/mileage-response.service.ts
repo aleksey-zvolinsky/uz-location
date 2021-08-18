@@ -15,9 +15,9 @@ export type EntityArrayResponseType = HttpResponse<IMileageResponse[]>;
 
 @Injectable({ providedIn: 'root' })
 export class MileageResponseService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/mileage-responses');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/mileage-responses');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(mileageResponse: IMileageResponse): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(mileageResponse);

@@ -15,7 +15,7 @@ services:
     ports:
       - 127.0.0.1:8081:8081
   uzlocation-mysql:
-    image: mysql:8.0.23
+    image: mysql:8.0.25
     # volumes:
     #   - ~/volumes/jhipster/UZLocation/mysql/:/var/lib/mysql/
     environment:

@@ -79,7 +79,7 @@ describe('Service Tests', () => {
       it('should partial update a Tank', () => {
         const patchObject = Object.assign(
           {
-            ownerName: 'BBBBBB',
+            clientName: 'BBBBBB',
           },
           new Tank()
         );
@@ -153,7 +153,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Tank to an array', () => {
-          const tankArray: ITank[] = [{ id: 123 }, { id: 456 }, { id: 63059 }];
+          const tankArray: ITank[] = [{ id: 123 }, { id: 456 }, { id: 58745 }];
           const tankCollection: ITank[] = [{ id: 123 }];
           expectedResult = service.addTankToCollectionIfMissing(tankCollection, ...tankArray);
           expect(expectedResult).toHaveLength(3);
@@ -173,6 +173,12 @@ describe('Service Tests', () => {
           expectedResult = service.addTankToCollectionIfMissing([], null, tank, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(tank);
+        });
+
+        it('should return initial array if no Tank is added', () => {
+          const tankCollection: ITank[] = [{ id: 123 }];
+          expectedResult = service.addTankToCollectionIfMissing(tankCollection, undefined, null);
+          expect(expectedResult).toEqual(tankCollection);
         });
       });
     });

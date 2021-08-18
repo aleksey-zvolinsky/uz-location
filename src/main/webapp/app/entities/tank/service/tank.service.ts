@@ -12,9 +12,9 @@ export type EntityArrayResponseType = HttpResponse<ITank[]>;
 
 @Injectable({ providedIn: 'root' })
 export class TankService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/tanks');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/tanks');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(tank: ITank): Observable<EntityResponseType> {
     return this.http.post<ITank>(this.resourceUrl, tank, { observe: 'response' });

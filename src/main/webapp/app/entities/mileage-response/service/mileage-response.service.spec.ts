@@ -105,8 +105,9 @@ describe('Service Tests', () => {
       it('should partial update a MileageResponse', () => {
         const patchObject = Object.assign(
           {
-            mileageCurrent: 'BBBBBB',
-            mileageUpdateDatetime: 'BBBBBB',
+            responseDatetime: currentDate.format(DATE_FORMAT),
+            mileageDatetime: 'BBBBBB',
+            mileageRemain: 'BBBBBB',
           },
           new MileageResponse()
         );
@@ -193,7 +194,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique MileageResponse to an array', () => {
-          const mileageResponseArray: IMileageResponse[] = [{ id: 123 }, { id: 456 }, { id: 64274 }];
+          const mileageResponseArray: IMileageResponse[] = [{ id: 123 }, { id: 456 }, { id: 40855 }];
           const mileageResponseCollection: IMileageResponse[] = [{ id: 123 }];
           expectedResult = service.addMileageResponseToCollectionIfMissing(mileageResponseCollection, ...mileageResponseArray);
           expect(expectedResult).toHaveLength(3);
@@ -213,6 +214,12 @@ describe('Service Tests', () => {
           expectedResult = service.addMileageResponseToCollectionIfMissing([], null, mileageResponse, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(mileageResponse);
+        });
+
+        it('should return initial array if no MileageResponse is added', () => {
+          const mileageResponseCollection: IMileageResponse[] = [{ id: 123 }];
+          expectedResult = service.addMileageResponseToCollectionIfMissing(mileageResponseCollection, undefined, null);
+          expect(expectedResult).toEqual(mileageResponseCollection);
         });
       });
     });

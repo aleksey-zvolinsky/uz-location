@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { MileageResponseComponent } from './list/mileage-response.component';
 import { MileageResponseDetailComponent } from './detail/mileage-response-detail.component';

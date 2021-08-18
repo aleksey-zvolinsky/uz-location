@@ -179,17 +179,4 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
-  location-schedule: 0 30 7,15 ? * *
-  mileage-schedule: 0 45 5 ? * *
-
-  result-mail:
-    to: service@kerriline.com.ua
-    subject: \u0414\u0438\u0441\u043B\u043E\u043A\u0430\u0446\u0438\u044F
-    text: \u0421\u043C\u043E\u0442\u0440\u0438\u0442\u0435 \u0432\u043B\u043E\u0436\u0435\u043D\u0438\u0435
-    attachmentFileName: dislocation.xlsx
-
-  report-mail:
-    login: sledline@gmail.com
-    password: kerriline2020
-    to: autoinform@uz.gov.ua
+# application:
