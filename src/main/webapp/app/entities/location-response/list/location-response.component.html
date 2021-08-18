@@ -3,7 +3,7 @@
     <span jhiTranslate="uzLocationApp.locationResponse.home.title">Location Responses</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="uzLocationApp.locationResponse.home.refreshListLabel">Refresh List</span>
       </button>
@@ -31,37 +31,100 @@
   <div class="table-responsive" id="entities" *ngIf="locationResponses && locationResponses.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.responseDatetime">Response Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankNumber">Tank Number</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankType">Tank Type</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.cargoId">Cargo Id</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.cargoName">Cargo Name</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.weight">Weight</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.receiverId">Receiver Id</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankIndex">Tank Index</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationStationId">Location Station Id</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationStationName">Location Station Name</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationDatetime">Location Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.locationOperation">Location Operation</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateFromStationId">State From Station Id</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateFromStationName">State From Station Name</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateToStationId">State To Station Id</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateToStationName">State To Station Name</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateSendDatetime">State Send Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.stateSenderId">State Sender Id</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.planedServiceDatetime">Planed Service Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankOwner">Tank Owner</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.tankModel">Tank Model</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectRegion">Defect Region</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectStation">Defect Station</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectDatetime">Defect Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.defectDetails">Defect Details</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairRegion">Repair Region</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairStation">Repair Station</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.repairDatetime">Repair Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationResponse.updateDatetime">Update Datetime</span></th>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="responseDatetime">
+            <span jhiTranslate="uzLocationApp.locationResponse.responseDatetime">Response Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tankNumber">
+            <span jhiTranslate="uzLocationApp.locationResponse.tankNumber">Tank Number</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tankType">
+            <span jhiTranslate="uzLocationApp.locationResponse.tankType">Tank Type</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="cargoId">
+            <span jhiTranslate="uzLocationApp.locationResponse.cargoId">Cargo Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="cargoName">
+            <span jhiTranslate="uzLocationApp.locationResponse.cargoName">Cargo Name</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="weight">
+            <span jhiTranslate="uzLocationApp.locationResponse.weight">Weight</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="receiverId">
+            <span jhiTranslate="uzLocationApp.locationResponse.receiverId">Receiver Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tankIndex">
+            <span jhiTranslate="uzLocationApp.locationResponse.tankIndex">Tank Index</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="locationStationId">
+            <span jhiTranslate="uzLocationApp.locationResponse.locationStationId">Location Station Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="locationStationName">
+            <span jhiTranslate="uzLocationApp.locationResponse.locationStationName">Location Station Name</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="locationDatetime">
+            <span jhiTranslate="uzLocationApp.locationResponse.locationDatetime">Location Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="locationOperation">
+            <span jhiTranslate="uzLocationApp.locationResponse.locationOperation">Location Operation</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="stateFromStationId">
+            <span jhiTranslate="uzLocationApp.locationResponse.stateFromStationId">State From Station Id</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="stateFromStationName">
+            <span jhiTranslate="uzLocationApp.locationResponse.stateFromStationName">State From Station Name</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="stateToStationId">
+            <span jhiTranslate="uzLocationApp.locationResponse.stateToStationId">State To Station Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="stateToStationName">
+            <span jhiTranslate="uzLocationApp.locationResponse.stateToStationName">State To Station Name</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="stateSendDatetime">
+            <span jhiTranslate="uzLocationApp.locationResponse.stateSendDatetime">State Send Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="stateSenderId">
+            <span jhiTranslate="uzLocationApp.locationResponse.stateSenderId">State Sender Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="planedServiceDatetime">
+            <span jhiTranslate="uzLocationApp.locationResponse.planedServiceDatetime">Planed Service Datetime</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tankOwner">
+            <span jhiTranslate="uzLocationApp.locationResponse.tankOwner">Tank Owner</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tankModel">
+            <span jhiTranslate="uzLocationApp.locationResponse.tankModel">Tank Model</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="defectRegion">
+            <span jhiTranslate="uzLocationApp.locationResponse.defectRegion">Defect Region</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="defectStation">
+            <span jhiTranslate="uzLocationApp.locationResponse.defectStation">Defect Station</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="defectDatetime">
+            <span jhiTranslate="uzLocationApp.locationResponse.defectDatetime">Defect Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="defectDetails">
+            <span jhiTranslate="uzLocationApp.locationResponse.defectDetails">Defect Details</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="repairRegion">
+            <span jhiTranslate="uzLocationApp.locationResponse.repairRegion">Repair Region</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="repairStation">
+            <span jhiTranslate="uzLocationApp.locationResponse.repairStation">Repair Station</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="repairDatetime">
+            <span jhiTranslate="uzLocationApp.locationResponse.repairDatetime">Repair Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="updateDatetime">
+            <span jhiTranslate="uzLocationApp.locationResponse.updateDatetime">Update Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -130,5 +193,23 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div *ngIf="locationResponses && locationResponses.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
   </div>
 </div>

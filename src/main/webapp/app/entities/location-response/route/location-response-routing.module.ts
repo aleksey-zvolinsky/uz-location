@@ -11,6 +11,9 @@ const locationResponseRoute: Routes = [
   {
     path: '',
     component: LocationResponseComponent,
+    data: {
+      defaultSort: 'id,asc',
+    },
     canActivate: [UserRouteAccessService],
   },
   {

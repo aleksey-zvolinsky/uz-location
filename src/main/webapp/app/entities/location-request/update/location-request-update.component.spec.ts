@@ -46,13 +46,13 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call locationResponse query and add missing value', () => {
         const locationRequest: ILocationRequest = { id: 456 };
-        const locationResponse: ILocationResponse = { id: 66648 };
+        const locationResponse: ILocationResponse = { id: 57690 };
         locationRequest.locationResponse = locationResponse;
 
-        const locationResponseCollection: ILocationResponse[] = [{ id: 43440 }];
-        spyOn(locationResponseService, 'query').and.returnValue(of(new HttpResponse({ body: locationResponseCollection })));
+        const locationResponseCollection: ILocationResponse[] = [{ id: 92240 }];
+        jest.spyOn(locationResponseService, 'query').mockReturnValue(of(new HttpResponse({ body: locationResponseCollection })));
         const expectedCollection: ILocationResponse[] = [locationResponse, ...locationResponseCollection];
-        spyOn(locationResponseService, 'addLocationResponseToCollectionIfMissing').and.returnValue(expectedCollection);
+        jest.spyOn(locationResponseService, 'addLocationResponseToCollectionIfMissing').mockReturnValue(expectedCollection);
 
         activatedRoute.data = of({ locationRequest });
         comp.ngOnInit();
@@ -67,14 +67,14 @@ describe('Component Tests', () => {
 
       it('Should call Tank query and add missing value', () => {
         const locationRequest: ILocationRequest = { id: 456 };
-        const tank: ITank = { id: 5742 };
+        const tank: ITank = { id: 11746 };
         locationRequest.tank = tank;
 
-        const tankCollection: ITank[] = [{ id: 24285 }];
-        spyOn(tankService, 'query').and.returnValue(of(new HttpResponse({ body: tankCollection })));
+        const tankCollection: ITank[] = [{ id: 12891 }];
+        jest.spyOn(tankService, 'query').mockReturnValue(of(new HttpResponse({ body: tankCollection })));
         const additionalTanks = [tank];
         const expectedCollection: ITank[] = [...additionalTanks, ...tankCollection];
-        spyOn(tankService, 'addTankToCollectionIfMissing').and.returnValue(expectedCollection);
+        jest.spyOn(tankService, 'addTankToCollectionIfMissing').mockReturnValue(expectedCollection);
 
         activatedRoute.data = of({ locationRequest });
         comp.ngOnInit();
@@ -86,9 +86,9 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const locationRequest: ILocationRequest = { id: 456 };
-        const locationResponse: ILocationResponse = { id: 53386 };
+        const locationResponse: ILocationResponse = { id: 35622 };
         locationRequest.locationResponse = locationResponse;
-        const tank: ITank = { id: 43010 };
+        const tank: ITank = { id: 16754 };
         locationRequest.tank = tank;
 
         activatedRoute.data = of({ locationRequest });
@@ -103,10 +103,10 @@ describe('Component Tests', () => {
     describe('save', () => {
       it('Should call update service on save for existing entity', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<LocationRequest>>();
         const locationRequest = { id: 123 };
-        spyOn(locationRequestService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(locationRequestService, 'update').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ locationRequest });
         comp.ngOnInit();
 
@@ -124,10 +124,10 @@ describe('Component Tests', () => {
 
       it('Should call create service on save for new entity', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<LocationRequest>>();
         const locationRequest = new LocationRequest();
-        spyOn(locationRequestService, 'create').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(locationRequestService, 'create').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ locationRequest });
         comp.ngOnInit();
 
@@ -145,10 +145,10 @@ describe('Component Tests', () => {
 
       it('Should set isSaving to false on error', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<LocationRequest>>();
         const locationRequest = { id: 123 };
-        spyOn(locationRequestService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(locationRequestService, 'update').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ locationRequest });
         comp.ngOnInit();
 

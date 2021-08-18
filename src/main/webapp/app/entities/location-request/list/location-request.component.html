@@ -3,7 +3,7 @@
     <span jhiTranslate="uzLocationApp.locationRequest.home.title">Location Requests</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="uzLocationApp.locationRequest.home.refreshListLabel">Refresh List</span>
       </button>
@@ -31,12 +31,20 @@
   <div class="table-responsive" id="entities" *ngIf="locationRequests && locationRequests.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.requestDatetime">Request Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.tankNumbers">Tank Numbers</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.locationResponse">Location Response</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.locationRequest.tank">Tank</span></th>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="requestDatetime">
+            <span jhiTranslate="uzLocationApp.locationRequest.requestDatetime">Request Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tankNumbers">
+            <span jhiTranslate="uzLocationApp.locationRequest.tankNumbers">Tank Numbers</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="locationResponse.id">
+            <span jhiTranslate="uzLocationApp.locationRequest.locationResponse">Location Response</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tank.id">
+            <span jhiTranslate="uzLocationApp.locationRequest.tank">Tank</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -90,5 +98,23 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div *ngIf="locationRequests && locationRequests.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
   </div>
 </div>

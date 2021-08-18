@@ -98,7 +98,6 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             requestDatetime: currentDate.format(DATE_FORMAT),
-            tankNumbers: 'BBBBBB',
           },
           new LocationRequest()
         );
@@ -181,7 +180,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique LocationRequest to an array', () => {
-          const locationRequestArray: ILocationRequest[] = [{ id: 123 }, { id: 456 }, { id: 40051 }];
+          const locationRequestArray: ILocationRequest[] = [{ id: 123 }, { id: 456 }, { id: 83396 }];
           const locationRequestCollection: ILocationRequest[] = [{ id: 123 }];
           expectedResult = service.addLocationRequestToCollectionIfMissing(locationRequestCollection, ...locationRequestArray);
           expect(expectedResult).toHaveLength(3);
@@ -201,6 +200,12 @@ describe('Service Tests', () => {
           expectedResult = service.addLocationRequestToCollectionIfMissing([], null, locationRequest, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(locationRequest);
+        });
+
+        it('should return initial array if no LocationRequest is added', () => {
+          const locationRequestCollection: ILocationRequest[] = [{ id: 123 }];
+          expectedResult = service.addLocationRequestToCollectionIfMissing(locationRequestCollection, undefined, null);
+          expect(expectedResult).toEqual(locationRequestCollection);
         });
       });
     });

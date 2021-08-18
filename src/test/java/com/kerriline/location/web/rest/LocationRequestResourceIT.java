@@ -7,7 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.kerriline.location.IntegrationTest;
 import com.kerriline.location.domain.LocationRequest;
+import com.kerriline.location.domain.LocationResponse;
+import com.kerriline.location.domain.Tank;
 import com.kerriline.location.repository.LocationRequestRepository;
+import com.kerriline.location.service.criteria.LocationRequestCriteria;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -33,6 +36,7 @@ class LocationRequestResourceIT {
 
     private static final LocalDate DEFAULT_REQUEST_DATETIME = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_REQUEST_DATETIME = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_REQUEST_DATETIME = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_TANK_NUMBERS = "AAAAAAAAAA";
     private static final String UPDATED_TANK_NUMBERS = "BBBBBBBBBB";
@@ -154,6 +158,283 @@ class LocationRequestResourceIT {
 
     @Test
     @Transactional
+    void getLocationRequestsByIdFiltering() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        Long id = locationRequest.getId();
+
+        defaultLocationRequestShouldBeFound("id.equals=" + id);
+        defaultLocationRequestShouldNotBeFound("id.notEquals=" + id);
+
+        defaultLocationRequestShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultLocationRequestShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultLocationRequestShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultLocationRequestShouldNotBeFound("id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime equals to DEFAULT_REQUEST_DATETIME
+        defaultLocationRequestShouldBeFound("requestDatetime.equals=" + DEFAULT_REQUEST_DATETIME);
+
+        // Get all the locationRequestList where requestDatetime equals to UPDATED_REQUEST_DATETIME
+        defaultLocationRequestShouldNotBeFound("requestDatetime.equals=" + UPDATED_REQUEST_DATETIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime not equals to DEFAULT_REQUEST_DATETIME
+        defaultLocationRequestShouldNotBeFound("requestDatetime.notEquals=" + DEFAULT_REQUEST_DATETIME);
+
+        // Get all the locationRequestList where requestDatetime not equals to UPDATED_REQUEST_DATETIME
+        defaultLocationRequestShouldBeFound("requestDatetime.notEquals=" + UPDATED_REQUEST_DATETIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsInShouldWork() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime in DEFAULT_REQUEST_DATETIME or UPDATED_REQUEST_DATETIME
+        defaultLocationRequestShouldBeFound("requestDatetime.in=" + DEFAULT_REQUEST_DATETIME + "," + UPDATED_REQUEST_DATETIME);
+
+        // Get all the locationRequestList where requestDatetime equals to UPDATED_REQUEST_DATETIME
+        defaultLocationRequestShouldNotBeFound("requestDatetime.in=" + UPDATED_REQUEST_DATETIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime is not null
+        defaultLocationRequestShouldBeFound("requestDatetime.specified=true");
+
+        // Get all the locationRequestList where requestDatetime is null
+        defaultLocationRequestShouldNotBeFound("requestDatetime.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime is greater than or equal to DEFAULT_REQUEST_DATETIME
+        defaultLocationRequestShouldBeFound("requestDatetime.greaterThanOrEqual=" + DEFAULT_REQUEST_DATETIME);
+
+        // Get all the locationRequestList where requestDatetime is greater than or equal to UPDATED_REQUEST_DATETIME
+        defaultLocationRequestShouldNotBeFound("requestDatetime.greaterThanOrEqual=" + UPDATED_REQUEST_DATETIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime is less than or equal to DEFAULT_REQUEST_DATETIME
+        defaultLocationRequestShouldBeFound("requestDatetime.lessThanOrEqual=" + DEFAULT_REQUEST_DATETIME);
+
+        // Get all the locationRequestList where requestDatetime is less than or equal to SMALLER_REQUEST_DATETIME
+        defaultLocationRequestShouldNotBeFound("requestDatetime.lessThanOrEqual=" + SMALLER_REQUEST_DATETIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsLessThanSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime is less than DEFAULT_REQUEST_DATETIME
+        defaultLocationRequestShouldNotBeFound("requestDatetime.lessThan=" + DEFAULT_REQUEST_DATETIME);
+
+        // Get all the locationRequestList where requestDatetime is less than UPDATED_REQUEST_DATETIME
+        defaultLocationRequestShouldBeFound("requestDatetime.lessThan=" + UPDATED_REQUEST_DATETIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByRequestDatetimeIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where requestDatetime is greater than DEFAULT_REQUEST_DATETIME
+        defaultLocationRequestShouldNotBeFound("requestDatetime.greaterThan=" + DEFAULT_REQUEST_DATETIME);
+
+        // Get all the locationRequestList where requestDatetime is greater than SMALLER_REQUEST_DATETIME
+        defaultLocationRequestShouldBeFound("requestDatetime.greaterThan=" + SMALLER_REQUEST_DATETIME);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByTankNumbersIsEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where tankNumbers equals to DEFAULT_TANK_NUMBERS
+        defaultLocationRequestShouldBeFound("tankNumbers.equals=" + DEFAULT_TANK_NUMBERS);
+
+        // Get all the locationRequestList where tankNumbers equals to UPDATED_TANK_NUMBERS
+        defaultLocationRequestShouldNotBeFound("tankNumbers.equals=" + UPDATED_TANK_NUMBERS);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByTankNumbersIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where tankNumbers not equals to DEFAULT_TANK_NUMBERS
+        defaultLocationRequestShouldNotBeFound("tankNumbers.notEquals=" + DEFAULT_TANK_NUMBERS);
+
+        // Get all the locationRequestList where tankNumbers not equals to UPDATED_TANK_NUMBERS
+        defaultLocationRequestShouldBeFound("tankNumbers.notEquals=" + UPDATED_TANK_NUMBERS);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByTankNumbersIsInShouldWork() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where tankNumbers in DEFAULT_TANK_NUMBERS or UPDATED_TANK_NUMBERS
+        defaultLocationRequestShouldBeFound("tankNumbers.in=" + DEFAULT_TANK_NUMBERS + "," + UPDATED_TANK_NUMBERS);
+
+        // Get all the locationRequestList where tankNumbers equals to UPDATED_TANK_NUMBERS
+        defaultLocationRequestShouldNotBeFound("tankNumbers.in=" + UPDATED_TANK_NUMBERS);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByTankNumbersIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where tankNumbers is not null
+        defaultLocationRequestShouldBeFound("tankNumbers.specified=true");
+
+        // Get all the locationRequestList where tankNumbers is null
+        defaultLocationRequestShouldNotBeFound("tankNumbers.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByTankNumbersContainsSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where tankNumbers contains DEFAULT_TANK_NUMBERS
+        defaultLocationRequestShouldBeFound("tankNumbers.contains=" + DEFAULT_TANK_NUMBERS);
+
+        // Get all the locationRequestList where tankNumbers contains UPDATED_TANK_NUMBERS
+        defaultLocationRequestShouldNotBeFound("tankNumbers.contains=" + UPDATED_TANK_NUMBERS);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByTankNumbersNotContainsSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+
+        // Get all the locationRequestList where tankNumbers does not contain DEFAULT_TANK_NUMBERS
+        defaultLocationRequestShouldNotBeFound("tankNumbers.doesNotContain=" + DEFAULT_TANK_NUMBERS);
+
+        // Get all the locationRequestList where tankNumbers does not contain UPDATED_TANK_NUMBERS
+        defaultLocationRequestShouldBeFound("tankNumbers.doesNotContain=" + UPDATED_TANK_NUMBERS);
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByLocationResponseIsEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+        LocationResponse locationResponse = LocationResponseResourceIT.createEntity(em);
+        em.persist(locationResponse);
+        em.flush();
+        locationRequest.setLocationResponse(locationResponse);
+        locationRequestRepository.saveAndFlush(locationRequest);
+        Long locationResponseId = locationResponse.getId();
+
+        // Get all the locationRequestList where locationResponse equals to locationResponseId
+        defaultLocationRequestShouldBeFound("locationResponseId.equals=" + locationResponseId);
+
+        // Get all the locationRequestList where locationResponse equals to (locationResponseId + 1)
+        defaultLocationRequestShouldNotBeFound("locationResponseId.equals=" + (locationResponseId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllLocationRequestsByTankIsEqualToSomething() throws Exception {
+        // Initialize the database
+        locationRequestRepository.saveAndFlush(locationRequest);
+        Tank tank = TankResourceIT.createEntity(em);
+        em.persist(tank);
+        em.flush();
+        locationRequest.setTank(tank);
+        locationRequestRepository.saveAndFlush(locationRequest);
+        Long tankId = tank.getId();
+
+        // Get all the locationRequestList where tank equals to tankId
+        defaultLocationRequestShouldBeFound("tankId.equals=" + tankId);
+
+        // Get all the locationRequestList where tank equals to (tankId + 1)
+        defaultLocationRequestShouldNotBeFound("tankId.equals=" + (tankId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultLocationRequestShouldBeFound(String filter) throws Exception {
+        restLocationRequestMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(locationRequest.getId().intValue())))
+            .andExpect(jsonPath("$.[*].requestDatetime").value(hasItem(DEFAULT_REQUEST_DATETIME.toString())))
+            .andExpect(jsonPath("$.[*].tankNumbers").value(hasItem(DEFAULT_TANK_NUMBERS)));
+
+        // Check, that the count call also returns 1
+        restLocationRequestMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultLocationRequestShouldNotBeFound(String filter) throws Exception {
+        restLocationRequestMockMvc
+            .perform(get(ENTITY_API_URL + "?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restLocationRequestMockMvc
+            .perform(get(ENTITY_API_URL + "/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().string("0"));
+    }
+
+    @Test
+    @Transactional
     void getNonExistingLocationRequest() throws Exception {
         // Get the locationRequest
         restLocationRequestMockMvc.perform(get(ENTITY_API_URL_ID, Long.MAX_VALUE)).andExpect(status().isNotFound());
@@ -259,7 +540,7 @@ class LocationRequestResourceIT {
         LocationRequest partialUpdatedLocationRequest = new LocationRequest();
         partialUpdatedLocationRequest.setId(locationRequest.getId());
 
-        partialUpdatedLocationRequest.requestDatetime(UPDATED_REQUEST_DATETIME).tankNumbers(UPDATED_TANK_NUMBERS);
+        partialUpdatedLocationRequest.tankNumbers(UPDATED_TANK_NUMBERS);
 
         restLocationRequestMockMvc
             .perform(
@@ -273,7 +554,7 @@ class LocationRequestResourceIT {
         List<LocationRequest> locationRequestList = locationRequestRepository.findAll();
         assertThat(locationRequestList).hasSize(databaseSizeBeforeUpdate);
         LocationRequest testLocationRequest = locationRequestList.get(locationRequestList.size() - 1);
-        assertThat(testLocationRequest.getRequestDatetime()).isEqualTo(UPDATED_REQUEST_DATETIME);
+        assertThat(testLocationRequest.getRequestDatetime()).isEqualTo(DEFAULT_REQUEST_DATETIME);
         assertThat(testLocationRequest.getTankNumbers()).isEqualTo(UPDATED_TANK_NUMBERS);
     }
 
