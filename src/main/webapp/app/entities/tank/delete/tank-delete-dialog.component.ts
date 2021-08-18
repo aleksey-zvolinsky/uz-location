@@ -10,7 +10,7 @@ import { TankService } from '../service/tank.service';
 export class TankDeleteDialogComponent {
   tank?: ITank;
 
-  constructor(protected tankService: TankService, public activeModal: NgbActiveModal) {}
+  constructor(protected tankService: TankService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

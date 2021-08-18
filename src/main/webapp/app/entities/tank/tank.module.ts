@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { TankComponent } from './list/tank.component';
 import { TankDetailComponent } from './detail/tank-detail.component';

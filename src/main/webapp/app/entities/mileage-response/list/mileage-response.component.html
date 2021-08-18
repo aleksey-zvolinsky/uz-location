@@ -3,7 +3,7 @@
     <span jhiTranslate="uzLocationApp.mileageResponse.home.title">Mileage Responses</span>
 
     <div class="d-flex justify-content-end">
-      <button class="btn btn-info mr-2" (click)="loadAll()" [disabled]="isLoading">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span jhiTranslate="uzLocationApp.mileageResponse.home.refreshListLabel">Refresh List</span>
       </button>
@@ -31,14 +31,27 @@
   <div class="table-responsive" id="entities" *ngIf="mileageResponses && mileageResponses.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr>
-          <th scope="col"><span jhiTranslate="global.field.id">ID</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.responseDatetime">Response Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.tankNumber">Tank Number</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageCurrent">Mileage Current</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageDatetime">Mileage Datetime</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageRemain">Mileage Remain</span></th>
-          <th scope="col"><span jhiTranslate="uzLocationApp.mileageResponse.mileageUpdateDatetime">Mileage Update Datetime</span></th>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="responseDatetime">
+            <span jhiTranslate="uzLocationApp.mileageResponse.responseDatetime">Response Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tankNumber">
+            <span jhiTranslate="uzLocationApp.mileageResponse.tankNumber">Tank Number</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="mileageCurrent">
+            <span jhiTranslate="uzLocationApp.mileageResponse.mileageCurrent">Mileage Current</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="mileageDatetime">
+            <span jhiTranslate="uzLocationApp.mileageResponse.mileageDatetime">Mileage Datetime</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="mileageRemain">
+            <span jhiTranslate="uzLocationApp.mileageResponse.mileageRemain">Mileage Remain</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="mileageUpdateDatetime">
+            <span jhiTranslate="uzLocationApp.mileageResponse.mileageUpdateDatetime">Mileage Update Datetime</span>
+            <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -47,7 +60,7 @@
           <td>
             <a [routerLink]="['/mileage-response', mileageResponse.id, 'view']">{{ mileageResponse.id }}</a>
           </td>
-          <td>{{ mileageResponse.responseDatetime | formatMediumDate }}</td>
+          <td>{{ mileageResponse.responseDatetime | formatMediumDatetime }}</td>
           <td>{{ mileageResponse.tankNumber }}</td>
           <td>{{ mileageResponse.mileageCurrent }}</td>
           <td>{{ mileageResponse.mileageDatetime }}</td>
@@ -84,5 +97,23 @@
         </tr>
       </tbody>
     </table>
+  </div>
+
+  <div *ngIf="mileageResponses && mileageResponses.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
   </div>
 </div>

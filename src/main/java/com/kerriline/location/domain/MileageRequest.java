@@ -2,7 +2,7 @@ package com.kerriline.location.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -22,7 +22,7 @@ public class MileageRequest implements Serializable {
     private Long id;
 
     @Column(name = "request_datetime")
-    private LocalDate requestDatetime;
+    private ZonedDateTime requestDatetime;
 
     @Column(name = "tank_numbers")
     private String tankNumbers;
@@ -50,16 +50,16 @@ public class MileageRequest implements Serializable {
         return this;
     }
 
-    public LocalDate getRequestDatetime() {
+    public ZonedDateTime getRequestDatetime() {
         return this.requestDatetime;
     }
 
-    public MileageRequest requestDatetime(LocalDate requestDatetime) {
+    public MileageRequest requestDatetime(ZonedDateTime requestDatetime) {
         this.requestDatetime = requestDatetime;
         return this;
     }
 
-    public void setRequestDatetime(LocalDate requestDatetime) {
+    public void setRequestDatetime(ZonedDateTime requestDatetime) {
         this.requestDatetime = requestDatetime;
     }
 

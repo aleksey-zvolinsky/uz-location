@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IMileageRequest, MileageRequest } from '../mileage-request.model';
 
 import { MileageRequestService } from './mileage-request.service';
@@ -35,7 +35,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -51,7 +51,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -74,7 +74,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumbers: 'BBBBBB',
           },
           elemDefault
@@ -97,7 +97,8 @@ describe('Service Tests', () => {
       it('should partial update a MileageRequest', () => {
         const patchObject = Object.assign(
           {
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
+            tankNumbers: 'BBBBBB',
           },
           new MileageRequest()
         );
@@ -122,7 +123,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumbers: 'BBBBBB',
           },
           elemDefault
@@ -180,7 +181,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique MileageRequest to an array', () => {
-          const mileageRequestArray: IMileageRequest[] = [{ id: 123 }, { id: 456 }, { id: 23581 }];
+          const mileageRequestArray: IMileageRequest[] = [{ id: 123 }, { id: 456 }, { id: 40338 }];
           const mileageRequestCollection: IMileageRequest[] = [{ id: 123 }];
           expectedResult = service.addMileageRequestToCollectionIfMissing(mileageRequestCollection, ...mileageRequestArray);
           expect(expectedResult).toHaveLength(3);
@@ -200,6 +201,12 @@ describe('Service Tests', () => {
           expectedResult = service.addMileageRequestToCollectionIfMissing([], null, mileageRequest, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(mileageRequest);
+        });
+
+        it('should return initial array if no MileageRequest is added', () => {
+          const mileageRequestCollection: IMileageRequest[] = [{ id: 123 }];
+          expectedResult = service.addMileageRequestToCollectionIfMissing(mileageRequestCollection, undefined, null);
+          expect(expectedResult).toEqual(mileageRequestCollection);
         });
       });
     });

@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ILocationResponse, getLocationResponseIdentifier } from '../location-response.model';
@@ -15,9 +14,9 @@ export type EntityArrayResponseType = HttpResponse<ILocationResponse[]>;
 
 @Injectable({ providedIn: 'root' })
 export class LocationResponseService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/location-responses');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/location-responses');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(locationResponse: ILocationResponse): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(locationResponse);
@@ -85,7 +84,7 @@ export class LocationResponseService {
 
   protected convertDateFromClient(locationResponse: ILocationResponse): ILocationResponse {
     return Object.assign({}, locationResponse, {
-      responseDatetime: locationResponse.responseDatetime?.isValid() ? locationResponse.responseDatetime.format(DATE_FORMAT) : undefined,
+      responseDatetime: locationResponse.responseDatetime?.isValid() ? locationResponse.responseDatetime.toJSON() : undefined,
     });
   }
 

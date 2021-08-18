@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { LocationRequestComponent } from './list/location-request.component';
 import { LocationRequestDetailComponent } from './detail/location-request-detail.component';

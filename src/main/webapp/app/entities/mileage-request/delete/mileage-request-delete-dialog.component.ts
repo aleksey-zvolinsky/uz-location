@@ -10,7 +10,7 @@ import { MileageRequestService } from '../service/mileage-request.service';
 export class MileageRequestDeleteDialogComponent {
   mileageRequest?: IMileageRequest;
 
-  constructor(protected mileageRequestService: MileageRequestService, public activeModal: NgbActiveModal) {}
+  constructor(protected mileageRequestService: MileageRequestService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

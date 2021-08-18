@@ -1,8 +1,10 @@
 package com.kerriline.location.web.rest;
 
-import com.kerriline.location.LocationManager;
 import com.kerriline.location.domain.LocationRequest;
 import com.kerriline.location.repository.LocationRequestRepository;
+import com.kerriline.location.service.LocationRequestQueryService;
+import com.kerriline.location.service.LocationRequestService;
+import com.kerriline.location.service.criteria.LocationRequestCriteria;
 import com.kerriline.location.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,12 +13,16 @@ import java.util.Objects;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -24,7 +30,6 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class LocationRequestResource {
 
     private final Logger log = LoggerFactory.getLogger(LocationRequestResource.class);
@@ -34,10 +39,20 @@ public class LocationRequestResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final LocationRequestService locationRequestService;
+
     private final LocationRequestRepository locationRequestRepository;
 
-    public LocationRequestResource(LocationRequestRepository locationRequestRepository) {
+    private final LocationRequestQueryService locationRequestQueryService;
+
+    public LocationRequestResource(
+        LocationRequestService locationRequestService,
+        LocationRequestRepository locationRequestRepository,
+        LocationRequestQueryService locationRequestQueryService
+    ) {
+        this.locationRequestService = locationRequestService;
         this.locationRequestRepository = locationRequestRepository;
+        this.locationRequestQueryService = locationRequestQueryService;
     }
 
     /**
@@ -53,7 +68,7 @@ public class LocationRequestResource {
         if (locationRequest.getId() != null) {
             throw new BadRequestAlertException("A new locationRequest cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        LocationRequest result = locationRequestRepository.save(locationRequest);
+        LocationRequest result = locationRequestService.save(locationRequest);
         return ResponseEntity
             .created(new URI("/api/location-requests/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -87,7 +102,7 @@ public class LocationRequestResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        LocationRequest result = locationRequestRepository.save(locationRequest);
+        LocationRequest result = locationRequestService.save(locationRequest);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, locationRequest.getId().toString()))
@@ -122,21 +137,7 @@ public class LocationRequestResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<LocationRequest> result = locationRequestRepository
-            .findById(locationRequest.getId())
-            .map(
-                existingLocationRequest -> {
-                    if (locationRequest.getRequestDatetime() != null) {
-                        existingLocationRequest.setRequestDatetime(locationRequest.getRequestDatetime());
-                    }
-                    if (locationRequest.getTankNumbers() != null) {
-                        existingLocationRequest.setTankNumbers(locationRequest.getTankNumbers());
-                    }
-
-                    return existingLocationRequest;
-                }
-            )
-            .map(locationRequestRepository::save);
+        Optional<LocationRequest> result = locationRequestService.partialUpdate(locationRequest);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -147,12 +148,28 @@ public class LocationRequestResource {
     /**
      * {@code GET  /location-requests} : get all the locationRequests.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of locationRequests in body.
      */
     @GetMapping("/location-requests")
-    public List<LocationRequest> getAllLocationRequests() {
-        log.debug("REST request to get all LocationRequests");
-        return locationRequestRepository.findAll();
+    public ResponseEntity<List<LocationRequest>> getAllLocationRequests(LocationRequestCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get LocationRequests by criteria: {}", criteria);
+        Page<LocationRequest> page = locationRequestQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /location-requests/count} : count all the locationRequests.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/location-requests/count")
+    public ResponseEntity<Long> countLocationRequests(LocationRequestCriteria criteria) {
+        log.debug("REST request to count LocationRequests by criteria: {}", criteria);
+        return ResponseEntity.ok().body(locationRequestQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -164,7 +181,7 @@ public class LocationRequestResource {
     @GetMapping("/location-requests/{id}")
     public ResponseEntity<LocationRequest> getLocationRequest(@PathVariable Long id) {
         log.debug("REST request to get LocationRequest : {}", id);
-        Optional<LocationRequest> locationRequest = locationRequestRepository.findById(id);
+        Optional<LocationRequest> locationRequest = locationRequestService.findOne(id);
         return ResponseUtil.wrapOrNotFound(locationRequest);
     }
 
@@ -177,30 +194,10 @@ public class LocationRequestResource {
     @DeleteMapping("/location-requests/{id}")
     public ResponseEntity<Void> deleteLocationRequest(@PathVariable Long id) {
         log.debug("REST request to delete LocationRequest : {}", id);
-        locationRequestRepository.deleteById(id);
+        locationRequestService.delete(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))
             .build();
-    }
-
-    @Autowired
-    LocationManager location;
-
-    @RequestMapping("/location-requests/submit")
-    public ResponseEntity<Void> submitRequestByEmail() {
-        try {
-            location.sendLocationRequest();
-            return ResponseEntity
-                .noContent()
-                .build();
-        } catch (Exception e) {
-            log.error("Failed to get mails", e);
-            return  ResponseEntity
-                .status(500)
-                .build();
-        }
-
-
     }
 }

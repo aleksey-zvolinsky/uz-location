@@ -2,21 +2,28 @@ package com.kerriline.location.web.rest;
 
 import com.kerriline.location.domain.MileageResponse;
 import com.kerriline.location.repository.MileageResponseRepository;
+import com.kerriline.location.service.MileageResponseQueryService;
+import com.kerriline.location.service.MileageResponseService;
+import com.kerriline.location.service.criteria.MileageResponseCriteria;
 import com.kerriline.location.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -24,7 +31,6 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class MileageResponseResource {
 
     private final Logger log = LoggerFactory.getLogger(MileageResponseResource.class);
@@ -34,10 +40,20 @@ public class MileageResponseResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final MileageResponseService mileageResponseService;
+
     private final MileageResponseRepository mileageResponseRepository;
 
-    public MileageResponseResource(MileageResponseRepository mileageResponseRepository) {
+    private final MileageResponseQueryService mileageResponseQueryService;
+
+    public MileageResponseResource(
+        MileageResponseService mileageResponseService,
+        MileageResponseRepository mileageResponseRepository,
+        MileageResponseQueryService mileageResponseQueryService
+    ) {
+        this.mileageResponseService = mileageResponseService;
         this.mileageResponseRepository = mileageResponseRepository;
+        this.mileageResponseQueryService = mileageResponseQueryService;
     }
 
     /**
@@ -53,7 +69,7 @@ public class MileageResponseResource {
         if (mileageResponse.getId() != null) {
             throw new BadRequestAlertException("A new mileageResponse cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MileageResponse result = mileageResponseRepository.save(mileageResponse);
+        MileageResponse result = mileageResponseService.save(mileageResponse);
         return ResponseEntity
             .created(new URI("/api/mileage-responses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -87,7 +103,7 @@ public class MileageResponseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        MileageResponse result = mileageResponseRepository.save(mileageResponse);
+        MileageResponse result = mileageResponseService.save(mileageResponse);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, mileageResponse.getId().toString()))
@@ -122,33 +138,7 @@ public class MileageResponseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<MileageResponse> result = mileageResponseRepository
-            .findById(mileageResponse.getId())
-            .map(
-                existingMileageResponse -> {
-                    if (mileageResponse.getResponseDatetime() != null) {
-                        existingMileageResponse.setResponseDatetime(mileageResponse.getResponseDatetime());
-                    }
-                    if (mileageResponse.getTankNumber() != null) {
-                        existingMileageResponse.setTankNumber(mileageResponse.getTankNumber());
-                    }
-                    if (mileageResponse.getMileageCurrent() != null) {
-                        existingMileageResponse.setMileageCurrent(mileageResponse.getMileageCurrent());
-                    }
-                    if (mileageResponse.getMileageDatetime() != null) {
-                        existingMileageResponse.setMileageDatetime(mileageResponse.getMileageDatetime());
-                    }
-                    if (mileageResponse.getMileageRemain() != null) {
-                        existingMileageResponse.setMileageRemain(mileageResponse.getMileageRemain());
-                    }
-                    if (mileageResponse.getMileageUpdateDatetime() != null) {
-                        existingMileageResponse.setMileageUpdateDatetime(mileageResponse.getMileageUpdateDatetime());
-                    }
-
-                    return existingMileageResponse;
-                }
-            )
-            .map(mileageResponseRepository::save);
+        Optional<MileageResponse> result = mileageResponseService.partialUpdate(mileageResponse);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -159,20 +149,28 @@ public class MileageResponseResource {
     /**
      * {@code GET  /mileage-responses} : get all the mileageResponses.
      *
-     * @param filter the filter of the request.
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mileageResponses in body.
      */
     @GetMapping("/mileage-responses")
-    public List<MileageResponse> getAllMileageResponses(@RequestParam(required = false) String filter) {
-        if ("mileagerequest-is-null".equals(filter)) {
-            log.debug("REST request to get all MileageResponses where mileageRequest is null");
-            return StreamSupport
-                .stream(mileageResponseRepository.findAll().spliterator(), false)
-                .filter(mileageResponse -> mileageResponse.getMileageRequest() == null)
-                .collect(Collectors.toList());
-        }
-        log.debug("REST request to get all MileageResponses");
-        return mileageResponseRepository.findAll();
+    public ResponseEntity<List<MileageResponse>> getAllMileageResponses(MileageResponseCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get MileageResponses by criteria: {}", criteria);
+        Page<MileageResponse> page = mileageResponseQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /mileage-responses/count} : count all the mileageResponses.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/mileage-responses/count")
+    public ResponseEntity<Long> countMileageResponses(MileageResponseCriteria criteria) {
+        log.debug("REST request to count MileageResponses by criteria: {}", criteria);
+        return ResponseEntity.ok().body(mileageResponseQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -184,7 +182,7 @@ public class MileageResponseResource {
     @GetMapping("/mileage-responses/{id}")
     public ResponseEntity<MileageResponse> getMileageResponse(@PathVariable Long id) {
         log.debug("REST request to get MileageResponse : {}", id);
-        Optional<MileageResponse> mileageResponse = mileageResponseRepository.findById(id);
+        Optional<MileageResponse> mileageResponse = mileageResponseService.findOne(id);
         return ResponseUtil.wrapOrNotFound(mileageResponse);
     }
 
@@ -197,7 +195,7 @@ public class MileageResponseResource {
     @DeleteMapping("/mileage-responses/{id}")
     public ResponseEntity<Void> deleteMileageResponse(@PathVariable Long id) {
         log.debug("REST request to delete MileageResponse : {}", id);
-        mileageResponseRepository.deleteById(id);
+        mileageResponseService.delete(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

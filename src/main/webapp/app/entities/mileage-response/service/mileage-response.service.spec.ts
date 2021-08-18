@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IMileageResponse, MileageResponse } from '../mileage-response.model';
 
 import { MileageResponseService } from './mileage-response.service';
@@ -39,7 +39,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -55,7 +55,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -78,7 +78,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumber: 'BBBBBB',
             mileageCurrent: 'BBBBBB',
             mileageDatetime: 'BBBBBB',
@@ -105,8 +105,9 @@ describe('Service Tests', () => {
       it('should partial update a MileageResponse', () => {
         const patchObject = Object.assign(
           {
-            mileageCurrent: 'BBBBBB',
-            mileageUpdateDatetime: 'BBBBBB',
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
+            mileageDatetime: 'BBBBBB',
+            mileageRemain: 'BBBBBB',
           },
           new MileageResponse()
         );
@@ -131,7 +132,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumber: 'BBBBBB',
             mileageCurrent: 'BBBBBB',
             mileageDatetime: 'BBBBBB',
@@ -193,7 +194,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique MileageResponse to an array', () => {
-          const mileageResponseArray: IMileageResponse[] = [{ id: 123 }, { id: 456 }, { id: 64274 }];
+          const mileageResponseArray: IMileageResponse[] = [{ id: 123 }, { id: 456 }, { id: 40855 }];
           const mileageResponseCollection: IMileageResponse[] = [{ id: 123 }];
           expectedResult = service.addMileageResponseToCollectionIfMissing(mileageResponseCollection, ...mileageResponseArray);
           expect(expectedResult).toHaveLength(3);
@@ -213,6 +214,12 @@ describe('Service Tests', () => {
           expectedResult = service.addMileageResponseToCollectionIfMissing([], null, mileageResponse, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(mileageResponse);
+        });
+
+        it('should return initial array if no MileageResponse is added', () => {
+          const mileageResponseCollection: IMileageResponse[] = [{ id: 123 }];
+          expectedResult = service.addMileageResponseToCollectionIfMissing(mileageResponseCollection, undefined, null);
+          expect(expectedResult).toEqual(mileageResponseCollection);
         });
       });
     });

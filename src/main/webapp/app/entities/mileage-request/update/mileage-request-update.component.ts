@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IMileageRequest, MileageRequest } from '../mileage-request.model';
 import { MileageRequestService } from '../service/mileage-request.service';
 import { IMileageResponse } from 'app/entities/mileage-response/mileage-response.model';
@@ -40,6 +43,11 @@ export class MileageRequestUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ mileageRequest }) => {
+      if (mileageRequest.id === undefined) {
+        const today = dayjs().startOf('day');
+        mileageRequest.requestDatetime = today;
+      }
+
       this.updateForm(mileageRequest);
 
       this.loadRelationshipsOptions();
@@ -90,7 +98,7 @@ export class MileageRequestUpdateComponent implements OnInit {
   protected updateForm(mileageRequest: IMileageRequest): void {
     this.editForm.patchValue({
       id: mileageRequest.id,
-      requestDatetime: mileageRequest.requestDatetime,
+      requestDatetime: mileageRequest.requestDatetime ? mileageRequest.requestDatetime.format(DATE_TIME_FORMAT) : null,
       tankNumbers: mileageRequest.tankNumbers,
       mileageResponse: mileageRequest.mileageResponse,
       tank: mileageRequest.tank,
@@ -105,7 +113,7 @@ export class MileageRequestUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.mileageResponseService
-      .query({ filter: 'mileagerequest-is-null' })
+      .query({ 'mileageRequestId.specified': 'false' })
       .pipe(map((res: HttpResponse<IMileageResponse[]>) => res.body ?? []))
       .pipe(
         map((mileageResponses: IMileageResponse[]) =>
@@ -125,7 +133,9 @@ export class MileageRequestUpdateComponent implements OnInit {
     return {
       ...new MileageRequest(),
       id: this.editForm.get(['id'])!.value,
-      requestDatetime: this.editForm.get(['requestDatetime'])!.value,
+      requestDatetime: this.editForm.get(['requestDatetime'])!.value
+        ? dayjs(this.editForm.get(['requestDatetime'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       tankNumbers: this.editForm.get(['tankNumbers'])!.value,
       mileageResponse: this.editForm.get(['mileageResponse'])!.value,
       tank: this.editForm.get(['tank'])!.value,

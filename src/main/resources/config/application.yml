@@ -179,6 +179,8 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
+# application:
+
 application:
   location-schedule: 0 30 7,15 ? * *
   mileage-schedule: 0 45 5 ? * *

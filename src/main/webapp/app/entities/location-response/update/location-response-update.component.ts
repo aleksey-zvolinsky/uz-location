@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { ILocationResponse, LocationResponse } from '../location-response.model';
 import { LocationResponseService } from '../service/location-response.service';
 
@@ -56,6 +59,11 @@ export class LocationResponseUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ locationResponse }) => {
+      if (locationResponse.id === undefined) {
+        const today = dayjs().startOf('day');
+        locationResponse.responseDatetime = today;
+      }
+
       this.updateForm(locationResponse);
     });
   }
@@ -96,7 +104,7 @@ export class LocationResponseUpdateComponent implements OnInit {
   protected updateForm(locationResponse: ILocationResponse): void {
     this.editForm.patchValue({
       id: locationResponse.id,
-      responseDatetime: locationResponse.responseDatetime,
+      responseDatetime: locationResponse.responseDatetime ? locationResponse.responseDatetime.format(DATE_TIME_FORMAT) : null,
       tankNumber: locationResponse.tankNumber,
       tankType: locationResponse.tankType,
       cargoId: locationResponse.cargoId,
@@ -132,7 +140,9 @@ export class LocationResponseUpdateComponent implements OnInit {
     return {
       ...new LocationResponse(),
       id: this.editForm.get(['id'])!.value,
-      responseDatetime: this.editForm.get(['responseDatetime'])!.value,
+      responseDatetime: this.editForm.get(['responseDatetime'])!.value
+        ? dayjs(this.editForm.get(['responseDatetime'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       tankNumber: this.editForm.get(['tankNumber'])!.value,
       tankType: this.editForm.get(['tankType'])!.value,
       cargoId: this.editForm.get(['cargoId'])!.value,

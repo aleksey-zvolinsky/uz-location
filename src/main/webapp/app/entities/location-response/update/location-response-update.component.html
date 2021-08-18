@@ -21,22 +21,16 @@
           <label class="form-control-label" jhiTranslate="uzLocationApp.locationResponse.responseDatetime" for="field_responseDatetime"
             >Response Datetime</label
           >
-          <div class="input-group">
+          <div class="d-flex">
             <input
               id="field_responseDatetime"
               data-cy="responseDatetime"
-              type="text"
+              type="datetime-local"
               class="form-control"
               name="responseDatetime"
-              ngbDatepicker
-              #responseDatetimeDp="ngbDatepicker"
               formControlName="responseDatetime"
+              placeholder="YYYY-MM-DD HH:mm"
             />
-            <span class="input-group-append">
-              <button type="button" class="btn btn-secondary" (click)="responseDatetimeDp.toggle()">
-                <fa-icon icon="calendar-alt"></fa-icon>
-              </button>
-            </span>
           </div>
         </div>
 
@@ -380,7 +374,7 @@
       </div>
 
       <div>
-        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
         </button>
 

@@ -11,6 +11,9 @@ const locationRequestRoute: Routes = [
   {
     path: '',
     component: LocationRequestComponent,
+    data: {
+      defaultSort: 'id,asc',
+    },
     canActivate: [UserRouteAccessService],
   },
   {
