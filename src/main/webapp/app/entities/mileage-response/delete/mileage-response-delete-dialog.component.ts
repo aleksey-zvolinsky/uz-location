@@ -10,7 +10,7 @@ import { MileageResponseService } from '../service/mileage-response.service';
 export class MileageResponseDeleteDialogComponent {
   mileageResponse?: IMileageResponse;
 
-  constructor(protected mileageResponseService: MileageResponseService, public activeModal: NgbActiveModal) {}
+  constructor(protected mileageResponseService: MileageResponseService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

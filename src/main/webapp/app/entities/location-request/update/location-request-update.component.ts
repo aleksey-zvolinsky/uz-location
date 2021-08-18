@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { ILocationRequest, LocationRequest } from '../location-request.model';
 import { LocationRequestService } from '../service/location-request.service';
 import { ILocationResponse } from 'app/entities/location-response/location-response.model';
@@ -40,6 +43,11 @@ export class LocationRequestUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ locationRequest }) => {
+      if (locationRequest.id === undefined) {
+        const today = dayjs().startOf('day');
+        locationRequest.requestDatetime = today;
+      }
+
       this.updateForm(locationRequest);
 
       this.loadRelationshipsOptions();
@@ -90,7 +98,7 @@ export class LocationRequestUpdateComponent implements OnInit {
   protected updateForm(locationRequest: ILocationRequest): void {
     this.editForm.patchValue({
       id: locationRequest.id,
-      requestDatetime: locationRequest.requestDatetime,
+      requestDatetime: locationRequest.requestDatetime ? locationRequest.requestDatetime.format(DATE_TIME_FORMAT) : null,
       tankNumbers: locationRequest.tankNumbers,
       locationResponse: locationRequest.locationResponse,
       tank: locationRequest.tank,
@@ -105,7 +113,7 @@ export class LocationRequestUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.locationResponseService
-      .query({ filter: 'locationrequest-is-null' })
+      .query({ 'locationRequestId.specified': 'false' })
       .pipe(map((res: HttpResponse<ILocationResponse[]>) => res.body ?? []))
       .pipe(
         map((locationResponses: ILocationResponse[]) =>
@@ -128,7 +136,9 @@ export class LocationRequestUpdateComponent implements OnInit {
     return {
       ...new LocationRequest(),
       id: this.editForm.get(['id'])!.value,
-      requestDatetime: this.editForm.get(['requestDatetime'])!.value,
+      requestDatetime: this.editForm.get(['requestDatetime'])!.value
+        ? dayjs(this.editForm.get(['requestDatetime'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       tankNumbers: this.editForm.get(['tankNumbers'])!.value,
       locationResponse: this.editForm.get(['locationResponse'])!.value,
       tank: this.editForm.get(['tank'])!.value,

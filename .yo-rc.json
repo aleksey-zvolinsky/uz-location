@@ -29,7 +29,7 @@
     "withAdminUi": true,
     "blueprints": [],
     "otherModules": [],
-    "jhipsterVersion": "7.0.1",
+    "jhipsterVersion": "7.1.0",
     "skipClient": false,
     "skipServer": false,
     "skipUserManagement": false,
@@ -45,7 +45,9 @@
     "reactive": false,
     "entities": ["Tank", "LocationRequest", "LocationResponse", "MileageRequest", "MileageResponse"],
     "jwtSecretKey": "YmVkMGUxOTBjMDUxNmIwMDFmZDM2YWQ0MzExMjY0OGMzMjkyZGQ1ZjQ3YmNkZWZiNWEwMGVlODg2OTZhZjZiYzgzZDM4ZTc0ZmRhYTc3Y2Y3ZjNhMmM1OWM4Yjk2MDc4Y2FjMzM4MDc2Y2Q5OWFjMTdmMmUwZGVlNDFiODNiNTI=",
-    "lastLiquibaseTimestamp": 1622870749000
+    "lastLiquibaseTimestamp": 1622870749000,
+    "applicationIndex": 0,
+    "devServerPort": 4200
   },
   "git-provider": "GitHub",
   "git-company": "aleksey-zvolinsky",

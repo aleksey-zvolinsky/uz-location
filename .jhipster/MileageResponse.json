@@ -3,7 +3,7 @@
   "fields": [
     {
       "fieldName": "responseDatetime",
-      "fieldType": "LocalDate"
+      "fieldType": "ZonedDateTime"
     },
     {
       "fieldName": "tankNumber",
@@ -37,9 +37,9 @@
   ],
   "entityTableName": "mileage_response",
   "dto": "no",
-  "pagination": "no",
-  "service": "no",
-  "jpaMetamodelFiltering": false,
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,
