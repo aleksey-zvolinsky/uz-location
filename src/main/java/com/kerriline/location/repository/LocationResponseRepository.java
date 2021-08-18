@@ -16,9 +16,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface LocationResponseRepository extends JpaRepository<LocationResponse, Long> {
-	
-	@Query("select r from LocationResponse r where r.responseDatetime > :responseDatetime order by responseDatetime desc")
+public interface LocationResponseRepository extends JpaRepository<LocationResponse, Long>, JpaSpecificationExecutor<LocationResponse> {
+    @Query("select r from LocationResponse r where r.responseDatetime > :responseDatetime order by responseDatetime desc")
     List<LocationResponse> findAllWithResposeDateTimeAfter(
       @Param("responseDatetime") LocalDate cutDate);
 }
