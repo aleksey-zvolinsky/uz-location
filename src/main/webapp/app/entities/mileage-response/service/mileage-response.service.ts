@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IMileageResponse, getMileageResponseIdentifier } from '../mileage-response.model';
@@ -15,9 +14,9 @@ export type EntityArrayResponseType = HttpResponse<IMileageResponse[]>;
 
 @Injectable({ providedIn: 'root' })
 export class MileageResponseService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/mileage-responses');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/mileage-responses');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(mileageResponse: IMileageResponse): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(mileageResponse);
@@ -85,7 +84,7 @@ export class MileageResponseService {
 
   protected convertDateFromClient(mileageResponse: IMileageResponse): IMileageResponse {
     return Object.assign({}, mileageResponse, {
-      responseDatetime: mileageResponse.responseDatetime?.isValid() ? mileageResponse.responseDatetime.format(DATE_FORMAT) : undefined,
+      responseDatetime: mileageResponse.responseDatetime?.isValid() ? mileageResponse.responseDatetime.toJSON() : undefined,
     });
   }
 

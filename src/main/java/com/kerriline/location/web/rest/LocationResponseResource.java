@@ -2,21 +2,28 @@ package com.kerriline.location.web.rest;
 
 import com.kerriline.location.domain.LocationResponse;
 import com.kerriline.location.repository.LocationResponseRepository;
+import com.kerriline.location.service.LocationResponseQueryService;
+import com.kerriline.location.service.LocationResponseService;
+import com.kerriline.location.service.criteria.LocationResponseCriteria;
 import com.kerriline.location.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -24,7 +31,6 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class LocationResponseResource {
 
     private final Logger log = LoggerFactory.getLogger(LocationResponseResource.class);
@@ -34,10 +40,20 @@ public class LocationResponseResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final LocationResponseService locationResponseService;
+
     private final LocationResponseRepository locationResponseRepository;
 
-    public LocationResponseResource(LocationResponseRepository locationResponseRepository) {
+    private final LocationResponseQueryService locationResponseQueryService;
+
+    public LocationResponseResource(
+        LocationResponseService locationResponseService,
+        LocationResponseRepository locationResponseRepository,
+        LocationResponseQueryService locationResponseQueryService
+    ) {
+        this.locationResponseService = locationResponseService;
         this.locationResponseRepository = locationResponseRepository;
+        this.locationResponseQueryService = locationResponseQueryService;
     }
 
     /**
@@ -54,7 +70,7 @@ public class LocationResponseResource {
         if (locationResponse.getId() != null) {
             throw new BadRequestAlertException("A new locationResponse cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        LocationResponse result = locationResponseRepository.save(locationResponse);
+        LocationResponse result = locationResponseService.save(locationResponse);
         return ResponseEntity
             .created(new URI("/api/location-responses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -88,7 +104,7 @@ public class LocationResponseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        LocationResponse result = locationResponseRepository.save(locationResponse);
+        LocationResponse result = locationResponseService.save(locationResponse);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, locationResponse.getId().toString()))
@@ -123,102 +139,7 @@ public class LocationResponseResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<LocationResponse> result = locationResponseRepository
-            .findById(locationResponse.getId())
-            .map(
-                existingLocationResponse -> {
-                    if (locationResponse.getResponseDatetime() != null) {
-                        existingLocationResponse.setResponseDatetime(locationResponse.getResponseDatetime());
-                    }
-                    if (locationResponse.getTankNumber() != null) {
-                        existingLocationResponse.setTankNumber(locationResponse.getTankNumber());
-                    }
-                    if (locationResponse.getTankType() != null) {
-                        existingLocationResponse.setTankType(locationResponse.getTankType());
-                    }
-                    if (locationResponse.getCargoId() != null) {
-                        existingLocationResponse.setCargoId(locationResponse.getCargoId());
-                    }
-                    if (locationResponse.getCargoName() != null) {
-                        existingLocationResponse.setCargoName(locationResponse.getCargoName());
-                    }
-                    if (locationResponse.getWeight() != null) {
-                        existingLocationResponse.setWeight(locationResponse.getWeight());
-                    }
-                    if (locationResponse.getReceiverId() != null) {
-                        existingLocationResponse.setReceiverId(locationResponse.getReceiverId());
-                    }
-                    if (locationResponse.getTankIndex() != null) {
-                        existingLocationResponse.setTankIndex(locationResponse.getTankIndex());
-                    }
-                    if (locationResponse.getLocationStationId() != null) {
-                        existingLocationResponse.setLocationStationId(locationResponse.getLocationStationId());
-                    }
-                    if (locationResponse.getLocationStationName() != null) {
-                        existingLocationResponse.setLocationStationName(locationResponse.getLocationStationName());
-                    }
-                    if (locationResponse.getLocationDatetime() != null) {
-                        existingLocationResponse.setLocationDatetime(locationResponse.getLocationDatetime());
-                    }
-                    if (locationResponse.getLocationOperation() != null) {
-                        existingLocationResponse.setLocationOperation(locationResponse.getLocationOperation());
-                    }
-                    if (locationResponse.getStateFromStationId() != null) {
-                        existingLocationResponse.setStateFromStationId(locationResponse.getStateFromStationId());
-                    }
-                    if (locationResponse.getStateFromStationName() != null) {
-                        existingLocationResponse.setStateFromStationName(locationResponse.getStateFromStationName());
-                    }
-                    if (locationResponse.getStateToStationId() != null) {
-                        existingLocationResponse.setStateToStationId(locationResponse.getStateToStationId());
-                    }
-                    if (locationResponse.getStateToStationName() != null) {
-                        existingLocationResponse.setStateToStationName(locationResponse.getStateToStationName());
-                    }
-                    if (locationResponse.getStateSendDatetime() != null) {
-                        existingLocationResponse.setStateSendDatetime(locationResponse.getStateSendDatetime());
-                    }
-                    if (locationResponse.getStateSenderId() != null) {
-                        existingLocationResponse.setStateSenderId(locationResponse.getStateSenderId());
-                    }
-                    if (locationResponse.getPlanedServiceDatetime() != null) {
-                        existingLocationResponse.setPlanedServiceDatetime(locationResponse.getPlanedServiceDatetime());
-                    }
-                    if (locationResponse.getTankOwner() != null) {
-                        existingLocationResponse.setTankOwner(locationResponse.getTankOwner());
-                    }
-                    if (locationResponse.getTankModel() != null) {
-                        existingLocationResponse.setTankModel(locationResponse.getTankModel());
-                    }
-                    if (locationResponse.getDefectRegion() != null) {
-                        existingLocationResponse.setDefectRegion(locationResponse.getDefectRegion());
-                    }
-                    if (locationResponse.getDefectStation() != null) {
-                        existingLocationResponse.setDefectStation(locationResponse.getDefectStation());
-                    }
-                    if (locationResponse.getDefectDatetime() != null) {
-                        existingLocationResponse.setDefectDatetime(locationResponse.getDefectDatetime());
-                    }
-                    if (locationResponse.getDefectDetails() != null) {
-                        existingLocationResponse.setDefectDetails(locationResponse.getDefectDetails());
-                    }
-                    if (locationResponse.getRepairRegion() != null) {
-                        existingLocationResponse.setRepairRegion(locationResponse.getRepairRegion());
-                    }
-                    if (locationResponse.getRepairStation() != null) {
-                        existingLocationResponse.setRepairStation(locationResponse.getRepairStation());
-                    }
-                    if (locationResponse.getRepairDatetime() != null) {
-                        existingLocationResponse.setRepairDatetime(locationResponse.getRepairDatetime());
-                    }
-                    if (locationResponse.getUpdateDatetime() != null) {
-                        existingLocationResponse.setUpdateDatetime(locationResponse.getUpdateDatetime());
-                    }
-
-                    return existingLocationResponse;
-                }
-            )
-            .map(locationResponseRepository::save);
+        Optional<LocationResponse> result = locationResponseService.partialUpdate(locationResponse);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -229,20 +150,28 @@ public class LocationResponseResource {
     /**
      * {@code GET  /location-responses} : get all the locationResponses.
      *
-     * @param filter the filter of the request.
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of locationResponses in body.
      */
     @GetMapping("/location-responses")
-    public List<LocationResponse> getAllLocationResponses(@RequestParam(required = false) String filter) {
-        if ("locationrequest-is-null".equals(filter)) {
-            log.debug("REST request to get all LocationResponses where locationRequest is null");
-            return StreamSupport
-                .stream(locationResponseRepository.findAll().spliterator(), false)
-                .filter(locationResponse -> locationResponse.getLocationRequest() == null)
-                .collect(Collectors.toList());
-        }
-        log.debug("REST request to get all LocationResponses");
-        return locationResponseRepository.findAll();
+    public ResponseEntity<List<LocationResponse>> getAllLocationResponses(LocationResponseCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get LocationResponses by criteria: {}", criteria);
+        Page<LocationResponse> page = locationResponseQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /location-responses/count} : count all the locationResponses.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/location-responses/count")
+    public ResponseEntity<Long> countLocationResponses(LocationResponseCriteria criteria) {
+        log.debug("REST request to count LocationResponses by criteria: {}", criteria);
+        return ResponseEntity.ok().body(locationResponseQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -254,7 +183,7 @@ public class LocationResponseResource {
     @GetMapping("/location-responses/{id}")
     public ResponseEntity<LocationResponse> getLocationResponse(@PathVariable Long id) {
         log.debug("REST request to get LocationResponse : {}", id);
-        Optional<LocationResponse> locationResponse = locationResponseRepository.findById(id);
+        Optional<LocationResponse> locationResponse = locationResponseService.findOne(id);
         return ResponseUtil.wrapOrNotFound(locationResponse);
     }
 
@@ -267,7 +196,7 @@ public class LocationResponseResource {
     @DeleteMapping("/location-responses/{id}")
     public ResponseEntity<Void> deleteLocationResponse(@PathVariable Long id) {
         log.debug("REST request to delete LocationResponse : {}", id);
-        locationResponseRepository.deleteById(id);
+        locationResponseService.delete(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

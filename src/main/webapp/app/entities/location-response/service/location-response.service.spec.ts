@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { ILocationResponse, LocationResponse } from '../location-response.model';
 
 import { LocationResponseService } from './location-response.service';
@@ -62,7 +62,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -78,7 +78,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -101,7 +101,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumber: 'BBBBBB',
             tankType: 'BBBBBB',
             cargoId: 'BBBBBB',
@@ -151,19 +151,25 @@ describe('Service Tests', () => {
       it('should partial update a LocationResponse', () => {
         const patchObject = Object.assign(
           {
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumber: 'BBBBBB',
-            tankType: 'BBBBBB',
-            receiverId: 'BBBBBB',
+            cargoName: 'BBBBBB',
+            weight: 'BBBBBB',
             tankIndex: 'BBBBBB',
-            stateFromStationName: 'BBBBBB',
-            stateToStationId: 'BBBBBB',
+            locationStationId: 'BBBBBB',
+            locationStationName: 'BBBBBB',
+            locationDatetime: 'BBBBBB',
+            stateToStationName: 'BBBBBB',
             stateSenderId: 'BBBBBB',
             planedServiceDatetime: 'BBBBBB',
             tankOwner: 'BBBBBB',
-            tankModel: 'BBBBBB',
+            defectRegion: 'BBBBBB',
+            defectDatetime: 'BBBBBB',
             defectDetails: 'BBBBBB',
+            repairRegion: 'BBBBBB',
             repairStation: 'BBBBBB',
             repairDatetime: 'BBBBBB',
+            updateDatetime: 'BBBBBB',
           },
           new LocationResponse()
         );
@@ -188,7 +194,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            responseDatetime: currentDate.format(DATE_FORMAT),
+            responseDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumber: 'BBBBBB',
             tankType: 'BBBBBB',
             cargoId: 'BBBBBB',
@@ -273,7 +279,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique LocationResponse to an array', () => {
-          const locationResponseArray: ILocationResponse[] = [{ id: 123 }, { id: 456 }, { id: 14778 }];
+          const locationResponseArray: ILocationResponse[] = [{ id: 123 }, { id: 456 }, { id: 80316 }];
           const locationResponseCollection: ILocationResponse[] = [{ id: 123 }];
           expectedResult = service.addLocationResponseToCollectionIfMissing(locationResponseCollection, ...locationResponseArray);
           expect(expectedResult).toHaveLength(3);
@@ -293,6 +299,12 @@ describe('Service Tests', () => {
           expectedResult = service.addLocationResponseToCollectionIfMissing([], null, locationResponse, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(locationResponse);
+        });
+
+        it('should return initial array if no LocationResponse is added', () => {
+          const locationResponseCollection: ILocationResponse[] = [{ id: 123 }];
+          expectedResult = service.addLocationResponseToCollectionIfMissing(locationResponseCollection, undefined, null);
+          expect(expectedResult).toEqual(locationResponseCollection);
         });
       });
     });

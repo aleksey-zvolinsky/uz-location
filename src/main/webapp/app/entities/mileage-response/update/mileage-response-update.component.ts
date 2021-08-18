@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IMileageResponse, MileageResponse } from '../mileage-response.model';
 import { MileageResponseService } from '../service/mileage-response.service';
 
@@ -33,6 +36,11 @@ export class MileageResponseUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ mileageResponse }) => {
+      if (mileageResponse.id === undefined) {
+        const today = dayjs().startOf('day');
+        mileageResponse.responseDatetime = today;
+      }
+
       this.updateForm(mileageResponse);
     });
   }
@@ -73,7 +81,7 @@ export class MileageResponseUpdateComponent implements OnInit {
   protected updateForm(mileageResponse: IMileageResponse): void {
     this.editForm.patchValue({
       id: mileageResponse.id,
-      responseDatetime: mileageResponse.responseDatetime,
+      responseDatetime: mileageResponse.responseDatetime ? mileageResponse.responseDatetime.format(DATE_TIME_FORMAT) : null,
       tankNumber: mileageResponse.tankNumber,
       mileageCurrent: mileageResponse.mileageCurrent,
       mileageDatetime: mileageResponse.mileageDatetime,
@@ -86,7 +94,9 @@ export class MileageResponseUpdateComponent implements OnInit {
     return {
       ...new MileageResponse(),
       id: this.editForm.get(['id'])!.value,
-      responseDatetime: this.editForm.get(['responseDatetime'])!.value,
+      responseDatetime: this.editForm.get(['responseDatetime'])!.value
+        ? dayjs(this.editForm.get(['responseDatetime'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       tankNumber: this.editForm.get(['tankNumber'])!.value,
       mileageCurrent: this.editForm.get(['mileageCurrent'])!.value,
       mileageDatetime: this.editForm.get(['mileageDatetime'])!.value,

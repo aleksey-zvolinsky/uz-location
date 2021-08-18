@@ -46,13 +46,13 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call mileageResponse query and add missing value', () => {
         const mileageRequest: IMileageRequest = { id: 456 };
-        const mileageResponse: IMileageResponse = { id: 18305 };
+        const mileageResponse: IMileageResponse = { id: 81086 };
         mileageRequest.mileageResponse = mileageResponse;
 
-        const mileageResponseCollection: IMileageResponse[] = [{ id: 12883 }];
-        spyOn(mileageResponseService, 'query').and.returnValue(of(new HttpResponse({ body: mileageResponseCollection })));
+        const mileageResponseCollection: IMileageResponse[] = [{ id: 61161 }];
+        jest.spyOn(mileageResponseService, 'query').mockReturnValue(of(new HttpResponse({ body: mileageResponseCollection })));
         const expectedCollection: IMileageResponse[] = [mileageResponse, ...mileageResponseCollection];
-        spyOn(mileageResponseService, 'addMileageResponseToCollectionIfMissing').and.returnValue(expectedCollection);
+        jest.spyOn(mileageResponseService, 'addMileageResponseToCollectionIfMissing').mockReturnValue(expectedCollection);
 
         activatedRoute.data = of({ mileageRequest });
         comp.ngOnInit();
@@ -67,14 +67,14 @@ describe('Component Tests', () => {
 
       it('Should call Tank query and add missing value', () => {
         const mileageRequest: IMileageRequest = { id: 456 };
-        const tank: ITank = { id: 74360 };
+        const tank: ITank = { id: 72391 };
         mileageRequest.tank = tank;
 
-        const tankCollection: ITank[] = [{ id: 30205 }];
-        spyOn(tankService, 'query').and.returnValue(of(new HttpResponse({ body: tankCollection })));
+        const tankCollection: ITank[] = [{ id: 76120 }];
+        jest.spyOn(tankService, 'query').mockReturnValue(of(new HttpResponse({ body: tankCollection })));
         const additionalTanks = [tank];
         const expectedCollection: ITank[] = [...additionalTanks, ...tankCollection];
-        spyOn(tankService, 'addTankToCollectionIfMissing').and.returnValue(expectedCollection);
+        jest.spyOn(tankService, 'addTankToCollectionIfMissing').mockReturnValue(expectedCollection);
 
         activatedRoute.data = of({ mileageRequest });
         comp.ngOnInit();
@@ -86,9 +86,9 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const mileageRequest: IMileageRequest = { id: 456 };
-        const mileageResponse: IMileageResponse = { id: 62753 };
+        const mileageResponse: IMileageResponse = { id: 45481 };
         mileageRequest.mileageResponse = mileageResponse;
-        const tank: ITank = { id: 34939 };
+        const tank: ITank = { id: 8315 };
         mileageRequest.tank = tank;
 
         activatedRoute.data = of({ mileageRequest });
@@ -103,10 +103,10 @@ describe('Component Tests', () => {
     describe('save', () => {
       it('Should call update service on save for existing entity', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<MileageRequest>>();
         const mileageRequest = { id: 123 };
-        spyOn(mileageRequestService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(mileageRequestService, 'update').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ mileageRequest });
         comp.ngOnInit();
 
@@ -124,10 +124,10 @@ describe('Component Tests', () => {
 
       it('Should call create service on save for new entity', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<MileageRequest>>();
         const mileageRequest = new MileageRequest();
-        spyOn(mileageRequestService, 'create').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(mileageRequestService, 'create').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ mileageRequest });
         comp.ngOnInit();
 
@@ -145,10 +145,10 @@ describe('Component Tests', () => {
 
       it('Should set isSaving to false on error', () => {
         // GIVEN
-        const saveSubject = new Subject();
+        const saveSubject = new Subject<HttpResponse<MileageRequest>>();
         const mileageRequest = { id: 123 };
-        spyOn(mileageRequestService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
+        jest.spyOn(mileageRequestService, 'update').mockReturnValue(saveSubject);
+        jest.spyOn(comp, 'previousState');
         activatedRoute.data = of({ mileageRequest });
         comp.ngOnInit();
 

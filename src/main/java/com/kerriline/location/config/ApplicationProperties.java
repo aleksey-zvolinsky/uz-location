@@ -17,7 +17,6 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * See {@link tech.jhipster.config.JHipsterProperties} for a good example.
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
-
 public class ApplicationProperties {
 
     @Bean

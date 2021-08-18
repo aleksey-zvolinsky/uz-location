@@ -2,6 +2,9 @@ package com.kerriline.location.web.rest;
 
 import com.kerriline.location.domain.Tank;
 import com.kerriline.location.repository.TankRepository;
+import com.kerriline.location.service.TankQueryService;
+import com.kerriline.location.service.TankService;
+import com.kerriline.location.service.criteria.TankCriteria;
 import com.kerriline.location.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -13,10 +16,15 @@ import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -24,7 +32,6 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class TankResource {
 
     private final Logger log = LoggerFactory.getLogger(TankResource.class);
@@ -34,10 +41,16 @@ public class TankResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private final TankService tankService;
+
     private final TankRepository tankRepository;
 
-    public TankResource(TankRepository tankRepository) {
+    private final TankQueryService tankQueryService;
+
+    public TankResource(TankService tankService, TankRepository tankRepository, TankQueryService tankQueryService) {
+        this.tankService = tankService;
         this.tankRepository = tankRepository;
+        this.tankQueryService = tankQueryService;
     }
 
     /**
@@ -53,7 +66,7 @@ public class TankResource {
         if (tank.getId() != null) {
             throw new BadRequestAlertException("A new tank cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Tank result = tankRepository.save(tank);
+        Tank result = tankService.save(tank);
         return ResponseEntity
             .created(new URI("/api/tanks/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -85,7 +98,7 @@ public class TankResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Tank result = tankRepository.save(tank);
+        Tank result = tankService.save(tank);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, tank.getId().toString()))
@@ -120,24 +133,7 @@ public class TankResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<Tank> result = tankRepository
-            .findById(tank.getId())
-            .map(
-                existingTank -> {
-                    if (tank.getTankNumber() != null) {
-                        existingTank.setTankNumber(tank.getTankNumber());
-                    }
-                    if (tank.getOwnerName() != null) {
-                        existingTank.setOwnerName(tank.getOwnerName());
-                    }
-                    if (tank.getClientName() != null) {
-                        existingTank.setClientName(tank.getClientName());
-                    }
-
-                    return existingTank;
-                }
-            )
-            .map(tankRepository::save);
+        Optional<Tank> result = tankService.partialUpdate(tank);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -148,12 +144,28 @@ public class TankResource {
     /**
      * {@code GET  /tanks} : get all the tanks.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of tanks in body.
      */
     @GetMapping("/tanks")
-    public List<Tank> getAllTanks() {
-        log.debug("REST request to get all Tanks");
-        return tankRepository.findAll();
+    public ResponseEntity<List<Tank>> getAllTanks(TankCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Tanks by criteria: {}", criteria);
+        Page<Tank> page = tankQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /tanks/count} : count all the tanks.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/tanks/count")
+    public ResponseEntity<Long> countTanks(TankCriteria criteria) {
+        log.debug("REST request to count Tanks by criteria: {}", criteria);
+        return ResponseEntity.ok().body(tankQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -165,7 +177,7 @@ public class TankResource {
     @GetMapping("/tanks/{id}")
     public ResponseEntity<Tank> getTank(@PathVariable Long id) {
         log.debug("REST request to get Tank : {}", id);
-        Optional<Tank> tank = tankRepository.findById(id);
+        Optional<Tank> tank = tankService.findOne(id);
         return ResponseUtil.wrapOrNotFound(tank);
     }
 
@@ -178,7 +190,7 @@ public class TankResource {
     @DeleteMapping("/tanks/{id}")
     public ResponseEntity<Void> deleteTank(@PathVariable Long id) {
         log.debug("REST request to delete Tank : {}", id);
-        tankRepository.deleteById(id);
+        tankService.delete(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

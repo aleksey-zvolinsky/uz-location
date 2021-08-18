@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { ILocationRequest, LocationRequest } from '../location-request.model';
 
 import { LocationRequestService } from './location-request.service';
@@ -35,7 +35,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -51,7 +51,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -74,7 +74,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumbers: 'BBBBBB',
           },
           elemDefault
@@ -97,8 +97,7 @@ describe('Service Tests', () => {
       it('should partial update a LocationRequest', () => {
         const patchObject = Object.assign(
           {
-            requestDatetime: currentDate.format(DATE_FORMAT),
-            tankNumbers: 'BBBBBB',
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
           },
           new LocationRequest()
         );
@@ -123,7 +122,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            requestDatetime: currentDate.format(DATE_FORMAT),
+            requestDatetime: currentDate.format(DATE_TIME_FORMAT),
             tankNumbers: 'BBBBBB',
           },
           elemDefault
@@ -181,7 +180,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique LocationRequest to an array', () => {
-          const locationRequestArray: ILocationRequest[] = [{ id: 123 }, { id: 456 }, { id: 40051 }];
+          const locationRequestArray: ILocationRequest[] = [{ id: 123 }, { id: 456 }, { id: 83396 }];
           const locationRequestCollection: ILocationRequest[] = [{ id: 123 }];
           expectedResult = service.addLocationRequestToCollectionIfMissing(locationRequestCollection, ...locationRequestArray);
           expect(expectedResult).toHaveLength(3);
@@ -201,6 +200,12 @@ describe('Service Tests', () => {
           expectedResult = service.addLocationRequestToCollectionIfMissing([], null, locationRequest, undefined);
           expect(expectedResult).toHaveLength(1);
           expect(expectedResult).toContain(locationRequest);
+        });
+
+        it('should return initial array if no LocationRequest is added', () => {
+          const locationRequestCollection: ILocationRequest[] = [{ id: 123 }];
+          expectedResult = service.addLocationRequestToCollectionIfMissing(locationRequestCollection, undefined, null);
+          expect(expectedResult).toEqual(locationRequestCollection);
         });
       });
     });

@@ -9,4 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MileageResponseRepository extends JpaRepository<MileageResponse, Long> {}
+public interface MileageResponseRepository extends JpaRepository<MileageResponse, Long>, JpaSpecificationExecutor<MileageResponse> {}
