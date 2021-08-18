@@ -23,10 +23,16 @@ entity Tank {
     ClientName String required
 }
 
+paginate Tank with pagination
+filter Tank
+
 entity LocationRequest {
 	RequestDatetime LocalDate,
 	TankNumbers String
 }
+
+paginate LocationRequest with pagination
+filter LocationRequest
 
 entity LocationResponse {
     ResponseDatetime LocalDate,
@@ -60,10 +66,16 @@ entity LocationResponse {
     UpdateDatetime String
 }
 
+paginate LocationResponse with pagination
+filter LocationResponse
+
 entity MileageRequest {
 	RequestDatetime LocalDate,
 	TankNumbers String
 }
+
+paginate MileageRequest with pagination
+filter MileageRequest
 
 entity MileageResponse {
     ResponseDatetime LocalDate,
@@ -73,6 +85,9 @@ entity MileageResponse {
     MileageRemain String, 
     MileageUpdateDatetime String
 }
+
+paginate MileageResponse with pagination
+filter MileageResponse
 
 relationship OneToMany {
 	Tank to LocationRequest
