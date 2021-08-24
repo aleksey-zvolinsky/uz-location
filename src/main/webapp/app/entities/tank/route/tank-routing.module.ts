@@ -11,9 +11,6 @@ const tankRoute: Routes = [
   {
     path: '',
     component: TankComponent,
-    data: {
-      defaultSort: 'id,asc',
-    },
     canActivate: [UserRouteAccessService],
   },
   {

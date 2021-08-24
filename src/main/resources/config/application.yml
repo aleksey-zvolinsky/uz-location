@@ -181,6 +181,7 @@ jhipster:
 
 # application:
 
+
 application:
   location-schedule: 0 30 7,15 ? * *
   mileage-schedule: 0 45 5 ? * *

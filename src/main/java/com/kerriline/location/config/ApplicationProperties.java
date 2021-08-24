@@ -1,5 +1,4 @@
 package com.kerriline.location.config;
-
 import com.kerriline.location.LocationManager;
 import com.kerriline.location.SchedulerManager;
 import com.kerriline.location.mail.MailManager;

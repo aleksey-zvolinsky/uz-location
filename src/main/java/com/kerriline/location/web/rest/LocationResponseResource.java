@@ -13,16 +13,10 @@ import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -235,29 +229,20 @@ public class LocationResponseResource {
     /**
      * {@code GET  /location-responses} : get all the locationResponses.
      *
-     * @param pageable the pagination information.
      * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of locationResponses in body.
      */
     @GetMapping("/location-responses")
-    public ResponseEntity<List<LocationResponse>> getAllLocationResponses(
-        Pageable pageable,
-        @RequestParam(required = false) String filter
-    ) {
+    public List<LocationResponse> getAllLocationResponses(@RequestParam(required = false) String filter) {
         if ("locationrequest-is-null".equals(filter)) {
             log.debug("REST request to get all LocationResponses where locationRequest is null");
-            return new ResponseEntity<>(
-                StreamSupport
-                    .stream(locationResponseRepository.findAll().spliterator(), false)
-                    .filter(locationResponse -> locationResponse.getLocationRequest() == null)
-                    .collect(Collectors.toList()),
-                HttpStatus.OK
-            );
+            return StreamSupport
+                .stream(locationResponseRepository.findAll().spliterator(), false)
+                .filter(locationResponse -> locationResponse.getLocationRequest() == null)
+                .collect(Collectors.toList());
         }
-        log.debug("REST request to get a page of LocationResponses");
-        Page<LocationResponse> page = locationResponseRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        log.debug("REST request to get all LocationResponses");
+        return locationResponseRepository.findAll();
     }
 
     /**

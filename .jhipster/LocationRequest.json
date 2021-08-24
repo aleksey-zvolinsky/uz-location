@@ -27,7 +27,7 @@
   ],
   "entityTableName": "location_request",
   "dto": "no",
-  "pagination": "pagination",
+  "pagination": "no",
   "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
