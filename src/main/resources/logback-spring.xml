@@ -69,4 +69,5 @@
         <resetJUL>true</resetJUL>
     </contextListener>
 
+    <logger name="org.quartz.core" level="INFO"/>
 </configuration>
