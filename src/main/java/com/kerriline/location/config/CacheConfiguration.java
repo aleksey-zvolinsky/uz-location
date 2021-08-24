@@ -48,13 +48,6 @@ public class CacheConfiguration {
             createCache(cm, com.kerriline.location.domain.User.class.getName());
             createCache(cm, com.kerriline.location.domain.Authority.class.getName());
             createCache(cm, com.kerriline.location.domain.User.class.getName() + ".authorities");
-            createCache(cm, com.kerriline.location.domain.Tank.class.getName());
-            createCache(cm, com.kerriline.location.domain.Tank.class.getName() + ".locationRequests");
-            createCache(cm, com.kerriline.location.domain.Tank.class.getName() + ".mileageRequests");
-            createCache(cm, com.kerriline.location.domain.LocationRequest.class.getName());
-            createCache(cm, com.kerriline.location.domain.LocationResponse.class.getName());
-            createCache(cm, com.kerriline.location.domain.MileageRequest.class.getName());
-            createCache(cm, com.kerriline.location.domain.MileageResponse.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
