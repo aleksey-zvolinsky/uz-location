@@ -9,4 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface TankRepository extends JpaRepository<Tank, Long>, JpaSpecificationExecutor<Tank> {}
+public interface TankRepository extends JpaRepository<Tank, Long> {}

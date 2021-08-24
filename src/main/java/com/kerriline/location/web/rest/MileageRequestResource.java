@@ -2,9 +2,6 @@ package com.kerriline.location.web.rest;
 
 import com.kerriline.location.domain.MileageRequest;
 import com.kerriline.location.repository.MileageRequestRepository;
-import com.kerriline.location.service.MileageRequestQueryService;
-import com.kerriline.location.service.MileageRequestService;
-import com.kerriline.location.service.criteria.MileageRequestCriteria;
 import com.kerriline.location.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -30,6 +28,7 @@ import tech.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class MileageRequestResource {
 
     private final Logger log = LoggerFactory.getLogger(MileageRequestResource.class);
@@ -39,20 +38,10 @@ public class MileageRequestResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final MileageRequestService mileageRequestService;
-
     private final MileageRequestRepository mileageRequestRepository;
 
-    private final MileageRequestQueryService mileageRequestQueryService;
-
-    public MileageRequestResource(
-        MileageRequestService mileageRequestService,
-        MileageRequestRepository mileageRequestRepository,
-        MileageRequestQueryService mileageRequestQueryService
-    ) {
-        this.mileageRequestService = mileageRequestService;
+    public MileageRequestResource(MileageRequestRepository mileageRequestRepository) {
         this.mileageRequestRepository = mileageRequestRepository;
-        this.mileageRequestQueryService = mileageRequestQueryService;
     }
 
     /**
@@ -68,7 +57,7 @@ public class MileageRequestResource {
         if (mileageRequest.getId() != null) {
             throw new BadRequestAlertException("A new mileageRequest cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MileageRequest result = mileageRequestService.save(mileageRequest);
+        MileageRequest result = mileageRequestRepository.save(mileageRequest);
         return ResponseEntity
             .created(new URI("/api/mileage-requests/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -102,7 +91,7 @@ public class MileageRequestResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        MileageRequest result = mileageRequestService.save(mileageRequest);
+        MileageRequest result = mileageRequestRepository.save(mileageRequest);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, mileageRequest.getId().toString()))
@@ -137,7 +126,21 @@ public class MileageRequestResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Optional<MileageRequest> result = mileageRequestService.partialUpdate(mileageRequest);
+        Optional<MileageRequest> result = mileageRequestRepository
+            .findById(mileageRequest.getId())
+            .map(
+                existingMileageRequest -> {
+                    if (mileageRequest.getRequestDatetime() != null) {
+                        existingMileageRequest.setRequestDatetime(mileageRequest.getRequestDatetime());
+                    }
+                    if (mileageRequest.getTankNumbers() != null) {
+                        existingMileageRequest.setTankNumbers(mileageRequest.getTankNumbers());
+                    }
+
+                    return existingMileageRequest;
+                }
+            )
+            .map(mileageRequestRepository::save);
 
         return ResponseUtil.wrapOrNotFound(
             result,
@@ -149,27 +152,14 @@ public class MileageRequestResource {
      * {@code GET  /mileage-requests} : get all the mileageRequests.
      *
      * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mileageRequests in body.
      */
     @GetMapping("/mileage-requests")
-    public ResponseEntity<List<MileageRequest>> getAllMileageRequests(MileageRequestCriteria criteria, Pageable pageable) {
-        log.debug("REST request to get MileageRequests by criteria: {}", criteria);
-        Page<MileageRequest> page = mileageRequestQueryService.findByCriteria(criteria, pageable);
+    public ResponseEntity<List<MileageRequest>> getAllMileageRequests(Pageable pageable) {
+        log.debug("REST request to get a page of MileageRequests");
+        Page<MileageRequest> page = mileageRequestRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
-
-    /**
-     * {@code GET  /mileage-requests/count} : count all the mileageRequests.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
-    @GetMapping("/mileage-requests/count")
-    public ResponseEntity<Long> countMileageRequests(MileageRequestCriteria criteria) {
-        log.debug("REST request to count MileageRequests by criteria: {}", criteria);
-        return ResponseEntity.ok().body(mileageRequestQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -181,7 +171,7 @@ public class MileageRequestResource {
     @GetMapping("/mileage-requests/{id}")
     public ResponseEntity<MileageRequest> getMileageRequest(@PathVariable Long id) {
         log.debug("REST request to get MileageRequest : {}", id);
-        Optional<MileageRequest> mileageRequest = mileageRequestService.findOne(id);
+        Optional<MileageRequest> mileageRequest = mileageRequestRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(mileageRequest);
     }
 
@@ -194,7 +184,7 @@ public class MileageRequestResource {
     @DeleteMapping("/mileage-requests/{id}")
     public ResponseEntity<Void> deleteMileageRequest(@PathVariable Long id) {
         log.debug("REST request to delete MileageRequest : {}", id);
-        mileageRequestService.delete(id);
+        mileageRequestRepository.deleteById(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString()))

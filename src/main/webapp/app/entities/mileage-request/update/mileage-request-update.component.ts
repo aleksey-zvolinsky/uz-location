@@ -113,7 +113,7 @@ export class MileageRequestUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.mileageResponseService
-      .query({ 'mileageRequestId.specified': 'false' })
+      .query({ filter: 'mileagerequest-is-null' })
       .pipe(map((res: HttpResponse<IMileageResponse[]>) => res.body ?? []))
       .pipe(
         map((mileageResponses: IMileageResponse[]) =>
