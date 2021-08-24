@@ -1,11 +1,9 @@
 package com.kerriline.location.service;
 
-import com.kerriline.location.domain.*; // for static metamodels
-import com.kerriline.location.domain.LocationRequest;
-import com.kerriline.location.repository.LocationRequestRepository;
-import com.kerriline.location.service.criteria.LocationRequestCriteria;
 import java.util.List;
+
 import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -13,6 +11,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+// for static metamodels
+import com.kerriline.location.domain.LocationRequest;
+import com.kerriline.location.repository.LocationRequestRepository;
+import com.kerriline.location.service.criteria.LocationRequestCriteria;
+
 import tech.jhipster.service.QueryService;
 
 /**

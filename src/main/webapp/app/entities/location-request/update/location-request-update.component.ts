@@ -113,7 +113,7 @@ export class LocationRequestUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.locationResponseService
-      .query({ 'locationRequestId.specified': 'false' })
+      .query({ filter: 'locationrequest-is-null' })
       .pipe(map((res: HttpResponse<ILocationResponse[]>) => res.body ?? []))
       .pipe(
         map((locationResponses: ILocationResponse[]) =>

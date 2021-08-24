@@ -109,7 +109,7 @@ public class LocationManager {
 
 	
 	public void sendReport(File file) throws GeneralSecurityException, IOException, MessagingException {
-		//mail.springSendFile(file, mailTo);
-		mail.sendFileByMail("Дислокація", "Звіт додано до листа", file, "frendos.a@gmail.com");
+		mail.sendFileByMail("Дислокація", "Звіт додано до листа", file, mailTo);
+		//mail.sendFileByMail("Дислокація", "Звіт додано до листа", file, "frendos.a@gmail.com");
 	}
 }
