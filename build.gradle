@@ -266,6 +266,15 @@ dependencies {
     liquibaseRuntime "com.h2database:h2"
     developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
+    
+    
+    
+    // Kerriline dependencies
+    implementation 'org.quartz-scheduler:quartz:2.2.2'
+    implementation 'org.quartz-scheduler:quartz-jobs:2.2.2'
+    implementation 'com.google.guava:guava:18.0'
+
+    implementation 'org.apache.poi:poi-ooxml:5.0.0'
 }
 
 if (project.hasProperty("gae")) {
