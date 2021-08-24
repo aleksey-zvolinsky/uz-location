@@ -7,9 +7,9 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Сутності",
-        "tank": "Tank",
-        "locationRequest": "Location Request",
-        "locationResponse": "Location Response",
+        "tank": "Вагони",
+        "locationRequest": "Запити дислокації",
+        "locationResponse": "Відповіді дислокації",
         "mileageRequest": "Mileage Request",
         "mileageResponse": "Mileage Response",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"

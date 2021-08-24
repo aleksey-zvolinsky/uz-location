@@ -5,13 +5,16 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Example;
 
 import com.kerriline.location.domain.LocationResponse;
 import com.kerriline.location.domain.Tank;
@@ -86,7 +89,19 @@ public class LocationManager {
 		for (MessageBean messageBean : messages) {
 			List<LocationResponse> responses = source.text2table(messageBean);
 			LOG.info("Writing data");
-            locationResponseRepository.saveAll(responses);
+			
+	    	for (LocationResponse response: responses) {
+	    		LocationResponse example = new LocationResponse().tankNumber(response.getTankNumber());
+	    		
+	    		Optional<LocationResponse> one = locationResponseRepository.findOne(Example.of(example));
+	    		
+	    		LocationResponse storedResponse = one.orElse(response);
+	    		
+	    		BeanUtils.copyProperties(response, storedResponse, new String[] {"version", "id"});
+	    		
+	    		locationResponseRepository.save(storedResponse);
+	    	}
+		  
 		}
 		LOG.info("Sheet updated");
 	}

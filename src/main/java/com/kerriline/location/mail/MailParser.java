@@ -1,15 +1,20 @@
 package com.kerriline.location.mail;
 
-import com.google.common.base.Splitter;
-import com.google.common.base.Splitter.MapSplitter;
-import com.kerriline.location.domain.LocationResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
+import com.google.common.base.Splitter;
+import com.google.common.base.Splitter.MapSplitter;
+import com.kerriline.location.domain.LocationResponse;
 
 /**
  *
@@ -40,7 +45,7 @@ public class MailParser {
 	private DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
 	public List<LocationResponse> text2table(final MessageBean messageBean) {
-		LOG.debug(messageBean.getBody());
+		//LOG.debug(messageBean.getBody());
 
 		List<LocationResponse> res = new ArrayList<>();
 		int processedTanks = 0;
@@ -202,9 +207,18 @@ public class MailParser {
 	public LocationResponse convertTableToLocationResponse(Map<String, String> tankFields) {
         LocationResponse response = new LocationResponse();
         
-        response.setResponseDatetime(LocalDate.now());
+        
+        
+        response.setResponseDatetime(ZonedDateTime.now());
         
         response.setTankNumber(tankFields.get("ДАННЫЕ О ВАГОНЕ"));
+        
+        //try {
+        	//response.setId(Long.valueOf(response.getTankNumber()));
+        //} catch (NumberFormatException e) {
+        //	LOG.warn("Failed convert {} tank number to long", response.getTankNumber(), e);
+        //}
+        
         response.setTankType(tankFields.get("РОД ВАГОНА"));
         response.setCargoId(tankFields.get("КОД ГРУЗА-ID"));
         response.setCargoName(tankFields.get("КОД ГРУЗА-NAME"));

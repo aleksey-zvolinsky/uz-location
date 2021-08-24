@@ -8,7 +8,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.GeneralSecurityException;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,7 +34,7 @@ import com.kerriline.location.domain.LocationResponse;
 import com.kerriline.location.domain.Tank;
 import com.kerriline.location.mail.MailManager;
 import com.kerriline.location.mail.MailParser;
-import com.kerriline.location.repository.LocationResponseRepository;
+import com.kerriline.location.repository.KerrilineLocationResponseRepository;
 import com.kerriline.location.repository.TankRepository;
 
 /**
@@ -58,7 +60,7 @@ public class ReportManager {
     TankRepository tankRepository;
 
 	@Autowired
-    LocationResponseRepository locationResponseRepository;
+	KerrilineLocationResponseRepository locationResponseRepository;
 	
 	public File generateReport() throws GeneralSecurityException, IOException, MessagingException {
 
@@ -92,8 +94,22 @@ public class ReportManager {
 				.filter(distinctByKey(t -> t.getTankNumber()))
 				.collect(Collectors.toMap(Tank::getTankNumber, tank -> tank));
 			
-			fillResults(wb, tanksMap);
+			ZonedDateTime offset = ZonedDateTime.now().minusDays(7);
 
+			printToExcel(wb, "Результат", 
+					locationResponseRepository.findByResponseDatetimeAfter(offset), 
+					tanksMap, true);
+			
+			List<String> tankTypes = Arrays.asList("60 ПОЛУВАГОНЫ", "68 ГЛУХОДОННЫЕ");
+			
+			printToExcel(wb, "Полувагоны", 
+					locationResponseRepository.findByTankTypeInAndResponseDatetimeAfter(tankTypes, offset), 
+					tanksMap, false);
+			
+			printToExcel(wb, "Не полувагоны", 
+					locationResponseRepository.findByTankTypeNotInAndResponseDatetimeAfter(tankTypes, offset), 
+					tanksMap, false);
+			
 			String finalReportFile = Files.createTempFile("uz-location", ".xlsx").toString();
 			
 	        LOG.info("Storing file to {}", finalReportFile);
@@ -115,12 +131,15 @@ public class ReportManager {
     }
 
 
-	private void fillResults(Workbook wb, Map<String, Tank> tanks) {
+	private void printToExcel(Workbook wb, String sheetName, 
+			List<LocationResponse> responses, Map<String, Tank> originalTanks,
+			boolean addEmptyTanks) {
 		
-		LocalDate cutDate = LocalDate.now().minusDays(3);
-		List<LocationResponse> responses = locationResponseRepository.findAllWithResposeDateTimeAfter(cutDate );
+		Map<String, Tank> tanks = new HashMap<>();
+		tanks.putAll(originalTanks);
 		
-		Sheet sh = wb.getSheet("Результат");
+		
+		Sheet sh = wb.getSheet(sheetName);
 		
 		int rownum = 3;
 		for (LocationResponse response : responses) {
@@ -198,26 +217,19 @@ public class ReportManager {
 		        tanks.remove(response.getTankNumber());
 		}
 		
-		for (Tank tank: tanks.values()) {
-			Row row = sh.createRow(rownum++);
-			int cellnum = 0;
-			row.createCell(cellnum++)
-				.setCellValue(rownum-3);
-			row.createCell(cellnum++)
-				.setCellValue(tank.getClientName());
-			row.createCell(cellnum++)
-				.setCellValue(tank.getOwnerName());
-			row.createCell(cellnum++)
-				.setCellValue(tank.getTankNumber());
+		if (addEmptyTanks) {
+			for (Tank tank: tanks.values()) {
+				Row row = sh.createRow(rownum++);
+				int cellnum = 0;
+				row.createCell(cellnum++)
+					.setCellValue(rownum-3);
+				row.createCell(cellnum++)
+					.setCellValue(tank.getClientName());
+				row.createCell(cellnum++)
+					.setCellValue(tank.getOwnerName());
+				row.createCell(cellnum++)
+					.setCellValue(tank.getTankNumber());
+			}
 		}
-		
-		
-	}
-
-	
-	public void exportAndSend() throws GeneralSecurityException, IOException, MessagingException {
-		//File file = drive.export();
-		//mail.springSendFile(file, mailTo);
-		//mail.springSendFile(file, "frendos.a@gmail.com");
 	}
 }
