@@ -24,7 +24,6 @@ entity Tank {
 }
 
 paginate Tank with pagination
-filter Tank
 
 entity LocationRequest {
 	RequestDatetime ZonedDateTime,
@@ -32,7 +31,6 @@ entity LocationRequest {
 }
 
 paginate LocationRequest with pagination
-filter LocationRequest
 
 entity LocationResponse {
     ResponseDatetime ZonedDateTime,
@@ -67,7 +65,6 @@ entity LocationResponse {
 }
 
 paginate LocationResponse with pagination
-filter LocationResponse
 
 entity MileageRequest {
 	RequestDatetime ZonedDateTime,
@@ -75,7 +72,6 @@ entity MileageRequest {
 }
 
 paginate MileageRequest with pagination
-filter MileageRequest
 
 entity MileageResponse {
     ResponseDatetime ZonedDateTime,
@@ -87,7 +83,6 @@ entity MileageResponse {
 }
 
 paginate MileageResponse with pagination
-filter MileageResponse
 
 relationship OneToMany {
 	Tank to LocationRequest
