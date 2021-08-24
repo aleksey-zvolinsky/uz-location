@@ -68,5 +68,7 @@
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
+    
+    <logger name="org.quartz.core" level="INFO"/>
 
 </configuration>
