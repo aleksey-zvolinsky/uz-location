@@ -129,7 +129,7 @@
   ],
   "entityTableName": "location_response",
   "dto": "no",
-  "pagination": "pagination",
+  "pagination": "no",
   "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,

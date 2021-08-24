@@ -33,7 +33,7 @@
   ],
   "entityTableName": "tank",
   "dto": "no",
-  "pagination": "pagination",
+  "pagination": "no",
   "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,

@@ -11,9 +11,6 @@ const mileageResponseRoute: Routes = [
   {
     path: '',
     component: MileageResponseComponent,
-    data: {
-      defaultSort: 'id,asc',
-    },
     canActivate: [UserRouteAccessService],
   },
   {

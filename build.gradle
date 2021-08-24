@@ -24,7 +24,7 @@ plugins {
 }
 
 group = "com.kerriline.location"
-version = "2.0.2-SNAPSHOT"
+version = "0.0.1-SNAPSHOT"
 
 description = ""
 
@@ -265,14 +265,6 @@ dependencies {
     testImplementation "com.h2database:h2"
     liquibaseRuntime "com.h2database:h2"
     developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
-    
-    // Kerriline dependencies
-    implementation 'org.quartz-scheduler:quartz:2.2.2'
-    implementation 'org.quartz-scheduler:quartz-jobs:2.2.2'
-    implementation 'com.google.guava:guava:18.0'
-
-    implementation 'org.apache.poi:poi-ooxml:5.0.0'
-    
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 
