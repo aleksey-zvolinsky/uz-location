@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class MailParser {
 	private static final Logger LOG = LoggerFactory.getLogger(MailParser.class);
 
 	private static final String UPDATE_FIELD = "ОБНОВЛЕНО";
-	private static final String SEPARATOR = "ДАННЫЕ";
+	private static final String TANKS_SEPARATOR = "ДАННЫЕ";
 
 	private static final String[] TO_DELETE = {"-- ИЗ ПОД ----------  ", "== РЕМОНТЫ     ==   : ", "== БЛОК РЕЙСА =====   ", "== ОПИСАНИЕ РЕЙСА ==  "};
 
@@ -40,7 +41,7 @@ public class MailParser {
 			.trimResults()
 			.omitEmptyStrings()
 			.withKeyValueSeparator(Splitter.on(":").trimResults());
-	private static final Splitter SPLITTER = Splitter.on("++++++++++++").omitEmptyStrings();
+	private static final Splitter SPLIT_BY_TANKS = Splitter.on("++++++++++++").omitEmptyStrings();
 	private static final String DATE_FORMAT = "yyyy.MM.dd HH:mm:ss";
 	private DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
 
@@ -53,11 +54,12 @@ public class MailParser {
 			LOG.info("Preparing mail text");
 			String text = prepareText(messageBean.getBody());
 			LOG.info("Start processing tanks");
-			for(String tankPart: SPLITTER.split(text)){
+			for(String tankPart: SPLIT_BY_TANKS.split(text)){
 				LOG.debug("Processing {} tank", ++processedTanks);
 				String preFilteredTankPart = preFilter(tankPart);
 				LOG.debug(preFilteredTankPart);
 
+				// split rows into 
 				Map<String, String> tankFields = MAP_SPLITTER.split(preFilteredTankPart);
 				Map<String, String> postFilteredTankFields = postFilter(tankFields);
 				postFilteredTankFields.put(UPDATE_FIELD, formatter.format(messageBean.getReceivedDate()));
@@ -83,7 +85,7 @@ public class MailParser {
 	}
 
 	private String prepareText(String body) {
-		String res = body.replace(SEPARATOR, "++++++++++++" + SEPARATOR);
+		String res = body.replace(TANKS_SEPARATOR, "++++++++++++" + TANKS_SEPARATOR);
 		for(String what: TO_DELETE) {
 			res = res.replace(what, "");
 		}
@@ -93,8 +95,17 @@ public class MailParser {
 		int lastPos = 0;
 
 		while((newPos = res.indexOf("ПОСЛЕДНИИ ОПЕРАЦИИ", lastPos)) != -1) {
+			
 			b.append(res.substring(lastPos, newPos));
+			
+			lastPos = newPos;
+			newPos = res.indexOf(":", newPos)+1;
+			b.append(res.substring(lastPos, newPos));
+			
+
 			lastPos = res.indexOf("КОД ГРУЗА", newPos)-2;
+			b.append(res.substring(newPos, lastPos)
+					.replace("\r\n", ";").replace(":", ","));
 		}
 		b.append(res.substring(lastPos));
 
@@ -123,6 +134,11 @@ public class MailParser {
 		}
 	}
 
+	/**
+	 * 
+	 * @param block
+	 * @return duplicated fields will have numbers and tank number just numbers
+	 */
 	private String preFilter(final String block) {
 		String s = block;
 		s = processDuplicates(s);
@@ -142,7 +158,7 @@ public class MailParser {
 	}
 
 	/**
-	 * Add numbers to duplicate columns
+	 * Add numbers to repeating columns
 	 *
 	 * @param block
 	 * @return
@@ -155,7 +171,9 @@ public class MailParser {
 			sb.setLength(0);
 			int i = 0;
 			for(String line : Splitter.on("\n").split(res)) {
+				
 				List<String> val = Splitter.on(":").trimResults().splitToList(line);
+				
 				if(duplicate.equals(val.get(0))) {
 					sb.append(duplicate).append("-").append(i++).append(":").append(val.get(1));
 				} else {
@@ -203,6 +221,15 @@ public class MailParser {
 		}
 		return result;
 	}
+	
+	public static String ifEmpty(String... strings) {
+		for(String string: strings) {
+			if(null != string && !string.isBlank()) {
+				return string;
+			}
+		}
+		return "";
+	}
 
 	public LocationResponse convertTableToLocationResponse(Map<String, String> tankFields) {
         LocationResponse response = new LocationResponse();
@@ -213,12 +240,6 @@ public class MailParser {
         
         response.setTankNumber(tankFields.get("ДАННЫЕ О ВАГОНЕ"));
         
-        //try {
-        	//response.setId(Long.valueOf(response.getTankNumber()));
-        //} catch (NumberFormatException e) {
-        //	LOG.warn("Failed convert {} tank number to long", response.getTankNumber(), e);
-        //}
-        
         response.setTankType(tankFields.get("РОД ВАГОНА"));
         response.setCargoId(tankFields.get("КОД ГРУЗА-ID"));
         response.setCargoName(tankFields.get("КОД ГРУЗА-NAME"));
@@ -226,12 +247,24 @@ public class MailParser {
         response.setWeight(tankFields.get("ВЕС"));
         response.setReceiverId(tankFields.get("ГРУЗОПОЛУЧАТЕЛЬ-0"));
         response.setTankIndex(tankFields.get("ПОЕЗД"));
+        if (Strings.isBlank(response.getTankIndex())) {
+        	response.setTankIndex(getIndexFromOperations(tankFields.get("ПОСЛЕДНИИ ОПЕРАЦИИ")));
+        }
         response.setLocationStationId(tankFields.get("СТАНЦИЯ ОПЕРАЦИИ-0-ID"));
         response.setLocationStationName(tankFields.get("СТАНЦИЯ ОПЕРАЦИИ-0-NAME"));
         response.setLocationDatetime(tankFields.get("ДАТА ОПЕРАЦИИ-0"));
         response.setLocationOperation(tankFields.get("ОПЕРАЦИЯ"));
+        
         response.setStateToStationId(tankFields.get("СТАНЦИЯ НАЗНАЧЕНИЯ-0-ID"));
+        if (Strings.isBlank(response.getStateToStationId())) {
+        	response.setStateToStationId(tankFields.get("СТАНЦИЯ ОПЕРАЦИИ-0-ID"));
+        }
+        
         response.setStateToStationName(tankFields.get("СТАНЦИЯ НАЗНАЧЕНИЯ-0-NAME"));
+        if (Strings.isBlank(response.getStateToStationName())) {
+        	response.setStateToStationName(tankFields.get("СТАНЦИЯ ОПЕРАЦИИ-0-NAME"));
+        }
+        
         response.setStateFromStationId(tankFields.get("СТАНЦИЯ ПРИЕМА ГРУЗА-ID"));
         response.setStateFromStationName(tankFields.get("СТАНЦИЯ ПРИЕМА ГРУЗА-NAME"));
         response.setStateSendDatetime(tankFields.get("ДАТА ПРИЕМА ГРУЗА"));
@@ -253,5 +286,16 @@ public class MailParser {
         response.setUpdateDatetime(tankFields.get("ОБНОВЛЕНО"));
         return response;
     }
+
+	private String getIndexFromOperations(String rawOperations) {
+		try {
+			String[] operations = rawOperations.split(";");
+			String[] operationsFields = operations[2].split(",");
+			return operationsFields[1];
+		} catch (Exception e) {
+			LOG.warn("Failed to get TankIndex from Operations", e);
+		}
+		return "";
+	}
 }
 
