@@ -1,9 +1,14 @@
 {
   "home": {
-    "title": "Дислокація Укрзалізниці",
+    "title": "Дислокація вагонів Укрзалізниці",
     "subtitle": "",
     "logged": {
-      "message": "Ви ввійшли як користувач \"{{username}}\"."
+      "message": "Ви ввійшли як користувач \"{{username}}\".",
+      "full-flow-link": "Позачерговий запит звіту",
+      "submit-request-link": "Надіслати запит для звіту",
+      "process-response-link": "Обробити результати",
+      "generate-report-link": "Створити звіт",
+      "send-report-link": "Надіслати звіт"
     },
     "question": "Якщо у вас виникли питання по JHipster:",
     "link": {

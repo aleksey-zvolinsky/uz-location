@@ -4,7 +4,7 @@
   </div>
 
   <div class="col-md-9">
-    <h1 class="display-4"><span jhiTranslate="home.title">Welcome, Java Hipster!</span> (UZ Location)</h1>
+    <h1 class="display-4"><span jhiTranslate="home.title">Welcome, Java Hipster!</span></h1>
 
     <p class="lead" jhiTranslate="home.subtitle">This is your homepage</p>
 
@@ -13,6 +13,28 @@
         <span id="home-logged-message" *ngIf="account" jhiTranslate="home.logged.message" [translateValues]="{ username: account.login }"
           >You are logged in as user "{{ account.login }}".</span
         >
+      </div>
+
+      <div>
+        <ul>
+          <li>
+            <a jhiTranslate="home.logged.full-flow-link" href="/static/full-flow">full flow link</a>
+            <ul>
+              <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                <a jhiTranslate="home.logged.submit-request-link" href="/static/submit-request">full flow link</a>
+              </li>
+              <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                <a jhiTranslate="home.logged.process-response-link" href="/static/process-response">full flow link</a>
+              </li>
+              <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                <a jhiTranslate="home.logged.generate-report-link" href="/static/generate-report">full flow link</a>
+              </li>
+              <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+                <a jhiTranslate="home.logged.send-report-link" href="/static/send-report">full flow link</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </div>
 
       <div class="alert alert-warning" *ngSwitchCase="false">
