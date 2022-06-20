@@ -3,7 +3,6 @@ package com.kerriline.location.mail;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -71,6 +70,7 @@ public class MailManager {
     
     public List<MessageBean> searchMessages(String readWithSubject, Date skipBeforeDate) {
     	
+    	List<MessageBean> result = new ArrayList<MessageBean>();
     	try {
     		Gmail gmail = GmailQuickstart.getGmail();
 		
@@ -87,7 +87,7 @@ public class MailManager {
             
             LOG.info("------------------------------");
             
-            List<MessageBean> result = new ArrayList<MessageBean>();
+            
             
             if (messageCount == 0) {
             	return result;
@@ -97,9 +97,6 @@ public class MailManager {
 				message = GmailQuickstart.getFullMessage(message);
 				
 				Date date = Date.from(GmailQuickstart.getDateTime(message).toInstant());
-				if(date.before(skipBeforeDate)) {
-					continue;
-				}
 				String subject = GmailQuickstart.getSubject(message);
 				String text = GmailQuickstart.getText(message);
 				
@@ -119,40 +116,24 @@ public class MailManager {
 					.execute();
 
             }
-			
-            return result;
+            
 		} catch (IOException | GeneralSecurityException | MessagingException e) {
-			throw new RuntimeException("Failed to make a mail search", e);
+			LOG.error("Failed to make a mail search", e);
 		}
+		return result;
     	
     }
 
-    public int getAll1392MessageCount() {
-    	ZonedDateTime hourAgo = ZonedDateTime.now().minusHours(1);
-    	
+    public Long getAll1392MessageCount() {
     	try {
     		Gmail gmail = GmailQuickstart.getGmail();
 			ListMessagesResponse messages = gmail
 					.users().messages().list(userId)
-					.setQ("in:inbox subject:1393 is:unread")
+					.setQ("in:inbox subject:1392 is:unread")
 					.execute();
-			LOG.info("Total Messages:- {}", messages.getResultSizeEstimate());
-			int count = 0;
-			if (messages.getResultSizeEstimate() == 0) {
-				return 0;
-			}
-			for(Message message: messages.getMessages()) {
-				message = GmailQuickstart.getFullMessage(message);
-				String subject = GmailQuickstart.getSubject(message);
-				ZonedDateTime date = GmailQuickstart.getDateTime(message);
-	            
-	            LOG.debug("Mail Subject:- {}, received {}", subject, date);
-                if (hourAgo.isBefore(date)) {
-                    LOG.info("Found required mail: {}, received {}", subject, date);
-                    count ++;
-                }
-			}
-			return count;
+			LOG.info("Total 1392-kind Messages:- {}", messages.getResultSizeEstimate());
+			return messages.getResultSizeEstimate();
+			
 		} catch (IOException | GeneralSecurityException e) {
 			throw new RuntimeException("Failed to getAll1392MessageCount ");
 		}

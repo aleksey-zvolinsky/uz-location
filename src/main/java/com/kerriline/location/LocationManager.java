@@ -113,9 +113,12 @@ public class LocationManager {
 		int requestedMails = sendLocationRequest();
 		LOG.info("Sleep for 10 minutes before checking mails");
 		Thread.sleep(10 * 60 * 1000);
-		if(requestedMails > mail.getAll1392MessageCount()) {
+		Long receivedMessagesCount = mail.getAll1392MessageCount();
+		if(requestedMails > receivedMessagesCount) {
+			LOG.warn("We have received less mails then expected. Received {}. Expected {} ", 
+					receivedMessagesCount, requestedMails);
 			requestedMails = sendLocationRequest();
-			LOG.info("Sleep for 10 minutes before checking mails");
+			LOG.info("Sleep for another 10 minutes before checking mails");
 			Thread.sleep(10 * 60 * 1000);
 		}
 		saveLocationResponses();

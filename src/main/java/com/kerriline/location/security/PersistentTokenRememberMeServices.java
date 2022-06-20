@@ -1,21 +1,28 @@
 package com.kerriline.location.security;
 
-import com.kerriline.location.domain.PersistentToken;
-import com.kerriline.location.repository.PersistentTokenRepository;
-import com.kerriline.location.repository.UserRepository;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.authentication.rememberme.*;
-import org.springframework.stereotype.Service;
+import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.CookieTheftException;
+import org.springframework.security.web.authentication.rememberme.InvalidCookieException;
+import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException;
+
+import com.kerriline.location.domain.PersistentToken;
+import com.kerriline.location.repository.PersistentTokenRepository;
+import com.kerriline.location.repository.UserRepository;
+
 import tech.jhipster.config.JHipsterProperties;
 import tech.jhipster.security.PersistentTokenCache;
 import tech.jhipster.security.RandomUtil;

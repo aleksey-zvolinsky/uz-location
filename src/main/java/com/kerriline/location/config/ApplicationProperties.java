@@ -1,13 +1,13 @@
 package com.kerriline.location.config;
+import org.quartz.SchedulerException;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
 import com.kerriline.location.LocationManager;
 import com.kerriline.location.SchedulerManager;
 import com.kerriline.location.mail.MailManager;
 import com.kerriline.location.mail.MailParser;
-import org.quartz.SchedulerException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 /**
  * Properties specific to UZ Location.

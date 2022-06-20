@@ -146,7 +146,7 @@ public class GmailQuickstart {
     }
     
     public static ZonedDateTime getDateTime(Message message) {
-    	Instant i = Instant.ofEpochSecond(message.getInternalDate());
+    	Instant i = Instant.ofEpochMilli(message.getInternalDate());
 		ZonedDateTime datetime = ZonedDateTime.ofInstant(i, ZoneId.systemDefault());
         
         return datetime;

@@ -2,23 +2,23 @@ package com.kerriline.location.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.kerriline.location.IntegrationTest;
-import com.kerriline.location.domain.Authority;
-import com.kerriline.location.domain.User;
-import com.kerriline.location.repository.UserRepository;
-import com.kerriline.location.security.AuthoritiesConstants;
-import com.kerriline.location.service.dto.AdminUserDTO;
-import com.kerriline.location.service.dto.UserDTO;
-import com.kerriline.location.service.mapper.UserMapper;
-import com.kerriline.location.web.rest.vm.ManagedUserVM;
 import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+
 import javax.persistence.EntityManager;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +29,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.kerriline.location.IntegrationTest;
+import com.kerriline.location.domain.Authority;
+import com.kerriline.location.domain.User;
+import com.kerriline.location.repository.UserRepository;
+import com.kerriline.location.security.AuthoritiesConstants;
+import com.kerriline.location.service.dto.AdminUserDTO;
+import com.kerriline.location.service.mapper.UserMapper;
+import com.kerriline.location.web.rest.vm.ManagedUserVM;
 
 /**
  * Integration tests for the {@link UserResource} REST controller.

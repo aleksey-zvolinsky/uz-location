@@ -1,5 +1,22 @@
 package com.kerriline.location.web.rest;
 
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.kerriline.location.domain.User;
 import com.kerriline.location.repository.UserRepository;
 import com.kerriline.location.security.SecurityUtils;
@@ -7,18 +24,11 @@ import com.kerriline.location.service.MailService;
 import com.kerriline.location.service.UserService;
 import com.kerriline.location.service.dto.AdminUserDTO;
 import com.kerriline.location.service.dto.PasswordChangeDTO;
-import com.kerriline.location.service.dto.UserDTO;
-import com.kerriline.location.web.rest.errors.*;
+import com.kerriline.location.web.rest.errors.EmailAlreadyUsedException;
+import com.kerriline.location.web.rest.errors.InvalidPasswordException;
+import com.kerriline.location.web.rest.errors.LoginAlreadyUsedException;
 import com.kerriline.location.web.rest.vm.KeyAndPasswordVM;
 import com.kerriline.location.web.rest.vm.ManagedUserVM;
-import java.util.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * REST controller for managing the current user's account.
@@ -28,8 +38,9 @@ import org.springframework.web.bind.annotation.*;
 public class AccountResource {
 
     private static class AccountResourceException extends RuntimeException {
+		private static final long serialVersionUID = -4692411896421882564L;
 
-        private AccountResourceException(String message) {
+		private AccountResourceException(String message) {
             super(message);
         }
     }

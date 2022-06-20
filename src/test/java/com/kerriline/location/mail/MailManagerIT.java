@@ -1,11 +1,11 @@
 package com.kerriline.location.mail;
 
-import com.kerriline.location.IntegrationTest;
-import org.hamcrest.Matchers;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.hamcrest.MatcherAssert.assertThat;
+import com.kerriline.location.IntegrationTest;
 
 @IntegrationTest
 public class MailManagerIT {
@@ -14,7 +14,7 @@ public class MailManagerIT {
 
     @Test
     public void testITMailManager() {
-        assertThat("Should be non-zero", mailManager.getAll1392MessageCount(), Matchers.greaterThan(0));
+        assertThat(mailManager.getAll1392MessageCount()).isGreaterThan(0).as("Should be non-zero");
     }
 
 }

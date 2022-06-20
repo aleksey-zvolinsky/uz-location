@@ -75,5 +75,7 @@
     
     
     <logger name="com.google" level="WARN"/>
+    <logger name="jdk.event.security" level="INFO"/>
+    
 
 </configuration>
