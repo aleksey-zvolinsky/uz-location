@@ -234,8 +234,6 @@ public class MailParser {
 	public LocationResponse convertTableToLocationResponse(Map<String, String> tankFields) {
         LocationResponse response = new LocationResponse();
         
-        
-        
         response.setResponseDatetime(ZonedDateTime.now());
         
         response.setTankNumber(tankFields.get("ДАННЫЕ О ВАГОНЕ"));
@@ -293,7 +291,7 @@ public class MailParser {
 			String[] operationsFields = operations[2].split(",");
 			return operationsFields[1];
 		} catch (Exception e) {
-			LOG.warn("Failed to get TankIndex from Operations", e);
+			LOG.warn("Failed to get TankIndex from Operations using {}", rawOperations, e);
 		}
 		return "";
 	}
