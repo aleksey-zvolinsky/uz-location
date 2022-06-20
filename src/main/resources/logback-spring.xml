@@ -72,5 +72,8 @@
     <logger name="org.quartz.core" level="INFO"/>
     
     <logger name="com.kerriline.location" level="INFO"/>
+    
+    
+    <logger name="com.google" level="WARN"/>
 
 </configuration>

@@ -1,6 +1,5 @@
 package com.kerriline.location;
 
-import com.kerriline.location.UzLocationApp;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

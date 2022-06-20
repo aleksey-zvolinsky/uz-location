@@ -39,7 +39,7 @@ import tech.jhipster.security.RandomUtil;
  * <p>
  * This is inspired by:
  * <ul>
- * <li><a href="http://jaspan.com/improved_persistent_login_cookie_best_practice">Improved Persistent Login Cookie
+ * <li><a href="https://jaspan.com/improved_persistent_login_cookie_best_practice">Improved Persistent Login Cookie
  * Best Practice</a></li>
  * <li><a href="https://github.com/blog/1661-modeling-your-app-s-user-session">GitHub's "Modeling your App's User Session"</a></li>
  * </ul>
