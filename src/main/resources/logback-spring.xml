@@ -52,6 +52,7 @@
     <logger name="org.xnio" level="WARN"/>
     <logger name="springfox" level="WARN"/>
     <logger name="sun.rmi" level="WARN"/>
+    <logger name="sun.net" level="WARN"/>
     <logger name="liquibase" level="WARN"/>
     <logger name="LiquibaseSchemaResolver" level="INFO"/>
     <logger name="springfox.documentation.schema.property" level="ERROR"/>
@@ -68,14 +69,14 @@
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
-    
-    <logger name="org.quartz.core" level="INFO"/>
-    
+
     <logger name="com.kerriline.location" level="INFO"/>
-    
-    
+
+
     <logger name="com.google" level="WARN"/>
     <logger name="jdk.event.security" level="INFO"/>
-    
+    <logger name="io.opencensus" level="OFF" />
+    <logger name="io.grpc" level="OFF" />
+
 
 </configuration>
