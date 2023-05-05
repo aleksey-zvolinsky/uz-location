@@ -16,14 +16,13 @@ public class Scheduler {
 
     private static final Logger LOG = LoggerFactory.getLogger(Scheduler.class);
 
-    public Scheduler(@Value("${application.location.timeoutMinutes}") Long timeoutMinutes) {
+    public Scheduler(@Value("${application.location.timeoutMinutes}") Long timeoutMinutes, @Autowired LocationManager locationManager) {
         this.timeoutMinutes = timeoutMinutes;
+        this.locationManager = locationManager;
     }
 
     private final Long timeoutMinutes;
-
-    @Autowired
-    LocationManager locationManager;
+    private final LocationManager locationManager;
 
     @Scheduled(cron = "${application.location.schedule}")
     public void schedulerLocationUpdate() {
